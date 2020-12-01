@@ -2,20 +2,16 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- >>> Replace this with your service category (e.g. "platform-services") -->
-    <artifactId>my-services</artifactId>
+    <artifactId>schematics-parent</artifactId>
 
-    <!-- >>> Update this field to reflect your project -->
-    <name>IBM Cloud My Services Java SDK</name>
+    <name>IBM Cloud Schematics Java SDK</name>
 
-    <!-- >>> Update this field to reflect your project -->
-    <description>Java Client Library to access the IBM Cloud My Services</description>
+    <description>Java Client Library to access the IBM Cloud Schematics</description>
 
-    <!-- >>> Update this field to reflect your project's github URL -->
-    <url>https://github.ibm.com/CloudEngineering/java-sdk-template</url>
+    <url>https://github.com/IBM/schematics-java-sdk</url>
 
     <groupId>com.ibm.cloud</groupId>
-    <version>99-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -26,8 +22,7 @@
         -->
         <sdk-core-version>9.5.4</sdk-core-version>
 
-        <!-- >>> Replace this with the name of your SDK's github repository -->
-        <git-repository-name>my-services-java-sdk</git-repository-name>
+        <git-repository-name>schematics-java-sdk</git-repository-name>
 
         <testng-version>7.1.0</testng-version>
         <okhttp3-version>4.9.0</okhttp3-version>
@@ -51,21 +46,15 @@
 
         <!-- Deployment-related properties -->
         <bintray.org>ibm-cloud-sdks</bintray.org>
-        <!-- >>> Replace this with the name of your project's bintray repository -->
-        <bintray.repo>YOUR BINTRAY REPOSITORY NAME</bintray.repo>
-        <!-- >>> Replace this with your github repository's URL -->
-        <bintray.package.url>YOUR PROJECT'S GITHUB.COM URL</bintray.package.url>
+        <bintray.repo>schematics-java-sdk</bintray.repo>
+        <bintray.package.url>https://github.com/IBM/schematics-java-sdk</bintray.package.url>
     </properties>
 
     <modules>
         <!-- This module should always be listed first -->
         <module>modules/common</module>
 
-        <!-- >>> List each service's module here -->
-        <module>modules/example-service</module>
-
-        <!-- >>> Uncomment the following line if you want to build the examples -->
-        <!-- <module>modules/examples</module> -->
+        <module>modules/schematics</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
@@ -82,23 +71,20 @@
         <name>IBM Cloud</name>
     </organization>
 
-    <!-- >>> Update these values to reflect your project -->
     <scm>
-        <connection>scm:git:https://github.ibm.com/CloudEngineering/java-sdk-template</connection>
-        <developerConnection>scm:git:https://github.ibm.com/CloudEngineering/java-sdk-template</developerConnection>
-        <url>https://github.ibm.com/CloudEngineering/java-sdk-template/tree/master</url>
+        <connection>scm:git:https://github.com/IBM/schematics-java-sdk</connection>
+        <developerConnection>scm:git:https://github.com/IBM/schematics-java-sdk</developerConnection>
+        <url>https://github.com/IBM/schematics-java-sdk/tree/master</url>
     </scm>
 
-    <!-- >>> Update these values to reflect your project -->
     <issueManagement>
         <system>Github</system>
-        <url>https://github.ibm.com/CloudEngineering/java-sdk-template/issues</url>
+        <url>https://github.com/IBM/schematics-java-sdk/issues</url>
     </issueManagement>
 
-    <!-- >>> Update these values to reflect your project -->
     <ciManagement>
         <system>Travis-CI</system>
-        <url>https://travis.ibm.com/CloudEngineering/java-sdk-template/</url>
+        <url>https://travis.ibm.com/IBM/schematics-java-sdk/</url>
     </ciManagement>
 
     <repositories>
@@ -130,14 +116,12 @@
 
             <!-- Each module (except "common") should depend on this artifact -->
             <dependency>
-                <!-- >>> Replace this with the common module's artifactId -->
-                <artifactId>my-services-common</artifactId>
+                <artifactId>schematics-parent-common</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <!-- >>> Replace this with the common module's artifactId -->
-                <artifactId>my-services-common</artifactId>
+                <artifactId>schematics-parent-common</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
                 <type>test-jar</type>

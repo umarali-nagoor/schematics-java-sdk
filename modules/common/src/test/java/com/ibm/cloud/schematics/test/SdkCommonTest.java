@@ -11,8 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-// >>> Replace "my_services" with the correct value for your project (e.g. "platform_services")
-package com.ibm.cloud.my_services.test;
+package com.ibm.cloud.schematics.test;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -22,8 +21,7 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-// >>> Replace "my_services" with the correct value for your project (e.g. "platform_services")
-import com.ibm.cloud.my_services.common.SdkCommon;
+import com.ibm.cloud.schematics.common.SdkCommon;
 
 /**
  * This class contains tests for the SdkCommon class.

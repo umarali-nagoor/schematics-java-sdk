@@ -11,8 +11,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-// >>> Replace "my_services" with the correct value for your project
-package com.ibm.cloud.my_services.common;
+package com.ibm.cloud.schematics.common;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -36,8 +35,7 @@ public class SdkCommon {
     private static String projectName;
     private static String version;
 
-    // >>> Replace "my-services" with the parent project's artifactId (e.g. platform-services)
-    private static String parentArtifactId = "my-services";
+    private static String parentArtifactId = "schematics-parent";
 
     static {
         readBuildProperties();
