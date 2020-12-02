@@ -11,7 +11,7 @@
     <url>https://github.com/IBM/schematics-java-sdk</url>
 
     <groupId>com.ibm.cloud</groupId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
