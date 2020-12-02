@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/schematics-java-sdk.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis-ci.com/IBM/schematics-java-sdk)
+[![Build Status](https://travis-ci.com/IBM/schematics-java-sdk.svg?branch=main)](https://travis-ci.com/IBM/schematics-java-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # IBM Cloud Schematics Java SDK Version 0.0.1
@@ -21,15 +21,22 @@ Changes might occur which impact applications that use this SDK.
 
 <!-- toc -->
 
-- [Overview](#overview)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Using the SDK](#using-the-sdk)
-- [Questions](#questions)
-- [Issues](#issues)
-- [Open source @ IBM](#open-source--ibm)
-- [Contributing](#contributing)
-- [License](#license)
+- [IBM Cloud Schematics Java SDK Version 0.0.1](#ibm-cloud-schematics-java-sdk-version-001)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+        - [Maven](#maven)
+        - [Gradle](#gradle)
+  - [Authentication](#authentication)
+  - [Getting Started](#getting-started)
+  - [Error handling](#error-handling)
+  - [Using the SDK](#using-the-sdk)
+  - [Questions](#questions)
+  - [Issues](#issues)
+  - [Open source @ IBM](#open-source--ibm)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 <!-- tocstop -->
 
@@ -39,7 +46,7 @@ The IBM Cloud Schematics Java SDK allows developers to programmatically interact
 
 Service Name | Artifact Coordinates
 --- | ---
-<!-- [Example Service](https://cloud.ibm.com/apidocs/example-service) | com.ibm.cloud:example-service:0.0.1 -->
+[Schematics](https://cloud.ibm.com/apidocs/schematics) | com.ibm.cloud:schematics:1.0.0 -->
 
 ## Prerequisites
 
@@ -71,15 +78,75 @@ artifact coordinates (group id, artifact id and version) for the service, like t
 ```xml
 <dependency>
     <groupId>com.ibm.cloud</groupId>
-    <artifactId>example-service</artifactId>
+    <artifactId>schematics-service</artifactId>
     <version>0.0.1</version>
 </dependency>
 ```
 
 ##### Gradle
 ```gradle
-'com.ibm.cloud:example-service:0.0.1'
+'com.ibm.cloud:schematics-service:0.0.1'
 ```
+
+## Authentication
+
+The library requires Identity and Access Management (IAM) to authenticate requests. There are several ways to set the properties for authentication
+
+1. [As environment variables](#authenticate-with-environment-variables)
+2. [The programmatic approach](#authenticate-programmatically)
+3. [With an external credentials file](#authenticate-with-external-configuration)
+
+### Authenticate with environment variables
+
+For Schematics IAM authentication set the following environmental variables by replacing <apikey> with your proper service credentials. 
+
+```
+SCHEMATICS_URL = https://schematics.cloud.ibm.com
+SCHEMATICS_APIKEY = <apikey>
+```
+
+### Authenticate with external configuration
+
+To use an external configuration file, see the related documentation in the [Java SDK Core document about authentication](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md).
+
+### Authenticate programmatically
+
+To learn more about how to use programmatic authentication, see the related documentation in the [Java SDK Core document about authentication](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md).
+
+## Getting Started
+
+A quick example to get you up and running with Schematics Java SDK service
+
+```
+
+import com.ibm.cloud.schematics.v1.Schematics;
+import com.ibm.cloud.schematics.v1.model.GetSchematicsVersionOptions;
+import com.ibm.cloud.schematics.v1.model.VersionResponse;
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.IamAuthenticator;
+
+Schematics service = null;
+IamAuthenticator authenticator = new IamAuthenticator("<apiKey>");
+
+
+service = new Schematics(Schematics.DEFAULT_SERVICE_NAME, authenticator);
+service.setServiceUrl("https://schematics.cloud.ibm.com");
+
+GetSchematicsVersionOptions getSchematicsVersionOptions = new GetSchematicsVersionOptions();
+
+// Invoke operation
+Response<VersionResponse> response = service.getSchematicsVersion(getSchematicsVersionOptions).execute();
+
+VersionResponse versionResponseResult = response.getResult();
+
+System.out.println(versionResponseResult);
+
+
+```
+
+## Error handling
+
+For sample code on handling errors, please see [Schematics API docs](https://cloud.ibm.com/apidocs/schematics#error-handling).
 
 ## Using the SDK
 For general SDK usage information, please see [this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/README.md)
