@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,9 +33,11 @@ public class ActionStateTest {
   public void testActionState() throws Throwable {
     ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
+      .statusJobId("testString")
       .statusMessage("testString")
       .build();
     assertEquals(actionStateModel.statusCode(), "normal");
+    assertEquals(actionStateModel.statusJobId(), "testString");
     assertEquals(actionStateModel.statusMessage(), "testString");
 
     String json = TestUtilities.serialize(actionStateModel);
@@ -43,6 +45,7 @@ public class ActionStateTest {
     ActionState actionStateModelNew = TestUtilities.deserialize(json, ActionState.class);
     assertTrue(actionStateModelNew instanceof ActionState);
     assertEquals(actionStateModelNew.statusCode(), "normal");
+    assertEquals(actionStateModelNew.statusJobId(), "testString");
     assertEquals(actionStateModelNew.statusMessage(), "testString");
   }
 }

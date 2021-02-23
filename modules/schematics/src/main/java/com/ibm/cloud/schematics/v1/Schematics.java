@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -79,6 +79,7 @@ import com.ibm.cloud.schematics.v1.model.ReplaceSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceInputsOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.ResourceGroupResponse;
+import com.ibm.cloud.schematics.v1.model.RunWorkspaceCommandsOptions;
 import com.ibm.cloud.schematics.v1.model.SchematicsLocations;
 import com.ibm.cloud.schematics.v1.model.SharedDatasetResponse;
 import com.ibm.cloud.schematics.v1.model.SharedDatasetResponseList;
@@ -96,6 +97,7 @@ import com.ibm.cloud.schematics.v1.model.VersionResponse;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivities;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivity;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityApplyResult;
+import com.ibm.cloud.schematics.v1.model.WorkspaceActivityCommandResult;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityDestroyResult;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityLogs;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityPlanResult;
@@ -687,6 +689,42 @@ public class Schematics extends BaseService {
   }
 
   /**
+   * Run terraform Commands.
+   *
+   * Run terraform Commands on workspaces.
+   *
+   * @param runWorkspaceCommandsOptions the {@link RunWorkspaceCommandsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link WorkspaceActivityCommandResult}
+   */
+  public ServiceCall<WorkspaceActivityCommandResult> runWorkspaceCommands(RunWorkspaceCommandsOptions runWorkspaceCommandsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(runWorkspaceCommandsOptions,
+      "runWorkspaceCommandsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("w_id", runWorkspaceCommandsOptions.wId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/workspaces/{w_id}/commands", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("schematics", "v1", "runWorkspaceCommands");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("refresh_token", runWorkspaceCommandsOptions.refreshToken());
+    final JsonObject contentJson = new JsonObject();
+    if (runWorkspaceCommandsOptions.commands() != null) {
+      contentJson.add("commands", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(runWorkspaceCommandsOptions.commands()));
+    }
+    if (runWorkspaceCommandsOptions.operationName() != null) {
+      contentJson.addProperty("operation_name", runWorkspaceCommandsOptions.operationName());
+    }
+    if (runWorkspaceCommandsOptions.description() != null) {
+      contentJson.addProperty("description", runWorkspaceCommandsOptions.description());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<WorkspaceActivityCommandResult> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<WorkspaceActivityCommandResult>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
    * Run schematics workspace 'apply' activity.
    *
    * Run schematics workspace 'apply' activity.
@@ -1250,8 +1288,11 @@ public class Schematics extends BaseService {
     if (createActionOptions.bastion() != null) {
       contentJson.add("bastion", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createActionOptions.bastion()));
     }
-    if (createActionOptions.targets() != null) {
-      contentJson.add("targets", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createActionOptions.targets()));
+    if (createActionOptions.targetsIni() != null) {
+      contentJson.addProperty("targets_ini", createActionOptions.targetsIni());
+    }
+    if (createActionOptions.credentials() != null) {
+      contentJson.add("credentials", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createActionOptions.credentials()));
     }
     if (createActionOptions.inputs() != null) {
       contentJson.add("inputs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createActionOptions.inputs()));
@@ -1445,8 +1486,11 @@ public class Schematics extends BaseService {
     if (updateActionOptions.bastion() != null) {
       contentJson.add("bastion", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateActionOptions.bastion()));
     }
-    if (updateActionOptions.targets() != null) {
-      contentJson.add("targets", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateActionOptions.targets()));
+    if (updateActionOptions.targetsIni() != null) {
+      contentJson.addProperty("targets_ini", updateActionOptions.targetsIni());
+    }
+    if (updateActionOptions.credentials() != null) {
+      contentJson.add("credentials", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateActionOptions.credentials()));
     }
     if (updateActionOptions.inputs() != null) {
       contentJson.add("inputs", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateActionOptions.inputs()));

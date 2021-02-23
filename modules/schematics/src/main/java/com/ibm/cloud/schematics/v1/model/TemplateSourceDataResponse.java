@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -28,8 +28,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   @SerializedName("has_githubtoken")
   protected Boolean hasGithubtoken;
   protected String id;
-  @SerializedName("template_type")
-  protected String templateType;
+  protected String type;
   @SerializedName("uninstall_script_name")
   protected String uninstallScriptName;
   protected String values;
@@ -84,14 +83,14 @@ public class TemplateSourceDataResponse extends GenericModel {
   }
 
   /**
-   * Gets the templateType.
+   * Gets the type.
    *
    * Template tyoe.
    *
-   * @return the templateType
+   * @return the type
    */
-  public String getTemplateType() {
-    return templateType;
+  public String getType() {
+    return type;
   }
 
   /**

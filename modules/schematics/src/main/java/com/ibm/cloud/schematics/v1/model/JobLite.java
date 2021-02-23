@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -107,7 +107,8 @@ public class JobLite extends GenericModel {
   protected String location;
   @SerializedName("resource_group")
   protected String resourceGroup;
-  protected List<TargetResourceset> targets;
+  @SerializedName("targets_ini")
+  protected String targetsIni;
   @SerializedName("submitted_at")
   protected Date submittedAt;
   @SerializedName("submitted_by")
@@ -224,14 +225,14 @@ public class JobLite extends GenericModel {
   }
 
   /**
-   * Gets the targets.
+   * Gets the targetsIni.
    *
-   * Job targets.
+   * Inventory of host and host group for the playbook, in .ini file format.
    *
-   * @return the targets
+   * @return the targetsIni
    */
-  public List<TargetResourceset> getTargets() {
-    return targets;
+  public String getTargetsIni() {
+    return targetsIni;
   }
 
   /**

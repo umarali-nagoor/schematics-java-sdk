@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -68,7 +68,8 @@ public class CreateActionOptions extends GenericModel {
   protected String sourceType;
   protected String commandParameter;
   protected TargetResourceset bastion;
-  protected List<TargetResourceset> targets;
+  protected String targetsIni;
+  protected List<VariableData> credentials;
   protected List<VariableData> inputs;
   protected List<VariableData> outputs;
   protected List<VariableData> settings;
@@ -92,7 +93,8 @@ public class CreateActionOptions extends GenericModel {
     private String sourceType;
     private String commandParameter;
     private TargetResourceset bastion;
-    private List<TargetResourceset> targets;
+    private String targetsIni;
+    private List<VariableData> credentials;
     private List<VariableData> inputs;
     private List<VariableData> outputs;
     private List<VariableData> settings;
@@ -113,7 +115,8 @@ public class CreateActionOptions extends GenericModel {
       this.sourceType = createActionOptions.sourceType;
       this.commandParameter = createActionOptions.commandParameter;
       this.bastion = createActionOptions.bastion;
-      this.targets = createActionOptions.targets;
+      this.targetsIni = createActionOptions.targetsIni;
+      this.credentials = createActionOptions.credentials;
       this.inputs = createActionOptions.inputs;
       this.outputs = createActionOptions.outputs;
       this.settings = createActionOptions.settings;
@@ -155,18 +158,18 @@ public class CreateActionOptions extends GenericModel {
     }
 
     /**
-     * Adds an targets to targets.
+     * Adds an credentials to credentials.
      *
-     * @param targets the new targets
+     * @param credentials the new credentials
      * @return the CreateActionOptions builder
      */
-    public Builder addTargets(TargetResourceset targets) {
-      com.ibm.cloud.sdk.core.util.Validator.notNull(targets,
-        "targets cannot be null");
-      if (this.targets == null) {
-        this.targets = new ArrayList<TargetResourceset>();
+    public Builder addCredentials(VariableData credentials) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(credentials,
+        "credentials cannot be null");
+      if (this.credentials == null) {
+        this.credentials = new ArrayList<VariableData>();
       }
-      this.targets.add(targets);
+      this.credentials.add(credentials);
       return this;
     }
 
@@ -341,14 +344,25 @@ public class CreateActionOptions extends GenericModel {
     }
 
     /**
-     * Set the targets.
-     * Existing targets will be replaced.
+     * Set the targetsIni.
      *
-     * @param targets the targets
+     * @param targetsIni the targetsIni
      * @return the CreateActionOptions builder
      */
-    public Builder targets(List<TargetResourceset> targets) {
-      this.targets = targets;
+    public Builder targetsIni(String targetsIni) {
+      this.targetsIni = targetsIni;
+      return this;
+    }
+
+    /**
+     * Set the credentials.
+     * Existing credentials will be replaced.
+     *
+     * @param credentials the credentials
+     * @return the CreateActionOptions builder
+     */
+    public Builder credentials(List<VariableData> credentials) {
+      this.credentials = credentials;
       return this;
     }
 
@@ -450,7 +464,8 @@ public class CreateActionOptions extends GenericModel {
       this.sourceType = action.sourceType();
       this.commandParameter = action.commandParameter();
       this.bastion = action.bastion();
-      this.targets = action.targets();
+      this.targetsIni = action.targetsIni();
+      this.credentials = action.credentials();
       this.inputs = action.inputs();
       this.outputs = action.outputs();
       this.settings = action.settings();
@@ -473,7 +488,8 @@ public class CreateActionOptions extends GenericModel {
     sourceType = builder.sourceType;
     commandParameter = builder.commandParameter;
     bastion = builder.bastion;
-    targets = builder.targets;
+    targetsIni = builder.targetsIni;
+    credentials = builder.credentials;
     inputs = builder.inputs;
     outputs = builder.outputs;
     settings = builder.settings;
@@ -615,14 +631,25 @@ public class CreateActionOptions extends GenericModel {
   }
 
   /**
-   * Gets the targets.
+   * Gets the targetsIni.
    *
-   * Action targets.
+   * Inventory of host and host group for the playbook, in .ini file format.
    *
-   * @return the targets
+   * @return the targetsIni
    */
-  public List<TargetResourceset> targets() {
-    return targets;
+  public String targetsIni() {
+    return targetsIni;
+  }
+
+  /**
+   * Gets the credentials.
+   *
+   * credentials of the Action.
+   *
+   * @return the credentials
+   */
+  public List<VariableData> credentials() {
+    return credentials;
   }
 
   /**

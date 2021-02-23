@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,8 +20,6 @@ import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJobRecap;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryRepoDownloadJob;
 import com.ibm.cloud.schematics.v1.model.JobStatus;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
-import com.ibm.cloud.schematics.v1.model.SystemLock;
-import com.ibm.cloud.schematics.v1.model.TargetResourceset;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -51,7 +49,7 @@ public class JobLiteTest {
     assertNull(jobLiteModel.getTags());
     assertNull(jobLiteModel.getLocation());
     assertNull(jobLiteModel.getResourceGroup());
-    assertNull(jobLiteModel.getTargets());
+    assertNull(jobLiteModel.getTargetsIni());
     assertNull(jobLiteModel.getSubmittedAt());
     assertNull(jobLiteModel.getSubmittedBy());
     assertNull(jobLiteModel.getDuration());

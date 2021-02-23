@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -84,14 +84,14 @@ public class UpdateActionOptionsTest {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
     assertEquals(targetResourcesetModel.name(), "testString");
     assertEquals(targetResourcesetModel.type(), "testString");
     assertEquals(targetResourcesetModel.description(), "testString");
     assertEquals(targetResourcesetModel.resourceQuery(), "testString");
-    assertEquals(targetResourcesetModel.credential(), "testString");
+    assertEquals(targetResourcesetModel.credentialRef(), "testString");
     assertEquals(targetResourcesetModel.sysLock(), systemLockModel);
 
     VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
@@ -140,9 +140,11 @@ public class UpdateActionOptionsTest {
 
     ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
+      .statusJobId("testString")
       .statusMessage("testString")
       .build();
     assertEquals(actionStateModel.statusCode(), "normal");
+    assertEquals(actionStateModel.statusJobId(), "testString");
     assertEquals(actionStateModel.statusMessage(), "testString");
 
     UpdateActionOptions updateActionOptionsModel = new UpdateActionOptions.Builder()
@@ -158,7 +160,8 @@ public class UpdateActionOptionsTest {
       .sourceType("local")
       .commandParameter("testString")
       .bastion(targetResourcesetModel)
-      .targets(new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)))
+      .targetsIni("testString")
+      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -179,7 +182,8 @@ public class UpdateActionOptionsTest {
     assertEquals(updateActionOptionsModel.sourceType(), "local");
     assertEquals(updateActionOptionsModel.commandParameter(), "testString");
     assertEquals(updateActionOptionsModel.bastion(), targetResourcesetModel);
-    assertEquals(updateActionOptionsModel.targets(), new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)));
+    assertEquals(updateActionOptionsModel.targetsIni(), "testString");
+    assertEquals(updateActionOptionsModel.credentials(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(updateActionOptionsModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(updateActionOptionsModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(updateActionOptionsModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));

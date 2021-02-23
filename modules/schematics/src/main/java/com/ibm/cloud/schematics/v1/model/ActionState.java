@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -36,6 +36,8 @@ public class ActionState extends GenericModel {
 
   @SerializedName("status_code")
   protected String statusCode;
+  @SerializedName("status_job_id")
+  protected String statusJobId;
   @SerializedName("status_message")
   protected String statusMessage;
 
@@ -44,10 +46,12 @@ public class ActionState extends GenericModel {
    */
   public static class Builder {
     private String statusCode;
+    private String statusJobId;
     private String statusMessage;
 
     private Builder(ActionState actionState) {
       this.statusCode = actionState.statusCode;
+      this.statusJobId = actionState.statusJobId;
       this.statusMessage = actionState.statusMessage;
     }
 
@@ -78,6 +82,17 @@ public class ActionState extends GenericModel {
     }
 
     /**
+     * Set the statusJobId.
+     *
+     * @param statusJobId the statusJobId
+     * @return the ActionState builder
+     */
+    public Builder statusJobId(String statusJobId) {
+      this.statusJobId = statusJobId;
+      return this;
+    }
+
+    /**
      * Set the statusMessage.
      *
      * @param statusMessage the statusMessage
@@ -91,6 +106,7 @@ public class ActionState extends GenericModel {
 
   protected ActionState(Builder builder) {
     statusCode = builder.statusCode;
+    statusJobId = builder.statusJobId;
     statusMessage = builder.statusMessage;
   }
 
@@ -112,6 +128,17 @@ public class ActionState extends GenericModel {
    */
   public String statusCode() {
     return statusCode;
+  }
+
+  /**
+   * Gets the statusJobId.
+   *
+   * Job id reference for this status.
+   *
+   * @return the statusJobId
+   */
+  public String statusJobId() {
+    return statusJobId;
   }
 
   /**

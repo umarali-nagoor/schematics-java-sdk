@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -98,6 +98,7 @@ import com.ibm.cloud.schematics.v1.model.ReplaceSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceInputsOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.ResourceGroupResponse;
+import com.ibm.cloud.schematics.v1.model.RunWorkspaceCommandsOptions;
 import com.ibm.cloud.schematics.v1.model.SchematicsLocations;
 import com.ibm.cloud.schematics.v1.model.SharedDatasetData;
 import com.ibm.cloud.schematics.v1.model.SharedDatasetResponse;
@@ -119,6 +120,7 @@ import com.ibm.cloud.schematics.v1.model.TemplateSourceDataRequest;
 import com.ibm.cloud.schematics.v1.model.TemplateSourceDataResponse;
 import com.ibm.cloud.schematics.v1.model.TemplateStateStore;
 import com.ibm.cloud.schematics.v1.model.TemplateValues;
+import com.ibm.cloud.schematics.v1.model.TerraformCommand;
 import com.ibm.cloud.schematics.v1.model.UpdateActionOptions;
 import com.ibm.cloud.schematics.v1.model.UpdateWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.UploadTemplateTarOptions;
@@ -130,6 +132,7 @@ import com.ibm.cloud.schematics.v1.model.VersionResponse;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivities;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivity;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityApplyResult;
+import com.ibm.cloud.schematics.v1.model.WorkspaceActivityCommandResult;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityDestroyResult;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityLogs;
 import com.ibm.cloud.schematics.v1.model.WorkspaceActivityOptionsTemplate;
@@ -153,7 +156,7 @@ import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
-import com.ibm.cloud.schematics.test.SdkIntegrationTestBase;
+import com.ibm.cloud.test.SdkIntegrationTestBase;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -695,6 +698,42 @@ public class SchematicsIT extends SdkIntegrationTestBase {
   }
 
   @Test
+  public void testRunWorkspaceCommands() throws Exception {
+    try {
+      TerraformCommand terraformCommandModel = new TerraformCommand.Builder()
+      .command("testString")
+      .commandParams("testString")
+      .commandName("testString")
+      .commandDesc("testString")
+      .commandOnError("testString")
+      .commandDependsOn("testString")
+      .commandStatus("testString")
+      .build();
+
+      RunWorkspaceCommandsOptions runWorkspaceCommandsOptions = new RunWorkspaceCommandsOptions.Builder()
+      .wId("testString")
+      .refreshToken("testString")
+      .commands(new java.util.ArrayList<TerraformCommand>(java.util.Arrays.asList(terraformCommandModel)))
+      .operationName("testString")
+      .description("testString")
+      .build();
+
+      // Invoke operation
+      Response<WorkspaceActivityCommandResult> response = service.runWorkspaceCommands(runWorkspaceCommandsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 202);
+
+      WorkspaceActivityCommandResult workspaceActivityCommandResultResult = response.getResult();
+
+      assertNotNull(workspaceActivityCommandResultResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
   public void testApplyWorkspaceCommand() throws Exception {
     try {
       WorkspaceActivityOptionsTemplate workspaceActivityOptionsTemplateModel = new WorkspaceActivityOptionsTemplate.Builder()
@@ -1173,7 +1212,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
 
@@ -1204,6 +1243,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
+      .statusJobId("testString")
       .statusMessage("testString")
       .build();
 
@@ -1219,7 +1259,8 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .sourceType("local")
       .commandParameter("testString")
       .bastion(targetResourcesetModel)
-      .targets(new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)))
+      .targetsIni("testString")
+      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -1325,7 +1366,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
 
@@ -1356,6 +1397,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
+      .statusJobId("testString")
       .statusMessage("testString")
       .build();
 
@@ -1372,7 +1414,8 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .sourceType("local")
       .commandParameter("testString")
       .bastion(targetResourcesetModel)
-      .targets(new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)))
+      .targetsIni("testString")
+      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -1464,7 +1507,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
 
@@ -1617,7 +1660,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
 

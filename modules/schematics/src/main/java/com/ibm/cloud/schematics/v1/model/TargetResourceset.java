@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,7 @@
  */
 package com.ibm.cloud.schematics.v1.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class TargetResourceset extends GenericModel {
   protected String description;
   @SerializedName("resource_query")
   protected String resourceQuery;
-  protected String credential;
+  @SerializedName("credential_ref")
+  protected String credentialRef;
   protected String id;
   @SerializedName("created_at")
   protected Date createdAt;
@@ -51,7 +53,7 @@ public class TargetResourceset extends GenericModel {
     private String type;
     private String description;
     private String resourceQuery;
-    private String credential;
+    private String credentialRef;
     private SystemLock sysLock;
 
     private Builder(TargetResourceset targetResourceset) {
@@ -59,7 +61,7 @@ public class TargetResourceset extends GenericModel {
       this.type = targetResourceset.type;
       this.description = targetResourceset.description;
       this.resourceQuery = targetResourceset.resourceQuery;
-      this.credential = targetResourceset.credential;
+      this.credentialRef = targetResourceset.credentialRef;
       this.sysLock = targetResourceset.sysLock;
     }
 
@@ -123,13 +125,13 @@ public class TargetResourceset extends GenericModel {
     }
 
     /**
-     * Set the credential.
+     * Set the credentialRef.
      *
-     * @param credential the credential
+     * @param credentialRef the credentialRef
      * @return the TargetResourceset builder
      */
-    public Builder credential(String credential) {
-      this.credential = credential;
+    public Builder credentialRef(String credentialRef) {
+      this.credentialRef = credentialRef;
       return this;
     }
 
@@ -150,7 +152,7 @@ public class TargetResourceset extends GenericModel {
     type = builder.type;
     description = builder.description;
     resourceQuery = builder.resourceQuery;
-    credential = builder.credential;
+    credentialRef = builder.credentialRef;
     sysLock = builder.sysLock;
   }
 
@@ -208,14 +210,14 @@ public class TargetResourceset extends GenericModel {
   }
 
   /**
-   * Gets the credential.
+   * Gets the credentialRef.
    *
    * Override credential for each resource.  Reference to credentials values, used by all resources.
    *
-   * @return the credential
+   * @return the credentialRef
    */
-  public String credential() {
-    return credential;
+  public String credentialRef() {
+    return credentialRef;
   }
 
   /**

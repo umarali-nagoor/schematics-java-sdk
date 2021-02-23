@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -48,14 +48,14 @@ public class TargetResourcesetTest {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
     assertEquals(targetResourcesetModel.name(), "testString");
     assertEquals(targetResourcesetModel.type(), "testString");
     assertEquals(targetResourcesetModel.description(), "testString");
     assertEquals(targetResourcesetModel.resourceQuery(), "testString");
-    assertEquals(targetResourcesetModel.credential(), "testString");
+    assertEquals(targetResourcesetModel.credentialRef(), "testString");
     assertEquals(targetResourcesetModel.sysLock(), systemLockModel);
 
     String json = TestUtilities.serialize(targetResourcesetModel);
@@ -66,7 +66,7 @@ public class TargetResourcesetTest {
     assertEquals(targetResourcesetModelNew.type(), "testString");
     assertEquals(targetResourcesetModelNew.description(), "testString");
     assertEquals(targetResourcesetModelNew.resourceQuery(), "testString");
-    assertEquals(targetResourcesetModelNew.credential(), "testString");
+    assertEquals(targetResourcesetModelNew.credentialRef(), "testString");
     assertEquals(targetResourcesetModelNew.sysLock().toString(), systemLockModel.toString());
   }
 }

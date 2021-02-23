@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -84,14 +84,14 @@ public class ActionTest {
       .type("testString")
       .description("testString")
       .resourceQuery("testString")
-      .credential("testString")
+      .credentialRef("testString")
       .sysLock(systemLockModel)
       .build();
     assertEquals(targetResourcesetModel.name(), "testString");
     assertEquals(targetResourcesetModel.type(), "testString");
     assertEquals(targetResourcesetModel.description(), "testString");
     assertEquals(targetResourcesetModel.resourceQuery(), "testString");
-    assertEquals(targetResourcesetModel.credential(), "testString");
+    assertEquals(targetResourcesetModel.credentialRef(), "testString");
     assertEquals(targetResourcesetModel.sysLock(), systemLockModel);
 
     VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
@@ -140,9 +140,11 @@ public class ActionTest {
 
     ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
+      .statusJobId("testString")
       .statusMessage("testString")
       .build();
     assertEquals(actionStateModel.statusCode(), "normal");
+    assertEquals(actionStateModel.statusJobId(), "testString");
     assertEquals(actionStateModel.statusMessage(), "testString");
 
     Action actionModel = new Action.Builder()
@@ -157,7 +159,8 @@ public class ActionTest {
       .sourceType("local")
       .commandParameter("testString")
       .bastion(targetResourcesetModel)
-      .targets(new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)))
+      .targetsIni("testString")
+      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -176,7 +179,8 @@ public class ActionTest {
     assertEquals(actionModel.sourceType(), "local");
     assertEquals(actionModel.commandParameter(), "testString");
     assertEquals(actionModel.bastion(), targetResourcesetModel);
-    assertEquals(actionModel.targets(), new java.util.ArrayList<TargetResourceset>(java.util.Arrays.asList(targetResourcesetModel)));
+    assertEquals(actionModel.targetsIni(), "testString");
+    assertEquals(actionModel.credentials(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(actionModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(actionModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(actionModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
@@ -198,6 +202,7 @@ public class ActionTest {
     assertEquals(actionModelNew.sourceType(), "local");
     assertEquals(actionModelNew.commandParameter(), "testString");
     assertEquals(actionModelNew.bastion().toString(), targetResourcesetModel.toString());
+    assertEquals(actionModelNew.targetsIni(), "testString");
     assertEquals(actionModelNew.triggerRecordId(), "testString");
     assertEquals(actionModelNew.state().toString(), actionStateModel.toString());
     assertEquals(actionModelNew.sysLock().toString(), systemLockModel.toString());
