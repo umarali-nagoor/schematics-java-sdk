@@ -156,8 +156,13 @@ import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
-import com.ibm.cloud.test.SdkIntegrationTestBase;
+import com.ibm.cloud.schematics.test.SdkIntegrationTestBase;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -202,6 +207,245 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     assertEquals(service.getServiceUrl(), config.get("URL"));
 
     System.out.println("Setup complete.");
+  }
+
+  public WorkspaceResponse getWorkspaceById(String wid) {
+
+    GetWorkspaceOptions getWorkspaceOptions = new GetWorkspaceOptions.Builder()
+    .wId(wid)
+    .build();
+
+    Response<WorkspaceResponse> workspaceResponse = service.getWorkspace(getWorkspaceOptions).execute();
+
+    return workspaceResponse.getResult();
+  }
+
+  public void waitForWorkspaceStatus(String wid, String status) {
+    String workspaceStatus = "";
+    while (!workspaceStatus.equals(status)) {
+      workspaceStatus = getWorkspaceById(wid).getStatus();
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void waitForWorkspaceActivityStatus(String wid, String activityid, String status) {
+    String workspaceActivityStatus = "";
+    while (!workspaceActivityStatus.equals(status)) {
+      workspaceActivityStatus = getWorkspaceActivityById(wid, activityid).getStatus();
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public WorkspaceActivity getWorkspaceActivityById(String wid, String activityid) {
+    GetWorkspaceActivityOptions getWorkspaceActivityOptions = new GetWorkspaceActivityOptions.Builder()
+    .wId(wid)
+    .activityId(activityid)
+    .build();
+
+    Response<WorkspaceActivity> workspaceActivity = service.getWorkspaceActivity(getWorkspaceActivityOptions).execute();
+
+    return workspaceActivity.getResult();
+  }
+
+
+  public WorkspaceResponse createSampleWorkspaceWithoutRepoURL() throws Exception {
+    try {
+      WorkspaceVariableRequest workspaceVariableRequestModel = new WorkspaceVariableRequest.Builder()
+      .name("variable_name1")
+      .type("string")
+      .value("variable_value1")
+      .build();
+
+      TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
+      .folder(".")
+      .type("terraform_v0.11.14")
+      .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
+      .build();
+
+      CreateWorkspaceOptions createWorkspaceOptions = new CreateWorkspaceOptions.Builder()
+      .description("Sample Workspace for SDK Integration Tests")
+      .name("myworkspace")
+      .templateData(new java.util.ArrayList<TemplateSourceDataRequest>(java.util.Arrays.asList(templateSourceDataRequestModel)))
+      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("terraform_v0.11.14")))
+      .build();
+
+      // Invoke operation
+      Response<WorkspaceResponse> response = service.createWorkspace(createWorkspaceOptions).execute();
+      // Validate response
+      WorkspaceResponse workspaceResponseResult = response.getResult();
+
+      return workspaceResponseResult;
+
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+
+    return null;
+  }
+
+  public WorkspaceResponse createWorkspaceWithEmptyRepoURL() {
+    try {
+      com.ibm.cloud.schematics.v1.model.WorkspaceVariableRequest v1 = new WorkspaceVariableRequest.Builder()
+      .name("variables_name1")
+      .value("variables_value1")
+      .build();
+
+      com.ibm.cloud.schematics.v1.model.WorkspaceVariableRequest v2 = new WorkspaceVariableRequest.Builder()
+      .name("variables_name2")
+      .value("variables_value2")
+      .build();
+
+      com.ibm.cloud.schematics.v1.model.TemplateSourceDataRequest templateSourceDataRequest = new TemplateSourceDataRequest.Builder()
+      .folder(".")
+      .type("terraform_v0.11.14")
+      .variablestore(Arrays.asList(v1, v2))
+      .build();
+
+      CreateWorkspaceOptions createWorkspaceOptions = new CreateWorkspaceOptions.Builder()
+      .description("Sample Workspace for SDK Integration Tests")
+      .location("us-east")
+      .name("myworkspace")
+      .addTemplateData(templateSourceDataRequest)
+      .type(Arrays.asList("terraform_v0.11.14"))
+      .tags(Arrays.asList("test"))
+      .build();
+
+      Response<WorkspaceResponse> response = service.createWorkspace(createWorkspaceOptions).execute();
+
+      WorkspaceResponse workspaceResponseList = response.getResult();
+
+      return workspaceResponseList;
+
+    } catch (ServiceResponseException e) {
+      System.out.println(e);
+    }
+    return null;
+  }
+
+  public WorkspaceResponse uploadTarFile() {
+    try {
+      WorkspaceResponse ws = createWorkspaceWithEmptyRepoURL();
+      waitForWorkspaceStatus(ws.getId(), "DRAFT");
+
+      String currentDir = System.getProperty("user.dir");
+
+      UploadTemplateTarOptions uploadTemplateTarOptions = new UploadTemplateTarOptions.Builder()
+      .wId(ws.getId())
+      .tId(ws.getTemplateData().get(0).getId())
+      .fileContentType("multipart/form-data")
+      .file(new File(currentDir + "/testfiles/tf_cloudless_sleepy_git_archive.tar"))
+      .build();
+
+      Response<TemplateRepoTarUploadResponse> response = service.uploadTemplateTar(uploadTemplateTarOptions).execute();
+
+      TemplateRepoTarUploadResponse workspaceResponseList = response.getResult();
+
+      return ws;
+
+    } catch (ServiceResponseException e) {
+      System.out.println(e);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public Object[] refreshWorkspaceActionById(String wid) {
+    try {
+      RefreshWorkspaceCommandOptions refreshWorkspaceCommandOptions = new RefreshWorkspaceCommandOptions.Builder()
+      .wId(wid)
+      .refreshToken("refreshToken")
+      .build();
+
+      Response<WorkspaceActivityRefreshResult> response = service
+          .refreshWorkspaceCommand(refreshWorkspaceCommandOptions)
+          .execute();
+
+      WorkspaceActivityRefreshResult workspaceActivityRefreshResult = response.getResult();
+
+      waitForWorkspaceActivityStatus(wid, workspaceActivityRefreshResult.getActivityid(), "COMPLETED");
+
+      Object[] ret = new Object[2];
+
+      ret[0] = wid;
+      ret[1] = workspaceActivityRefreshResult.getActivityid();
+
+      return ret;
+
+    } catch (ServiceResponseException e) {
+      System.out.println(e);
+    } 
+
+    return null;
+  }
+
+  public Object[] applyWorkspaceAction() {
+    try {
+      WorkspaceResponse ws = uploadTarFile();
+      waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
+      ApplyWorkspaceCommandOptions applyWorkspaceCommandOptions = new ApplyWorkspaceCommandOptions.Builder()
+      .wId(ws.getId())
+      .refreshToken("refreshToken")
+      .build();
+
+      Response<WorkspaceActivityApplyResult> response = service.applyWorkspaceCommand(applyWorkspaceCommandOptions)
+          .execute();
+
+      WorkspaceActivityApplyResult workspaceActivityApplyResult = response.getResult();
+
+      waitForWorkspaceActivityStatus(ws.getId(), workspaceActivityApplyResult.getActivityid(), "COMPLETED");
+
+      Object[] ret = new Object[2];
+
+      ret[0] = ws;
+      ret[1] = workspaceActivityApplyResult.getActivityid();
+
+      return ret;
+
+    } catch (ServiceResponseException e) {
+      System.out.println(e);
+    } 
+
+    return null;
+  }
+
+  public class DeleteFailedException extends Exception {
+
+    public DeleteFailedException(String message){
+       super(message);
+    }
+  
+  }
+
+  public void deleteWorkspaceByID(String wid) {
+    try {
+
+      DeleteWorkspaceOptions deleteWorkspaceOptions = new DeleteWorkspaceOptions.Builder()
+      .wId(wid)
+      .refreshToken("refreshToken")
+      .build();
+
+      Response<String> response = service.deleteWorkspace(deleteWorkspaceOptions).execute();
+
+      if(response.getStatusCode() != 200 ) {
+        throw new DeleteFailedException("Delete workspace failed");
+      }
+
+    } catch (ServiceResponseException e) {
+      System.out.println(e);
+    } catch (DeleteFailedException e) {
+      System.out.println(e);
+    }
   }
 
   @Test
@@ -289,83 +533,25 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
   @Test
   public void testCreateWorkspace() throws Exception {
+    String wid = "";
     try {
-      CatalogRef catalogRefModel = new CatalogRef.Builder()
-      .dryRun(true)
-      .itemIconUrl("testString")
-      .itemId("testString")
-      .itemName("testString")
-      .itemReadmeUrl("testString")
-      .itemUrl("testString")
-      .launchUrl("testString")
-      .offeringVersion("testString")
-      .build();
-
-      SharedTargetData sharedTargetDataModel = new SharedTargetData.Builder()
-      .clusterCreatedOn("testString")
-      .clusterId("testString")
-      .clusterName("testString")
-      .clusterType("testString")
-      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .namespace("testString")
-      .region("testString")
-      .resourceGroupId("testString")
-      .workerCount(Long.valueOf("26"))
-      .workerMachineType("testString")
-      .build();
-
       WorkspaceVariableRequest workspaceVariableRequestModel = new WorkspaceVariableRequest.Builder()
-      .description("testString")
-      .name("testString")
-      .secure(true)
-      .type("testString")
-      .useDefault(true)
-      .value("testString")
+      .name("variablename1")
+      .type("string")
+      .value("variablevalue1")
       .build();
 
       TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .folder("testString")
-      .initStateFile("testString")
-      .type("testString")
-      .uninstallScriptName("testString")
-      .values("testString")
-      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .folder(".")
+      .type("terraform_v0.11.14")
       .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
       .build();
 
-      TemplateRepoRequest templateRepoRequestModel = new TemplateRepoRequest.Builder()
-      .branch("testString")
-      .release("testString")
-      .repoShaValue("testString")
-      .repoUrl("testString")
-      .url("testString")
-      .build();
-
-      WorkspaceStatusRequest workspaceStatusRequestModel = new WorkspaceStatusRequest.Builder()
-      .frozen(true)
-      .frozenAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .frozenBy("testString")
-      .locked(true)
-      .lockedBy("testString")
-      .lockedTime(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
       CreateWorkspaceOptions createWorkspaceOptions = new CreateWorkspaceOptions.Builder()
-      .appliedShareddataIds(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .catalogRef(catalogRefModel)
-      .description("testString")
-      .location("testString")
-      .name("testString")
-      .resourceGroup("testString")
-      .sharedData(sharedTargetDataModel)
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .description("Sample Workspace for Integration Tests")
+      .name("myworkspace")
       .templateData(new java.util.ArrayList<TemplateSourceDataRequest>(java.util.Arrays.asList(templateSourceDataRequestModel)))
-      .templateRef("testString")
-      .templateRepo(templateRepoRequestModel)
-      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .workspaceStatus(workspaceStatusRequestModel)
-      .xGithubToken("testString")
+      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("terraform_v0.11.14")))
       .build();
 
       // Invoke operation
@@ -375,19 +561,25 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       assertEquals(response.getStatusCode(), 201);
 
       WorkspaceResponse workspaceResponseResult = response.getResult();
+      wid = workspaceResponseResult.getId();
 
       assertNotNull(workspaceResponseResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(wid);
     }
   }
 
   @Test
   public void testGetWorkspace() throws Exception {
+
+    WorkspaceResponse ws = createSampleWorkspaceWithoutRepoURL();
+
     try {
       GetWorkspaceOptions getWorkspaceOptions = new GetWorkspaceOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .build();
 
       // Invoke operation
@@ -402,11 +594,16 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testReplaceWorkspace() throws Exception {
+    
+    WorkspaceResponse ws = createSampleWorkspaceWithoutRepoURL();
+
     try {
       CatalogRef catalogRefModel = new CatalogRef.Builder()
       .dryRun(true)
@@ -419,73 +616,16 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .offeringVersion("testString")
       .build();
 
-      SharedTargetData sharedTargetDataModel = new SharedTargetData.Builder()
-      .clusterCreatedOn("testString")
-      .clusterId("testString")
-      .clusterName("testString")
-      .clusterType("testString")
-      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .namespace("testString")
-      .region("testString")
-      .resourceGroupId("testString")
-      .workerCount(Long.valueOf("26"))
-      .workerMachineType("testString")
-      .build();
-
-      WorkspaceVariableRequest workspaceVariableRequestModel = new WorkspaceVariableRequest.Builder()
-      .description("testString")
-      .name("testString")
-      .secure(true)
-      .type("testString")
-      .useDefault(true)
-      .value("testString")
-      .build();
-
-      TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .folder("testString")
-      .initStateFile("testString")
-      .type("testString")
-      .uninstallScriptName("testString")
-      .values("testString")
-      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
-      .build();
-
       TemplateRepoUpdateRequest templateRepoUpdateRequestModel = new TemplateRepoUpdateRequest.Builder()
-      .branch("testString")
-      .release("testString")
-      .repoShaValue("testString")
-      .repoUrl("testString")
-      .url("testString")
-      .build();
-
-      WorkspaceStatusUpdateRequest workspaceStatusUpdateRequestModel = new WorkspaceStatusUpdateRequest.Builder()
-      .frozen(true)
-      .frozenAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .frozenBy("testString")
-      .locked(true)
-      .lockedBy("testString")
-      .lockedTime(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      WorkspaceStatusMessage workspaceStatusMessageModel = new WorkspaceStatusMessage.Builder()
-      .statusCode("testString")
-      .statusMsg("testString")
+      .url("https://github.com/ptaube/tf_cloudless_sleepy")
       .build();
 
       ReplaceWorkspaceOptions replaceWorkspaceOptions = new ReplaceWorkspaceOptions.Builder()
-      .wId("testString")
-      .catalogRef(catalogRefModel)
-      .description("testString")
-      .name("testString")
-      .sharedData(sharedTargetDataModel)
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .templateData(new java.util.ArrayList<TemplateSourceDataRequest>(java.util.Arrays.asList(templateSourceDataRequestModel)))
+      .wId(ws.getId())
+      .description("Sample Workspace for SDK Integration Tests -- updated")
+      .name("myworkspace")
       .templateRepo(templateRepoUpdateRequestModel)
-      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .workspaceStatus(workspaceStatusUpdateRequestModel)
-      .workspaceStatusMsg(workspaceStatusMessageModel)
+      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("terraform_v0.12.20")))
       .build();
 
       // Invoke operation
@@ -496,94 +636,29 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       WorkspaceResponse workspaceResponseResult = response.getResult();
 
+      waitForWorkspaceStatus(workspaceResponseResult.getId(), "INACTIVE");
+
       assertNotNull(workspaceResponseResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testUpdateWorkspace() throws Exception {
+    
+    WorkspaceResponse ws = createSampleWorkspaceWithoutRepoURL();
+
     try {
-      CatalogRef catalogRefModel = new CatalogRef.Builder()
-      .dryRun(true)
-      .itemIconUrl("testString")
-      .itemId("testString")
-      .itemName("testString")
-      .itemReadmeUrl("testString")
-      .itemUrl("testString")
-      .launchUrl("testString")
-      .offeringVersion("testString")
-      .build();
-
-      SharedTargetData sharedTargetDataModel = new SharedTargetData.Builder()
-      .clusterCreatedOn("testString")
-      .clusterId("testString")
-      .clusterName("testString")
-      .clusterType("testString")
-      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .namespace("testString")
-      .region("testString")
-      .resourceGroupId("testString")
-      .workerCount(Long.valueOf("26"))
-      .workerMachineType("testString")
-      .build();
-
-      WorkspaceVariableRequest workspaceVariableRequestModel = new WorkspaceVariableRequest.Builder()
-      .description("testString")
-      .name("testString")
-      .secure(true)
-      .type("testString")
-      .useDefault(true)
-      .value("testString")
-      .build();
-
-      TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .folder("testString")
-      .initStateFile("testString")
-      .type("testString")
-      .uninstallScriptName("testString")
-      .values("testString")
-      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
-      .build();
-
-      TemplateRepoUpdateRequest templateRepoUpdateRequestModel = new TemplateRepoUpdateRequest.Builder()
-      .branch("testString")
-      .release("testString")
-      .repoShaValue("testString")
-      .repoUrl("testString")
-      .url("testString")
-      .build();
-
-      WorkspaceStatusUpdateRequest workspaceStatusUpdateRequestModel = new WorkspaceStatusUpdateRequest.Builder()
-      .frozen(true)
-      .frozenAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .frozenBy("testString")
-      .locked(true)
-      .lockedBy("testString")
-      .lockedTime(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      WorkspaceStatusMessage workspaceStatusMessageModel = new WorkspaceStatusMessage.Builder()
-      .statusCode("testString")
-      .statusMsg("testString")
-      .build();
-
       UpdateWorkspaceOptions updateWorkspaceOptions = new UpdateWorkspaceOptions.Builder()
-      .wId("testString")
-      .catalogRef(catalogRefModel)
-      .description("testString")
-      .name("testString")
-      .sharedData(sharedTargetDataModel)
+      .wId(ws.getId())
+      .description("Sample Workspace for SDK Integration Tests -- updated")
+      .name("myworkspace updated")
       .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .templateData(new java.util.ArrayList<TemplateSourceDataRequest>(java.util.Arrays.asList(templateSourceDataRequestModel)))
-      .templateRepo(templateRepoUpdateRequestModel)
-      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .workspaceStatus(workspaceStatusUpdateRequestModel)
-      .workspaceStatusMsg(workspaceStatusMessageModel)
+      .type(new java.util.ArrayList<String>(java.util.Arrays.asList("terraform_v0.12.20")))
       .build();
 
       // Invoke operation
@@ -598,17 +673,23 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testUploadTemplateTar() throws Exception {
+    
+    WorkspaceResponse ws = createSampleWorkspaceWithoutRepoURL();
+
     try {
+
       UploadTemplateTarOptions uploadTemplateTarOptions = new UploadTemplateTarOptions.Builder()
-      .wId("testString")
-      .tId("testString")
-      .file(TestUtilities.createMockStream("This is a mock file."))
-      .fileContentType("testString")
+      .wId(ws.getId())
+      .tId(ws.getTemplateData().get(0).getId())
+      .file(new FileInputStream(new File("testfiles/tf_cloudless_sleepy_git_archive.tar")))
+      .fileContentType("multipart/form-data")
       .build();
 
       // Invoke operation
@@ -620,18 +701,26 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       TemplateRepoTarUploadResponse templateRepoTarUploadResponseResult = response.getResult();
 
       assertNotNull(templateRepoTarUploadResponseResult);
+
+      waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetWorkspaceReadme() throws Exception {
+    
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       GetWorkspaceReadmeOptions getWorkspaceReadmeOptions = new GetWorkspaceReadmeOptions.Builder()
-      .wId("testString")
-      .ref("testString")
+      .wId(ws.getId())
       .formatted("markdown")
       .build();
 
@@ -647,14 +736,23 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testListWorkspaceActivities() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+    
+    //Refresh action
+    refreshWorkspaceActionById(ws.getId());
+
     try {
       ListWorkspaceActivitiesOptions listWorkspaceActivitiesOptions = new ListWorkspaceActivitiesOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .offset(Long.valueOf("0"))
       .limit(Long.valueOf("1"))
       .build();
@@ -671,15 +769,23 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetWorkspaceActivity() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+    
+    Object[] res = refreshWorkspaceActionById(ws.getId());
+
     try {
       GetWorkspaceActivityOptions getWorkspaceActivityOptions = new GetWorkspaceActivityOptions.Builder()
-      .wId("testString")
-      .activityId("testString")
+      .wId(ws.getId())
+      .activityId((String)res[1])
       .build();
 
       // Invoke operation
@@ -694,24 +800,28 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testRunWorkspaceCommands() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       TerraformCommand terraformCommandModel = new TerraformCommand.Builder()
-      .command("testString")
-      .commandParams("testString")
-      .commandName("testString")
-      .commandDesc("testString")
-      .commandOnError("testString")
-      .commandDependsOn("testString")
-      .commandStatus("testString")
+      .command("state show")
+      .commandParams("data.template_file.test")
+      .commandName("Test Command")
+      .commandDesc("Check command execution")
+      .commandOnError("continue")
+      .commandDependsOn("")
       .build();
 
       RunWorkspaceCommandsOptions runWorkspaceCommandsOptions = new RunWorkspaceCommandsOptions.Builder()
-      .wId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
       .refreshToken("testString")
       .commands(new java.util.ArrayList<TerraformCommand>(java.util.Arrays.asList(terraformCommandModel)))
       .operationName("testString")
@@ -726,25 +836,27 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       WorkspaceActivityCommandResult workspaceActivityCommandResultResult = response.getResult();
 
+      waitForWorkspaceActivityStatus(((WorkspaceResponse)res[0]).getId(), workspaceActivityCommandResultResult.getActivityid(), "COMPLETED");
+
       assertNotNull(workspaceActivityCommandResultResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testApplyWorkspaceCommand() throws Exception {
-    try {
-      WorkspaceActivityOptionsTemplate workspaceActivityOptionsTemplateModel = new WorkspaceActivityOptionsTemplate.Builder()
-      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .tfVars(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .build();
 
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
+    try {
       ApplyWorkspaceCommandOptions applyWorkspaceCommandOptions = new ApplyWorkspaceCommandOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .refreshToken("testString")
-      .actionOptions(workspaceActivityOptionsTemplateModel)
       .build();
 
       // Invoke operation
@@ -755,25 +867,26 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       WorkspaceActivityApplyResult workspaceActivityApplyResultResult = response.getResult();
 
+      waitForWorkspaceActivityStatus(ws.getId(), workspaceActivityApplyResultResult.getActivityid(), "COMPLETED");
+
       assertNotNull(workspaceActivityApplyResultResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testDestroyWorkspaceCommand() throws Exception {
-    try {
-      WorkspaceActivityOptionsTemplate workspaceActivityOptionsTemplateModel = new WorkspaceActivityOptionsTemplate.Builder()
-      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .tfVars(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .build();
 
+    WorkspaceResponse ws = createWorkspaceWithEmptyRepoURL();
+
+    try {
       DestroyWorkspaceCommandOptions destroyWorkspaceCommandOptions = new DestroyWorkspaceCommandOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .refreshToken("testString")
-      .actionOptions(workspaceActivityOptionsTemplateModel)
       .build();
 
       // Invoke operation
@@ -793,9 +906,13 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
   @Test
   public void testPlanWorkspaceCommand() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       PlanWorkspaceCommandOptions planWorkspaceCommandOptions = new PlanWorkspaceCommandOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .refreshToken("testString")
       .build();
 
@@ -807,18 +924,26 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       WorkspaceActivityPlanResult workspaceActivityPlanResultResult = response.getResult();
 
+      waitForWorkspaceActivityStatus(ws.getId(), workspaceActivityPlanResultResult.getActivityid(), "COMPLETED");
+
       assertNotNull(workspaceActivityPlanResultResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testRefreshWorkspaceCommand() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       RefreshWorkspaceCommandOptions refreshWorkspaceCommandOptions = new RefreshWorkspaceCommandOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .refreshToken("testString")
       .build();
 
@@ -830,19 +955,27 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       WorkspaceActivityRefreshResult workspaceActivityRefreshResultResult = response.getResult();
 
+      waitForWorkspaceActivityStatus(ws.getId(), workspaceActivityRefreshResultResult.getActivityid(), "COMPLETED");
+
       assertNotNull(workspaceActivityRefreshResultResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetWorkspaceInputs() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       GetWorkspaceInputsOptions getWorkspaceInputsOptions = new GetWorkspaceInputsOptions.Builder()
-      .wId("testString")
-      .tId("testString")
+      .wId(ws.getId())
+      .tId(ws.getTemplateData().get(0).getId())
       .build();
 
       // Invoke operation
@@ -857,26 +990,30 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testReplaceWorkspaceInputs() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       WorkspaceVariableRequest workspaceVariableRequestModel = new WorkspaceVariableRequest.Builder()
       .description("testString")
       .name("testString")
       .secure(true)
-      .type("testString")
+      .type("string")
       .useDefault(true)
       .value("testString")
       .build();
 
       ReplaceWorkspaceInputsOptions replaceWorkspaceInputsOptions = new ReplaceWorkspaceInputsOptions.Builder()
-      .wId("testString")
-      .tId("testString")
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
-      .values("testString")
+      .wId(ws.getId())
+      .tId(ws.getTemplateData().get(0).getId())
       .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
       .build();
 
@@ -892,14 +1029,20 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetAllWorkspaceInputs() throws Exception {
+    
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       GetAllWorkspaceInputsOptions getAllWorkspaceInputsOptions = new GetAllWorkspaceInputsOptions.Builder()
-      .wId("testString")
+      .wId(ws.getId())
       .build();
 
       // Invoke operation
@@ -914,15 +1057,21 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetWorkspaceInputMetadata() throws Exception {
+
+    WorkspaceResponse ws = uploadTarFile();
+    waitForWorkspaceStatus(ws.getId(), "INACTIVE");
+
     try {
       GetWorkspaceInputMetadataOptions getWorkspaceInputMetadataOptions = new GetWorkspaceInputMetadataOptions.Builder()
-      .wId("testString")
-      .tId("testString")
+      .wId(ws.getId())
+      .tId(ws.getTemplateData().get(0).getId())
       .build();
 
       // Invoke operation
@@ -937,14 +1086,19 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(ws.getId());
     }
   }
 
   @Test
   public void testGetWorkspaceOutputs() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceOutputsOptions getWorkspaceOutputsOptions = new GetWorkspaceOutputsOptions.Builder()
-      .wId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
       .build();
 
       // Invoke operation
@@ -959,14 +1113,19 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetWorkspaceResources() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceResourcesOptions getWorkspaceResourcesOptions = new GetWorkspaceResourcesOptions.Builder()
-      .wId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
       .build();
 
       // Invoke operation
@@ -981,14 +1140,19 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetWorkspaceState() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceStateOptions getWorkspaceStateOptions = new GetWorkspaceStateOptions.Builder()
-      .wId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
       .build();
 
       // Invoke operation
@@ -1003,15 +1167,20 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetWorkspaceTemplateState() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceTemplateStateOptions getWorkspaceTemplateStateOptions = new GetWorkspaceTemplateStateOptions.Builder()
-      .wId("testString")
-      .tId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
+      .tId(((WorkspaceResponse)res[0]).getTemplateData().get(0).getId())
       .build();
 
       // Invoke operation
@@ -1026,15 +1195,20 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetWorkspaceActivityLogs() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceActivityLogsOptions getWorkspaceActivityLogsOptions = new GetWorkspaceActivityLogsOptions.Builder()
-      .wId("testString")
-      .activityId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
+      .activityId((String)res[1])
       .build();
 
       // Invoke operation
@@ -1049,14 +1223,19 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetWorkspaceLogUrls() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetWorkspaceLogUrlsOptions getWorkspaceLogUrlsOptions = new GetWorkspaceLogUrlsOptions.Builder()
-      .wId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
       .build();
 
       // Invoke operation
@@ -1071,15 +1250,20 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetTemplateLogs() throws Exception {
+
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetTemplateLogsOptions getTemplateLogsOptions = new GetTemplateLogsOptions.Builder()
-      .wId("testString")
-      .tId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
+      .tId(((WorkspaceResponse)res[0]).getTemplateData().get(0).getId())
       .logTfCmd(true)
       .logTfPrefix(true)
       .logTfNullResource(true)
@@ -1098,16 +1282,21 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 
   @Test
   public void testGetTemplateActivityLog() throws Exception {
+    
+    Object res[] = applyWorkspaceAction();
+
     try {
       GetTemplateActivityLogOptions getTemplateActivityLogOptions = new GetTemplateActivityLogOptions.Builder()
-      .wId("testString")
-      .tId("testString")
-      .activityId("testString")
+      .wId(((WorkspaceResponse)res[0]).getId())
+      .tId(((WorkspaceResponse)res[0]).getTemplateData().get(0).getId())
+      .activityId((String)res[1])
       .logTfCmd(true)
       .logTfPrefix(true)
       .logTfNullResource(true)
@@ -1126,1002 +1315,8 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testCreateWorkspaceDeletionJob() throws Exception {
-    try {
-      CreateWorkspaceDeletionJobOptions createWorkspaceDeletionJobOptions = new CreateWorkspaceDeletionJobOptions.Builder()
-      .refreshToken("testString")
-      .newDeleteWorkspaces(true)
-      .newDestroyResources(true)
-      .newJob("testString")
-      .newVersion("testString")
-      .newWorkspaces(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .destroyResources("testString")
-      .build();
-
-      // Invoke operation
-      Response<WorkspaceBulkDeleteResponse> response = service.createWorkspaceDeletionJob(createWorkspaceDeletionJobOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      WorkspaceBulkDeleteResponse workspaceBulkDeleteResponseResult = response.getResult();
-
-      assertNotNull(workspaceBulkDeleteResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetWorkspaceDeletionJobStatus() throws Exception {
-    try {
-      GetWorkspaceDeletionJobStatusOptions getWorkspaceDeletionJobStatusOptions = new GetWorkspaceDeletionJobStatusOptions.Builder()
-      .wjId("testString")
-      .build();
-
-      // Invoke operation
-      Response<WorkspaceJobResponse> response = service.getWorkspaceDeletionJobStatus(getWorkspaceDeletionJobStatusOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      WorkspaceJobResponse workspaceJobResponseResult = response.getResult();
-
-      assertNotNull(workspaceJobResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testCreateAction() throws Exception {
-    try {
-      UserState userStateModel = new UserState.Builder()
-      .state("draft")
-      .setBy("testString")
-      .setAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
-      .gitRepoUrl("testString")
-      .gitToken("testString")
-      .gitRepoFolder("testString")
-      .gitRelease("testString")
-      .gitBranch("testString")
-      .build();
-
-      ExternalSource externalSourceModel = new ExternalSource.Builder()
-      .sourceType("local")
-      .git(externalSourceGitModel)
-      .build();
-
-      SystemLock systemLockModel = new SystemLock.Builder()
-      .sysLocked(true)
-      .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      TargetResourceset targetResourcesetModel = new TargetResourceset.Builder()
-      .name("testString")
-      .type("testString")
-      .description("testString")
-      .resourceQuery("testString")
-      .credentialRef("testString")
-      .sysLock(systemLockModel)
-      .build();
-
-      VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
-      .type("boolean")
-      .aliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .description("testString")
-      .defaultValue("testString")
-      .secure(true)
-      .immutable(true)
-      .hidden(true)
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .minValue(Long.valueOf("26"))
-      .maxValue(Long.valueOf("26"))
-      .minLength(Long.valueOf("26"))
-      .maxLength(Long.valueOf("26"))
-      .matches("testString")
-      .position(Long.valueOf("26"))
-      .groupBy("testString")
-      .source("testString")
-      .build();
-
-      VariableData variableDataModel = new VariableData.Builder()
-      .name("testString")
-      .value("testString")
-      .metadata(variableMetadataModel)
-      .build();
-
-      ActionState actionStateModel = new ActionState.Builder()
-      .statusCode("normal")
-      .statusJobId("testString")
-      .statusMessage("testString")
-      .build();
-
-      CreateActionOptions createActionOptions = new CreateActionOptions.Builder()
-      .name("Stop Action")
-      .description("This Action can be used to Stop the targets")
-      .location("us_south")
-      .resourceGroup("testString")
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .userState(userStateModel)
-      .sourceReadmeUrl("testString")
-      .source(externalSourceModel)
-      .sourceType("local")
-      .commandParameter("testString")
-      .bastion(targetResourcesetModel)
-      .targetsIni("testString")
-      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .triggerRecordId("testString")
-      .state(actionStateModel)
-      .sysLock(systemLockModel)
-      .xGithubToken("testString")
-      .build();
-
-      // Invoke operation
-      Response<Action> response = service.createAction(createActionOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 201);
-
-      Action actionResult = response.getResult();
-
-      assertNotNull(actionResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testListActions() throws Exception {
-    try {
-      ListActionsOptions listActionsOptions = new ListActionsOptions.Builder()
-      .offset(Long.valueOf("0"))
-      .limit(Long.valueOf("1"))
-      .sort("testString")
-      .profile("ids")
-      .build();
-
-      // Invoke operation
-      Response<ActionList> response = service.listActions(listActionsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      ActionList actionListResult = response.getResult();
-
-      assertNotNull(actionListResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetAction() throws Exception {
-    try {
-      GetActionOptions getActionOptions = new GetActionOptions.Builder()
-      .actionId("testString")
-      .profile("summary")
-      .build();
-
-      // Invoke operation
-      Response<Action> response = service.getAction(getActionOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      Action actionResult = response.getResult();
-
-      assertNotNull(actionResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testUpdateAction() throws Exception {
-    try {
-      UserState userStateModel = new UserState.Builder()
-      .state("draft")
-      .setBy("testString")
-      .setAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
-      .gitRepoUrl("testString")
-      .gitToken("testString")
-      .gitRepoFolder("testString")
-      .gitRelease("testString")
-      .gitBranch("testString")
-      .build();
-
-      ExternalSource externalSourceModel = new ExternalSource.Builder()
-      .sourceType("local")
-      .git(externalSourceGitModel)
-      .build();
-
-      SystemLock systemLockModel = new SystemLock.Builder()
-      .sysLocked(true)
-      .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      TargetResourceset targetResourcesetModel = new TargetResourceset.Builder()
-      .name("testString")
-      .type("testString")
-      .description("testString")
-      .resourceQuery("testString")
-      .credentialRef("testString")
-      .sysLock(systemLockModel)
-      .build();
-
-      VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
-      .type("boolean")
-      .aliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .description("testString")
-      .defaultValue("testString")
-      .secure(true)
-      .immutable(true)
-      .hidden(true)
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .minValue(Long.valueOf("26"))
-      .maxValue(Long.valueOf("26"))
-      .minLength(Long.valueOf("26"))
-      .maxLength(Long.valueOf("26"))
-      .matches("testString")
-      .position(Long.valueOf("26"))
-      .groupBy("testString")
-      .source("testString")
-      .build();
-
-      VariableData variableDataModel = new VariableData.Builder()
-      .name("testString")
-      .value("testString")
-      .metadata(variableMetadataModel)
-      .build();
-
-      ActionState actionStateModel = new ActionState.Builder()
-      .statusCode("normal")
-      .statusJobId("testString")
-      .statusMessage("testString")
-      .build();
-
-      UpdateActionOptions updateActionOptions = new UpdateActionOptions.Builder()
-      .actionId("testString")
-      .name("Stop Action")
-      .description("This Action can be used to Stop the targets")
-      .location("us_south")
-      .resourceGroup("testString")
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .userState(userStateModel)
-      .sourceReadmeUrl("testString")
-      .source(externalSourceModel)
-      .sourceType("local")
-      .commandParameter("testString")
-      .bastion(targetResourcesetModel)
-      .targetsIni("testString")
-      .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .triggerRecordId("testString")
-      .state(actionStateModel)
-      .sysLock(systemLockModel)
-      .xGithubToken("testString")
-      .build();
-
-      // Invoke operation
-      Response<Action> response = service.updateAction(updateActionOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      Action actionResult = response.getResult();
-
-      assertNotNull(actionResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testCreateJob() throws Exception {
-    try {
-      VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
-      .type("boolean")
-      .aliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .description("testString")
-      .defaultValue("testString")
-      .secure(true)
-      .immutable(true)
-      .hidden(true)
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .minValue(Long.valueOf("26"))
-      .maxValue(Long.valueOf("26"))
-      .minLength(Long.valueOf("26"))
-      .maxLength(Long.valueOf("26"))
-      .matches("testString")
-      .position(Long.valueOf("26"))
-      .groupBy("testString")
-      .source("testString")
-      .build();
-
-      VariableData variableDataModel = new VariableData.Builder()
-      .name("testString")
-      .value("testString")
-      .metadata(variableMetadataModel)
-      .build();
-
-      JobStatusAction jobStatusActionModel = new JobStatusAction.Builder()
-      .actionName("testString")
-      .statusCode("job_pending")
-      .statusMessage("testString")
-      .bastionStatusCode("none")
-      .bastionStatusMessage("testString")
-      .targetsStatusCode("none")
-      .targetsStatusMessage("testString")
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      JobStatus jobStatusModel = new JobStatus.Builder()
-      .actionJobStatus(jobStatusActionModel)
-      .build();
-
-      JobDataAction jobDataActionModel = new JobDataAction.Builder()
-      .actionName("testString")
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      JobData jobDataModel = new JobData.Builder()
-      .jobType("repo_download_job")
-      .actionJobData(jobDataActionModel)
-      .build();
-
-      SystemLock systemLockModel = new SystemLock.Builder()
-      .sysLocked(true)
-      .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      TargetResourceset targetResourcesetModel = new TargetResourceset.Builder()
-      .name("testString")
-      .type("testString")
-      .description("testString")
-      .resourceQuery("testString")
-      .credentialRef("testString")
-      .sysLock(systemLockModel)
-      .build();
-
-      JobLogSummaryRepoDownloadJob jobLogSummaryRepoDownloadJobModel = new JobLogSummaryRepoDownloadJob.Builder()
-      .build();
-
-      JobLogSummaryActionJobRecap jobLogSummaryActionJobRecapModel = new JobLogSummaryActionJobRecap.Builder()
-      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .ok(Double.valueOf("72.5"))
-      .changed(Double.valueOf("72.5"))
-      .failed(Double.valueOf("72.5"))
-      .skipped(Double.valueOf("72.5"))
-      .unreachable(Double.valueOf("72.5"))
-      .build();
-
-      JobLogSummaryActionJob jobLogSummaryActionJobModel = new JobLogSummaryActionJob.Builder()
-      .recap(jobLogSummaryActionJobRecapModel)
-      .build();
-
-      JobLogSummary jobLogSummaryModel = new JobLogSummary.Builder()
-      .jobType("repo_download_job")
-      .repoDownloadJob(jobLogSummaryRepoDownloadJobModel)
-      .actionJob(jobLogSummaryActionJobModel)
-      .build();
-
-      CreateJobOptions createJobOptions = new CreateJobOptions.Builder()
-      .refreshToken("testString")
-      .commandObject("workspace")
-      .commandObjectId("testString")
-      .commandName("workspace_init_flow")
-      .commandParameter("testString")
-      .commandOptions(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .location("us_south")
-      .status(jobStatusModel)
-      .data(jobDataModel)
-      .bastion(targetResourcesetModel)
-      .logSummary(jobLogSummaryModel)
-      .build();
-
-      // Invoke operation
-      Response<Job> response = service.createJob(createJobOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 202);
-
-      Job jobResult = response.getResult();
-
-      assertNotNull(jobResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testListJobs() throws Exception {
-    try {
-      ListJobsOptions listJobsOptions = new ListJobsOptions.Builder()
-      .offset(Long.valueOf("0"))
-      .limit(Long.valueOf("1"))
-      .sort("testString")
-      .profile("ids")
-      .resource("workspaces")
-      .actionId("testString")
-      .list("all")
-      .build();
-
-      // Invoke operation
-      Response<JobList> response = service.listJobs(listJobsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      JobList jobListResult = response.getResult();
-
-      assertNotNull(jobListResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testReplaceJob() throws Exception {
-    try {
-      VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
-      .type("boolean")
-      .aliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .description("testString")
-      .defaultValue("testString")
-      .secure(true)
-      .immutable(true)
-      .hidden(true)
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .minValue(Long.valueOf("26"))
-      .maxValue(Long.valueOf("26"))
-      .minLength(Long.valueOf("26"))
-      .maxLength(Long.valueOf("26"))
-      .matches("testString")
-      .position(Long.valueOf("26"))
-      .groupBy("testString")
-      .source("testString")
-      .build();
-
-      VariableData variableDataModel = new VariableData.Builder()
-      .name("testString")
-      .value("testString")
-      .metadata(variableMetadataModel)
-      .build();
-
-      JobStatusAction jobStatusActionModel = new JobStatusAction.Builder()
-      .actionName("testString")
-      .statusCode("job_pending")
-      .statusMessage("testString")
-      .bastionStatusCode("none")
-      .bastionStatusMessage("testString")
-      .targetsStatusCode("none")
-      .targetsStatusMessage("testString")
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      JobStatus jobStatusModel = new JobStatus.Builder()
-      .actionJobStatus(jobStatusActionModel)
-      .build();
-
-      JobDataAction jobDataActionModel = new JobDataAction.Builder()
-      .actionName("testString")
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      JobData jobDataModel = new JobData.Builder()
-      .jobType("repo_download_job")
-      .actionJobData(jobDataActionModel)
-      .build();
-
-      SystemLock systemLockModel = new SystemLock.Builder()
-      .sysLocked(true)
-      .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-
-      TargetResourceset targetResourcesetModel = new TargetResourceset.Builder()
-      .name("testString")
-      .type("testString")
-      .description("testString")
-      .resourceQuery("testString")
-      .credentialRef("testString")
-      .sysLock(systemLockModel)
-      .build();
-
-      JobLogSummaryRepoDownloadJob jobLogSummaryRepoDownloadJobModel = new JobLogSummaryRepoDownloadJob.Builder()
-      .build();
-
-      JobLogSummaryActionJobRecap jobLogSummaryActionJobRecapModel = new JobLogSummaryActionJobRecap.Builder()
-      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .ok(Double.valueOf("72.5"))
-      .changed(Double.valueOf("72.5"))
-      .failed(Double.valueOf("72.5"))
-      .skipped(Double.valueOf("72.5"))
-      .unreachable(Double.valueOf("72.5"))
-      .build();
-
-      JobLogSummaryActionJob jobLogSummaryActionJobModel = new JobLogSummaryActionJob.Builder()
-      .recap(jobLogSummaryActionJobRecapModel)
-      .build();
-
-      JobLogSummary jobLogSummaryModel = new JobLogSummary.Builder()
-      .jobType("repo_download_job")
-      .repoDownloadJob(jobLogSummaryRepoDownloadJobModel)
-      .actionJob(jobLogSummaryActionJobModel)
-      .build();
-
-      ReplaceJobOptions replaceJobOptions = new ReplaceJobOptions.Builder()
-      .jobId("testString")
-      .refreshToken("testString")
-      .commandObject("workspace")
-      .commandObjectId("testString")
-      .commandName("workspace_init_flow")
-      .commandParameter("testString")
-      .commandOptions(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .location("us_south")
-      .status(jobStatusModel)
-      .data(jobDataModel)
-      .bastion(targetResourcesetModel)
-      .logSummary(jobLogSummaryModel)
-      .build();
-
-      // Invoke operation
-      Response<Job> response = service.replaceJob(replaceJobOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 202);
-
-      Job jobResult = response.getResult();
-
-      assertNotNull(jobResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetJob() throws Exception {
-    try {
-      GetJobOptions getJobOptions = new GetJobOptions.Builder()
-      .jobId("testString")
-      .profile("summary")
-      .build();
-
-      // Invoke operation
-      Response<Job> response = service.getJob(getJobOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      Job jobResult = response.getResult();
-
-      assertNotNull(jobResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testListJobLogs() throws Exception {
-    try {
-      ListJobLogsOptions listJobLogsOptions = new ListJobLogsOptions.Builder()
-      .jobId("testString")
-      .build();
-
-      // Invoke operation
-      Response<JobLog> response = service.listJobLogs(listJobLogsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 202);
-
-      JobLog jobLogResult = response.getResult();
-
-      assertNotNull(jobLogResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testListJobStates() throws Exception {
-    try {
-      ListJobStatesOptions listJobStatesOptions = new ListJobStatesOptions.Builder()
-      .jobId("testString")
-      .build();
-
-      // Invoke operation
-      Response<JobStateData> response = service.listJobStates(listJobStatesOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 202);
-
-      JobStateData jobStateDataResult = response.getResult();
-
-      assertNotNull(jobStateDataResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testListSharedDatasets() throws Exception {
-    try {
-      ListSharedDatasetsOptions listSharedDatasetsOptions = new ListSharedDatasetsOptions();
-
-      // Invoke operation
-      Response<SharedDatasetResponseList> response = service.listSharedDatasets(listSharedDatasetsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      SharedDatasetResponseList sharedDatasetResponseListResult = response.getResult();
-
-      assertNotNull(sharedDatasetResponseListResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testCreateSharedDataset() throws Exception {
-    try {
-      SharedDatasetData sharedDatasetDataModel = new SharedDatasetData.Builder()
-      .defaultValue("testString")
-      .description("testString")
-      .hidden(true)
-      .immutable(true)
-      .matches("testString")
-      .maxValue("testString")
-      .maxValueLen("testString")
-      .minValue("testString")
-      .minValueLen("testString")
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .overrideValue("testString")
-      .secure(true)
-      .varAliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .varName("testString")
-      .varRef("testString")
-      .varType("testString")
-      .build();
-
-      CreateSharedDatasetOptions createSharedDatasetOptions = new CreateSharedDatasetOptions.Builder()
-      .autoPropagateChange(true)
-      .description("testString")
-      .effectedWorkspaceIds(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .resourceGroup("testString")
-      .sharedDatasetData(new java.util.ArrayList<SharedDatasetData>(java.util.Arrays.asList(sharedDatasetDataModel)))
-      .sharedDatasetName("testString")
-      .sharedDatasetSourceName("testString")
-      .sharedDatasetType(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .version("testString")
-      .build();
-
-      // Invoke operation
-      Response<SharedDatasetResponse> response = service.createSharedDataset(createSharedDatasetOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 201);
-
-      SharedDatasetResponse sharedDatasetResponseResult = response.getResult();
-
-      assertNotNull(sharedDatasetResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetSharedDataset() throws Exception {
-    try {
-      GetSharedDatasetOptions getSharedDatasetOptions = new GetSharedDatasetOptions.Builder()
-      .sdId("testString")
-      .build();
-
-      // Invoke operation
-      Response<SharedDatasetResponse> response = service.getSharedDataset(getSharedDatasetOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      SharedDatasetResponse sharedDatasetResponseResult = response.getResult();
-
-      assertNotNull(sharedDatasetResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testReplaceSharedDataset() throws Exception {
-    try {
-      SharedDatasetData sharedDatasetDataModel = new SharedDatasetData.Builder()
-      .defaultValue("testString")
-      .description("testString")
-      .hidden(true)
-      .immutable(true)
-      .matches("testString")
-      .maxValue("testString")
-      .maxValueLen("testString")
-      .minValue("testString")
-      .minValueLen("testString")
-      .options(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .overrideValue("testString")
-      .secure(true)
-      .varAliases(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .varName("testString")
-      .varRef("testString")
-      .varType("testString")
-      .build();
-
-      ReplaceSharedDatasetOptions replaceSharedDatasetOptions = new ReplaceSharedDatasetOptions.Builder()
-      .sdId("testString")
-      .autoPropagateChange(true)
-      .description("testString")
-      .effectedWorkspaceIds(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .resourceGroup("testString")
-      .sharedDatasetData(new java.util.ArrayList<SharedDatasetData>(java.util.Arrays.asList(sharedDatasetDataModel)))
-      .sharedDatasetName("testString")
-      .sharedDatasetSourceName("testString")
-      .sharedDatasetType(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .version("testString")
-      .build();
-
-      // Invoke operation
-      Response<SharedDatasetResponse> response = service.replaceSharedDataset(replaceSharedDatasetOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      SharedDatasetResponse sharedDatasetResponseResult = response.getResult();
-
-      assertNotNull(sharedDatasetResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetKmsSettings() throws Exception {
-    try {
-      GetKmsSettingsOptions getKmsSettingsOptions = new GetKmsSettingsOptions.Builder()
-      .location("testString")
-      .build();
-
-      // Invoke operation
-      Response<KMSSettings> response = service.getKmsSettings(getKmsSettingsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      KMSSettings kmsSettingsResult = response.getResult();
-
-      assertNotNull(kmsSettingsResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testReplaceKmsSettings() throws Exception {
-    try {
-      KMSSettingsPrimaryCrk kmsSettingsPrimaryCrkModel = new KMSSettingsPrimaryCrk.Builder()
-      .kmsName("testString")
-      .kmsPrivateEndpoint("testString")
-      .keyCrn("testString")
-      .build();
-
-      KMSSettingsSecondaryCrk kmsSettingsSecondaryCrkModel = new KMSSettingsSecondaryCrk.Builder()
-      .kmsName("testString")
-      .kmsPrivateEndpoint("testString")
-      .keyCrn("testString")
-      .build();
-
-      ReplaceKmsSettingsOptions replaceKmsSettingsOptions = new ReplaceKmsSettingsOptions.Builder()
-      .location("testString")
-      .encryptionScheme("testString")
-      .resourceGroup("testString")
-      .primaryCrk(kmsSettingsPrimaryCrkModel)
-      .secondaryCrk(kmsSettingsSecondaryCrkModel)
-      .build();
-
-      // Invoke operation
-      Response<KMSSettings> response = service.replaceKmsSettings(replaceKmsSettingsOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      KMSSettings kmsSettingsResult = response.getResult();
-
-      assertNotNull(kmsSettingsResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testGetDiscoveredKmsInstances() throws Exception {
-    try {
-      GetDiscoveredKmsInstancesOptions getDiscoveredKmsInstancesOptions = new GetDiscoveredKmsInstancesOptions.Builder()
-      .encryptionScheme("testString")
-      .location("testString")
-      .resourceGroup("testString")
-      .limit(Long.valueOf("1"))
-      .sort("testString")
-      .build();
-
-      // Invoke operation
-      Response<KMSDiscovery> response = service.getDiscoveredKmsInstances(getDiscoveredKmsInstancesOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      KMSDiscovery kmsDiscoveryResult = response.getResult();
-
-      assertNotNull(kmsDiscoveryResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testDeleteWorkspaceActivity() throws Exception {
-    try {
-      DeleteWorkspaceActivityOptions deleteWorkspaceActivityOptions = new DeleteWorkspaceActivityOptions.Builder()
-      .wId("testString")
-      .activityId("testString")
-      .build();
-
-      // Invoke operation
-      Response<WorkspaceActivityApplyResult> response = service.deleteWorkspaceActivity(deleteWorkspaceActivityOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 202);
-
-      WorkspaceActivityApplyResult workspaceActivityApplyResultResult = response.getResult();
-
-      assertNotNull(workspaceActivityApplyResultResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testDeleteWorkspace() throws Exception {
-    try {
-      DeleteWorkspaceOptions deleteWorkspaceOptions = new DeleteWorkspaceOptions.Builder()
-      .wId("testString")
-      .refreshToken("testString")
-      .destroyResources("testString")
-      .build();
-
-      // Invoke operation
-      Response<String> response = service.deleteWorkspace(deleteWorkspaceOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      String resultResult = response.getResult();
-
-      assertNotNull(resultResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testDeleteSharedDataset() throws Exception {
-    try {
-      DeleteSharedDatasetOptions deleteSharedDatasetOptions = new DeleteSharedDatasetOptions.Builder()
-      .sdId("testString")
-      .build();
-
-      // Invoke operation
-      Response<SharedDatasetResponse> response = service.deleteSharedDataset(deleteSharedDatasetOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 200);
-
-      SharedDatasetResponse sharedDatasetResponseResult = response.getResult();
-
-      assertNotNull(sharedDatasetResponseResult);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testDeleteJob() throws Exception {
-    try {
-      DeleteJobOptions deleteJobOptions = new DeleteJobOptions.Builder()
-      .jobId("testString")
-      .refreshToken("testString")
-      .force(true)
-      .propagate(true)
-      .build();
-
-      // Invoke operation
-      Response<Void> response = service.deleteJob(deleteJobOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 204);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-    }
-  }
-
-  @Test
-  public void testDeleteAction() throws Exception {
-    try {
-      DeleteActionOptions deleteActionOptions = new DeleteActionOptions.Builder()
-      .actionId("testString")
-      .force(true)
-      .propagate(true)
-      .build();
-
-      // Invoke operation
-      Response<Void> response = service.deleteAction(deleteActionOptions).execute();
-      // Validate response
-      assertNotNull(response);
-      assertEquals(response.getStatusCode(), 204);
-    } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
-          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    } finally {
+      deleteWorkspaceByID(((WorkspaceResponse)res[0]).getId());
     }
   }
 

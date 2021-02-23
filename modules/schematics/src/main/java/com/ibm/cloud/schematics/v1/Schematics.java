@@ -17,6 +17,11 @@
 
 package com.ibm.cloud.schematics.v1;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.google.gson.JsonObject;
 import com.ibm.cloud.schematics.common.SdkCommon;
 import com.ibm.cloud.schematics.v1.model.Action;
@@ -115,10 +120,7 @@ import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.RequestUtils;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+
 import okhttp3.MultipartBody;
 
 /**

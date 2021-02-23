@@ -291,7 +291,7 @@ public class SchematicsTest extends PowerMockTestCase {
   @Test
   public void testGetSchematicsVersionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"builddate\": \"builddate\", \"buildno\": \"buildno\", \"commitsha\": \"commitsha\", \"helm_provider_version\": \"helmProviderVersion\", \"helm_version\": \"helmVersion\", \"supported_template_types\": {\"mapKey\": \"anyValue\"}, \"terraform_provider_version\": \"terraformProviderVersion\", \"terraform_version\": \"terraformVersion\"}";
+    String mockResponseBody = "{\"builddate\": \"builddate\", \"buildno\": \"buildno\", \"commitsha\": \"commitsha\", \"helm_provider_version\": \"helmProviderVersion\", \"helm_version\": \"helmVersion\", \"supported_template_types\": [\"anyValue\"], \"terraform_provider_version\": \"terraformProviderVersion\", \"terraform_version\": \"terraformVersion\"}";
     String getSchematicsVersionPath = "/v1/version";
 
     server.enqueue(new MockResponse()

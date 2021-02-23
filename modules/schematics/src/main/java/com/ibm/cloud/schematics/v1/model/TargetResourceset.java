@@ -12,7 +12,6 @@
  */
 package com.ibm.cloud.schematics.v1.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
