@@ -116,12 +116,12 @@
 
             <!-- Each module (except "common") should depend on this artifact -->
             <dependency>
-                <artifactId>schematics-parent-common</artifactId>
+                <artifactId>schematics-common</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <artifactId>schematics-parent-common</artifactId>
+                <artifactId>schematics-common</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
                 <type>test-jar</type>

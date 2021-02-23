@@ -10,7 +10,7 @@
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>schematics-parent-common</artifactId>
+    <artifactId>schematics-common</artifactId>
 
     <name>Schematics Common Library</name>
     <packaging>jar</packaging>

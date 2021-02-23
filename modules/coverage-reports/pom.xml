@@ -22,7 +22,7 @@
             pom.xml file (i.e. not the module's directory name).
         -->
         <dependency>
-            <artifactId>schematics-parent-common</artifactId>
+            <artifactId>schematics-common</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>
