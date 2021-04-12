@@ -13,7 +13,9 @@
 
 package com.ibm.cloud.schematics.v1.model;
 
-import com.ibm.cloud.schematics.v1.model.ListJobStatesOptions;
+import com.ibm.cloud.schematics.v1.model.ResourceQueryParam;
+import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordResponseItem;
+import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordResponseItemQueryOutputItem;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -23,23 +25,18 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the ListJobStatesOptions model.
+ * Unit test class for the ResourceQueryResponseRecordResponseItem model.
  */
-public class ListJobStatesOptionsTest {
+public class ResourceQueryResponseRecordResponseItemTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testListJobStatesOptions() throws Throwable {
-    ListJobStatesOptions listJobStatesOptionsModel = new ListJobStatesOptions.Builder()
-      .jobId("testString")
-      .build();
-    assertEquals(listJobStatesOptionsModel.jobId(), "testString");
+  public void testResourceQueryResponseRecordResponseItem() throws Throwable {
+    ResourceQueryResponseRecordResponseItem resourceQueryResponseRecordResponseItemModel = new ResourceQueryResponseRecordResponseItem();
+    assertNull(resourceQueryResponseRecordResponseItemModel.getQueryType());
+    assertNull(resourceQueryResponseRecordResponseItemModel.getQueryCondition());
+    assertNull(resourceQueryResponseRecordResponseItemModel.getQuerySelect());
+    assertNull(resourceQueryResponseRecordResponseItemModel.getQueryOutput());
   }
-
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListJobStatesOptionsError() throws Throwable {
-    new ListJobStatesOptions.Builder().build();
-  }
-
 }

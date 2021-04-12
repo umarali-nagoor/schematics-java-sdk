@@ -15,9 +15,14 @@ package com.ibm.cloud.schematics.v1.model;
 
 import com.ibm.cloud.schematics.v1.model.JobStatus;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
+import com.ibm.cloud.schematics.v1.model.JobStatusSchematicsResources;
+import com.ibm.cloud.schematics.v1.model.JobStatusSystem;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -38,28 +43,53 @@ public class JobStatusTest {
       .statusMessage("testString")
       .bastionStatusCode("none")
       .bastionStatusMessage("testString")
-      .targetsStatusCode("none")
-      .targetsStatusMessage("testString")
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .inventoryStatusCode("none")
+      .inventoryStatusMessage("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
       .build();
     assertEquals(jobStatusActionModel.actionName(), "testString");
     assertEquals(jobStatusActionModel.statusCode(), "job_pending");
     assertEquals(jobStatusActionModel.statusMessage(), "testString");
     assertEquals(jobStatusActionModel.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModel.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.targetsStatusCode(), "none");
-    assertEquals(jobStatusActionModel.targetsStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobStatusActionModel.inventoryStatusCode(), "none");
+    assertEquals(jobStatusActionModel.inventoryStatusMessage(), "testString");
+    assertEquals(jobStatusActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+
+    JobStatusSchematicsResources jobStatusSchematicsResourcesModel = new JobStatusSchematicsResources.Builder()
+      .statusCode("job_pending")
+      .statusMessage("testString")
+      .schematicsResourceId("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobStatusSchematicsResourcesModel.statusCode(), "job_pending");
+    assertEquals(jobStatusSchematicsResourcesModel.statusMessage(), "testString");
+    assertEquals(jobStatusSchematicsResourcesModel.schematicsResourceId(), "testString");
+    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+
+    JobStatusSystem jobStatusSystemModel = new JobStatusSystem.Builder()
+      .systemStatusMessage("testString")
+      .systemStatusCode("job_pending")
+      .schematicsResourceStatus(new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobStatusSystemModel.systemStatusMessage(), "testString");
+    assertEquals(jobStatusSystemModel.systemStatusCode(), "job_pending");
+    assertEquals(jobStatusSystemModel.schematicsResourceStatus(), new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)));
+    assertEquals(jobStatusSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     JobStatus jobStatusModel = new JobStatus.Builder()
       .actionJobStatus(jobStatusActionModel)
+      .systemJobStatus(jobStatusSystemModel)
       .build();
     assertEquals(jobStatusModel.actionJobStatus(), jobStatusActionModel);
+    assertEquals(jobStatusModel.systemJobStatus(), jobStatusSystemModel);
 
     String json = TestUtilities.serialize(jobStatusModel);
 
     JobStatus jobStatusModelNew = TestUtilities.deserialize(json, JobStatus.class);
     assertTrue(jobStatusModelNew instanceof JobStatus);
     assertEquals(jobStatusModelNew.actionJobStatus().toString(), jobStatusActionModel.toString());
+    assertEquals(jobStatusModelNew.systemJobStatus().toString(), jobStatusSystemModel.toString());
   }
 }

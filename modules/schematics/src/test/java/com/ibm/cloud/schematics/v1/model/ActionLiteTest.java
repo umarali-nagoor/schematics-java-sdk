@@ -19,6 +19,7 @@ import com.ibm.cloud.schematics.v1.model.SystemLock;
 import com.ibm.cloud.schematics.v1.model.UserState;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;

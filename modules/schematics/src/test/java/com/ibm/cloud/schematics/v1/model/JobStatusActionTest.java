@@ -16,6 +16,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -37,18 +38,18 @@ public class JobStatusActionTest {
       .statusMessage("testString")
       .bastionStatusCode("none")
       .bastionStatusMessage("testString")
-      .targetsStatusCode("none")
-      .targetsStatusMessage("testString")
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .inventoryStatusCode("none")
+      .inventoryStatusMessage("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
       .build();
     assertEquals(jobStatusActionModel.actionName(), "testString");
     assertEquals(jobStatusActionModel.statusCode(), "job_pending");
     assertEquals(jobStatusActionModel.statusMessage(), "testString");
     assertEquals(jobStatusActionModel.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModel.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.targetsStatusCode(), "none");
-    assertEquals(jobStatusActionModel.targetsStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobStatusActionModel.inventoryStatusCode(), "none");
+    assertEquals(jobStatusActionModel.inventoryStatusMessage(), "testString");
+    assertEquals(jobStatusActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     String json = TestUtilities.serialize(jobStatusActionModel);
 
@@ -59,8 +60,8 @@ public class JobStatusActionTest {
     assertEquals(jobStatusActionModelNew.statusMessage(), "testString");
     assertEquals(jobStatusActionModelNew.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModelNew.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModelNew.targetsStatusCode(), "none");
-    assertEquals(jobStatusActionModelNew.targetsStatusMessage(), "testString");
-    assertEquals(jobStatusActionModelNew.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobStatusActionModelNew.inventoryStatusCode(), "none");
+    assertEquals(jobStatusActionModelNew.inventoryStatusMessage(), "testString");
+    assertEquals(jobStatusActionModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
   }
 }
