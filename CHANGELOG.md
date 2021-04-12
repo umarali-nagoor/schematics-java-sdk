@@ -1,3 +1,10 @@
+# [1.0.0-beta.3](https://github.com/IBM/schematics-java-sdk/compare/1.0.0-beta.2...1.0.0-beta.3) (2021-04-12)
+
+
+### Bug Fixes
+
+* **schematics:** Regenerate SDK with latest OpenAPI spec ([3b90e8a](https://github.com/IBM/schematics-java-sdk/commit/3b90e8a1e0d4684e9a35dc41e10498d71fad6895))
+
 # [1.0.0-beta.2](https://github.com/IBM/schematics-java-sdk/compare/1.0.0-beta.1...1.0.0-beta.2) (2021-02-23)
 
 
