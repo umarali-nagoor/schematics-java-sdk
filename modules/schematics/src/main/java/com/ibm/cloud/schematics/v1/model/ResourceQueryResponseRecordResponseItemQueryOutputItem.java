@@ -15,28 +15,17 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * JobStateDataSummaryItem.
+ * List of query output values.
  */
-public class JobStateDataSummaryItem extends GenericModel {
-
-  /**
-   * State summary feature type.
-   */
-  public interface Type {
-    /** number. */
-    String NUMBER = "number";
-    /** string. */
-    String STRING = "string";
-  }
+public class ResourceQueryResponseRecordResponseItemQueryOutputItem extends GenericModel {
 
   protected String name;
-  protected String type;
   protected String value;
 
   /**
    * Gets the name.
    *
-   * State summary feature name.
+   * Name of the output param.
    *
    * @return the name
    */
@@ -45,20 +34,9 @@ public class JobStateDataSummaryItem extends GenericModel {
   }
 
   /**
-   * Gets the type.
-   *
-   * State summary feature type.
-   *
-   * @return the type
-   */
-  public String getType() {
-    return type;
-  }
-
-  /**
    * Gets the value.
    *
-   * State summary feature value.
+   * value of the output param.
    *
    * @return the value
    */

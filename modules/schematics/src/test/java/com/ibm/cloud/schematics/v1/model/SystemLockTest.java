@@ -16,6 +16,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.schematics.v1.model.SystemLock;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,11 @@ public class SystemLockTest {
     SystemLock systemLockModel = new SystemLock.Builder()
       .sysLocked(true)
       .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .sysLockedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(systemLockModel.sysLocked(), Boolean.valueOf(true));
     assertEquals(systemLockModel.sysLockedBy(), "testString");
-    assertEquals(systemLockModel.sysLockedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(systemLockModel.sysLockedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(systemLockModel);
 
@@ -46,6 +47,6 @@ public class SystemLockTest {
     assertTrue(systemLockModelNew instanceof SystemLock);
     assertEquals(systemLockModelNew.sysLocked(), Boolean.valueOf(true));
     assertEquals(systemLockModelNew.sysLockedBy(), "testString");
-    assertEquals(systemLockModelNew.sysLockedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(systemLockModelNew.sysLockedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

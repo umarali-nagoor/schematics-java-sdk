@@ -13,12 +13,15 @@
 
 package com.ibm.cloud.schematics.v1.model;
 
+import com.ibm.cloud.schematics.v1.model.InventoryResourceRecord;
 import com.ibm.cloud.schematics.v1.model.JobData;
 import com.ibm.cloud.schematics.v1.model.JobDataAction;
+import com.ibm.cloud.schematics.v1.model.JobDataSystem;
 import com.ibm.cloud.schematics.v1.model.VariableData;
 import com.ibm.cloud.schematics.v1.model.VariableMetadata;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,25 +83,55 @@ public class JobDataTest {
     assertEquals(variableDataModel.value(), "testString");
     assertEquals(variableDataModel.metadata(), variableMetadataModel);
 
+    InventoryResourceRecord inventoryResourceRecordModel = new InventoryResourceRecord.Builder()
+      .name("testString")
+      .description("testString")
+      .location("us-south")
+      .resourceGroup("testString")
+      .inventoriesIni("testString")
+      .resourceQueries(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .build();
+    assertEquals(inventoryResourceRecordModel.name(), "testString");
+    assertEquals(inventoryResourceRecordModel.description(), "testString");
+    assertEquals(inventoryResourceRecordModel.location(), "us-south");
+    assertEquals(inventoryResourceRecordModel.resourceGroup(), "testString");
+    assertEquals(inventoryResourceRecordModel.inventoriesIni(), "testString");
+    assertEquals(inventoryResourceRecordModel.resourceQueries(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+
     JobDataAction jobDataActionModel = new JobDataAction.Builder()
       .actionName("testString")
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .inventoryRecord(inventoryResourceRecordModel)
+      .materializedInventory("testString")
       .build();
     assertEquals(jobDataActionModel.actionName(), "testString");
     assertEquals(jobDataActionModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
-    assertEquals(jobDataActionModel.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobDataActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataActionModel.inventoryRecord(), inventoryResourceRecordModel);
+    assertEquals(jobDataActionModel.materializedInventory(), "testString");
+
+    JobDataSystem jobDataSystemModel = new JobDataSystem.Builder()
+      .keyId("testString")
+      .schematicsResourceId(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobDataSystemModel.keyId(), "testString");
+    assertEquals(jobDataSystemModel.schematicsResourceId(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+    assertEquals(jobDataSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     JobData jobDataModel = new JobData.Builder()
       .jobType("repo_download_job")
       .actionJobData(jobDataActionModel)
+      .systemJobData(jobDataSystemModel)
       .build();
     assertEquals(jobDataModel.jobType(), "repo_download_job");
     assertEquals(jobDataModel.actionJobData(), jobDataActionModel);
+    assertEquals(jobDataModel.systemJobData(), jobDataSystemModel);
 
     String json = TestUtilities.serialize(jobDataModel);
 
@@ -106,6 +139,7 @@ public class JobDataTest {
     assertTrue(jobDataModelNew instanceof JobData);
     assertEquals(jobDataModelNew.jobType(), "repo_download_job");
     assertEquals(jobDataModelNew.actionJobData().toString(), jobDataActionModel.toString());
+    assertEquals(jobDataModelNew.systemJobData().toString(), jobDataSystemModel.toString());
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

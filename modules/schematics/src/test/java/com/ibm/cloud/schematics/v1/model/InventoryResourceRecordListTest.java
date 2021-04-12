@@ -13,31 +13,31 @@
 
 package com.ibm.cloud.schematics.v1.model;
 
-import com.ibm.cloud.schematics.v1.model.JobStateData;
-import com.ibm.cloud.schematics.v1.model.JobStateDataSummaryItem;
+import com.ibm.cloud.schematics.v1.model.InventoryResourceRecord;
+import com.ibm.cloud.schematics.v1.model.InventoryResourceRecordList;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the JobStateData model.
+ * Unit test class for the InventoryResourceRecordList model.
  */
-public class JobStateDataTest {
+public class InventoryResourceRecordListTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testJobStateData() throws Throwable {
-    JobStateData jobStateDataModel = new JobStateData();
-    assertNull(jobStateDataModel.getJobId());
-    assertNull(jobStateDataModel.getJobName());
-    assertNull(jobStateDataModel.getSummary());
-    assertNull(jobStateDataModel.getFormat());
-    assertNull(jobStateDataModel.getDetails());
-    assertNull(jobStateDataModel.getUpdatedAt());
+  public void testInventoryResourceRecordList() throws Throwable {
+    InventoryResourceRecordList inventoryResourceRecordListModel = new InventoryResourceRecordList();
+    assertNull(inventoryResourceRecordListModel.getTotalCount());
+    assertNull(inventoryResourceRecordListModel.getLimit());
+    assertNull(inventoryResourceRecordListModel.getOffset());
+    assertNull(inventoryResourceRecordListModel.getInventories());
   }
 }

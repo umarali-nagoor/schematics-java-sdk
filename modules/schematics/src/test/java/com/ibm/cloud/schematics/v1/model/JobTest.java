@@ -13,21 +13,26 @@
 
 package com.ibm.cloud.schematics.v1.model;
 
+import com.ibm.cloud.schematics.v1.model.BastionResourceDefinition;
+import com.ibm.cloud.schematics.v1.model.InventoryResourceRecord;
 import com.ibm.cloud.schematics.v1.model.Job;
 import com.ibm.cloud.schematics.v1.model.JobData;
 import com.ibm.cloud.schematics.v1.model.JobDataAction;
+import com.ibm.cloud.schematics.v1.model.JobDataSystem;
 import com.ibm.cloud.schematics.v1.model.JobLogSummary;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJobRecap;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryRepoDownloadJob;
+import com.ibm.cloud.schematics.v1.model.JobLogSummarySystemJob;
 import com.ibm.cloud.schematics.v1.model.JobStatus;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
-import com.ibm.cloud.schematics.v1.model.SystemLock;
-import com.ibm.cloud.schematics.v1.model.TargetResourceset;
+import com.ibm.cloud.schematics.v1.model.JobStatusSchematicsResources;
+import com.ibm.cloud.schematics.v1.model.JobStatusSystem;
 import com.ibm.cloud.schematics.v1.model.VariableData;
 import com.ibm.cloud.schematics.v1.model.VariableMetadata;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,80 +100,117 @@ public class JobTest {
       .statusMessage("testString")
       .bastionStatusCode("none")
       .bastionStatusMessage("testString")
-      .targetsStatusCode("none")
-      .targetsStatusMessage("testString")
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .inventoryStatusCode("none")
+      .inventoryStatusMessage("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
       .build();
     assertEquals(jobStatusActionModel.actionName(), "testString");
     assertEquals(jobStatusActionModel.statusCode(), "job_pending");
     assertEquals(jobStatusActionModel.statusMessage(), "testString");
     assertEquals(jobStatusActionModel.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModel.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.targetsStatusCode(), "none");
-    assertEquals(jobStatusActionModel.targetsStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobStatusActionModel.inventoryStatusCode(), "none");
+    assertEquals(jobStatusActionModel.inventoryStatusMessage(), "testString");
+    assertEquals(jobStatusActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+
+    JobStatusSchematicsResources jobStatusSchematicsResourcesModel = new JobStatusSchematicsResources.Builder()
+      .statusCode("job_pending")
+      .statusMessage("testString")
+      .schematicsResourceId("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobStatusSchematicsResourcesModel.statusCode(), "job_pending");
+    assertEquals(jobStatusSchematicsResourcesModel.statusMessage(), "testString");
+    assertEquals(jobStatusSchematicsResourcesModel.schematicsResourceId(), "testString");
+    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+
+    JobStatusSystem jobStatusSystemModel = new JobStatusSystem.Builder()
+      .systemStatusMessage("testString")
+      .systemStatusCode("job_pending")
+      .schematicsResourceStatus(new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobStatusSystemModel.systemStatusMessage(), "testString");
+    assertEquals(jobStatusSystemModel.systemStatusCode(), "job_pending");
+    assertEquals(jobStatusSystemModel.schematicsResourceStatus(), new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)));
+    assertEquals(jobStatusSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     JobStatus jobStatusModel = new JobStatus.Builder()
       .actionJobStatus(jobStatusActionModel)
+      .systemJobStatus(jobStatusSystemModel)
       .build();
     assertEquals(jobStatusModel.actionJobStatus(), jobStatusActionModel);
+    assertEquals(jobStatusModel.systemJobStatus(), jobStatusSystemModel);
+
+    InventoryResourceRecord inventoryResourceRecordModel = new InventoryResourceRecord.Builder()
+      .name("testString")
+      .description("testString")
+      .location("us-south")
+      .resourceGroup("testString")
+      .inventoriesIni("testString")
+      .resourceQueries(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .build();
+    assertEquals(inventoryResourceRecordModel.name(), "testString");
+    assertEquals(inventoryResourceRecordModel.description(), "testString");
+    assertEquals(inventoryResourceRecordModel.location(), "us-south");
+    assertEquals(inventoryResourceRecordModel.resourceGroup(), "testString");
+    assertEquals(inventoryResourceRecordModel.inventoriesIni(), "testString");
+    assertEquals(inventoryResourceRecordModel.resourceQueries(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
 
     JobDataAction jobDataActionModel = new JobDataAction.Builder()
       .actionName("testString")
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .updatedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .inventoryRecord(inventoryResourceRecordModel)
+      .materializedInventory("testString")
       .build();
     assertEquals(jobDataActionModel.actionName(), "testString");
     assertEquals(jobDataActionModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
-    assertEquals(jobDataActionModel.updatedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(jobDataActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataActionModel.inventoryRecord(), inventoryResourceRecordModel);
+    assertEquals(jobDataActionModel.materializedInventory(), "testString");
+
+    JobDataSystem jobDataSystemModel = new JobDataSystem.Builder()
+      .keyId("testString")
+      .schematicsResourceId(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .build();
+    assertEquals(jobDataSystemModel.keyId(), "testString");
+    assertEquals(jobDataSystemModel.schematicsResourceId(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+    assertEquals(jobDataSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     JobData jobDataModel = new JobData.Builder()
       .jobType("repo_download_job")
       .actionJobData(jobDataActionModel)
+      .systemJobData(jobDataSystemModel)
       .build();
     assertEquals(jobDataModel.jobType(), "repo_download_job");
     assertEquals(jobDataModel.actionJobData(), jobDataActionModel);
+    assertEquals(jobDataModel.systemJobData(), jobDataSystemModel);
 
-    SystemLock systemLockModel = new SystemLock.Builder()
-      .sysLocked(true)
-      .sysLockedBy("testString")
-      .sysLockedAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
-      .build();
-    assertEquals(systemLockModel.sysLocked(), Boolean.valueOf(true));
-    assertEquals(systemLockModel.sysLockedBy(), "testString");
-    assertEquals(systemLockModel.sysLockedAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
-
-    TargetResourceset targetResourcesetModel = new TargetResourceset.Builder()
+    BastionResourceDefinition bastionResourceDefinitionModel = new BastionResourceDefinition.Builder()
       .name("testString")
-      .type("testString")
-      .description("testString")
-      .resourceQuery("testString")
-      .credentialRef("testString")
-      .sysLock(systemLockModel)
+      .host("testString")
       .build();
-    assertEquals(targetResourcesetModel.name(), "testString");
-    assertEquals(targetResourcesetModel.type(), "testString");
-    assertEquals(targetResourcesetModel.description(), "testString");
-    assertEquals(targetResourcesetModel.resourceQuery(), "testString");
-    assertEquals(targetResourcesetModel.credentialRef(), "testString");
-    assertEquals(targetResourcesetModel.sysLock(), systemLockModel);
+    assertEquals(bastionResourceDefinitionModel.name(), "testString");
+    assertEquals(bastionResourceDefinitionModel.host(), "testString");
 
     JobLogSummaryRepoDownloadJob jobLogSummaryRepoDownloadJobModel = new JobLogSummaryRepoDownloadJob.Builder()
       .build();
 
     JobLogSummaryActionJobRecap jobLogSummaryActionJobRecapModel = new JobLogSummaryActionJobRecap.Builder()
-      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .hosts(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .ok(Double.valueOf("72.5"))
       .changed(Double.valueOf("72.5"))
       .failed(Double.valueOf("72.5"))
       .skipped(Double.valueOf("72.5"))
       .unreachable(Double.valueOf("72.5"))
       .build();
-    assertEquals(jobLogSummaryActionJobRecapModel.target(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+    assertEquals(jobLogSummaryActionJobRecapModel.hosts(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(jobLogSummaryActionJobRecapModel.ok(), Double.valueOf("72.5"));
     assertEquals(jobLogSummaryActionJobRecapModel.changed(), Double.valueOf("72.5"));
     assertEquals(jobLogSummaryActionJobRecapModel.failed(), Double.valueOf("72.5"));
@@ -180,42 +222,51 @@ public class JobTest {
       .build();
     assertEquals(jobLogSummaryActionJobModel.recap(), jobLogSummaryActionJobRecapModel);
 
+    JobLogSummarySystemJob jobLogSummarySystemJobModel = new JobLogSummarySystemJob.Builder()
+      .success(Double.valueOf("72.5"))
+      .failed(Double.valueOf("72.5"))
+      .build();
+    assertEquals(jobLogSummarySystemJobModel.success(), Double.valueOf("72.5"));
+    assertEquals(jobLogSummarySystemJobModel.failed(), Double.valueOf("72.5"));
+
     JobLogSummary jobLogSummaryModel = new JobLogSummary.Builder()
       .jobType("repo_download_job")
       .repoDownloadJob(jobLogSummaryRepoDownloadJobModel)
       .actionJob(jobLogSummaryActionJobModel)
+      .systemJob(jobLogSummarySystemJobModel)
       .build();
     assertEquals(jobLogSummaryModel.jobType(), "repo_download_job");
     assertEquals(jobLogSummaryModel.repoDownloadJob(), jobLogSummaryRepoDownloadJobModel);
     assertEquals(jobLogSummaryModel.actionJob(), jobLogSummaryActionJobModel);
+    assertEquals(jobLogSummaryModel.systemJob(), jobLogSummarySystemJobModel);
 
     Job jobModel = new Job.Builder()
       .commandObject("workspace")
       .commandObjectId("testString")
-      .commandName("workspace_init_flow")
+      .commandName("ansible_playbook_run")
       .commandParameter("testString")
       .commandOptions(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .location("us_south")
+      .location("us-south")
       .status(jobStatusModel)
       .data(jobDataModel)
-      .bastion(targetResourcesetModel)
+      .bastion(bastionResourceDefinitionModel)
       .logSummary(jobLogSummaryModel)
       .build();
     assertEquals(jobModel.commandObject(), "workspace");
     assertEquals(jobModel.commandObjectId(), "testString");
-    assertEquals(jobModel.commandName(), "workspace_init_flow");
+    assertEquals(jobModel.commandName(), "ansible_playbook_run");
     assertEquals(jobModel.commandParameter(), "testString");
     assertEquals(jobModel.commandOptions(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(jobModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobModel.tags(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
-    assertEquals(jobModel.location(), "us_south");
+    assertEquals(jobModel.location(), "us-south");
     assertEquals(jobModel.status(), jobStatusModel);
     assertEquals(jobModel.data(), jobDataModel);
-    assertEquals(jobModel.bastion(), targetResourcesetModel);
+    assertEquals(jobModel.bastion(), bastionResourceDefinitionModel);
     assertEquals(jobModel.logSummary(), jobLogSummaryModel);
 
     String json = TestUtilities.serialize(jobModel);
@@ -224,12 +275,12 @@ public class JobTest {
     assertTrue(jobModelNew instanceof Job);
     assertEquals(jobModelNew.commandObject(), "workspace");
     assertEquals(jobModelNew.commandObjectId(), "testString");
-    assertEquals(jobModelNew.commandName(), "workspace_init_flow");
+    assertEquals(jobModelNew.commandName(), "ansible_playbook_run");
     assertEquals(jobModelNew.commandParameter(), "testString");
-    assertEquals(jobModelNew.location(), "us_south");
+    assertEquals(jobModelNew.location(), "us-south");
     assertEquals(jobModelNew.status().toString(), jobStatusModel.toString());
     assertEquals(jobModelNew.data().toString(), jobDataModel.toString());
-    assertEquals(jobModelNew.bastion().toString(), targetResourcesetModel.toString());
+    assertEquals(jobModelNew.bastion().toString(), bastionResourceDefinitionModel.toString());
     assertEquals(jobModelNew.logSummary().toString(), jobLogSummaryModel.toString());
   }
 }

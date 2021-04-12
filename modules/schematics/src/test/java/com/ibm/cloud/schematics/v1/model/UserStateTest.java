@@ -16,6 +16,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.schematics.v1.model.UserState;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,11 @@ public class UserStateTest {
     UserState userStateModel = new UserState.Builder()
       .state("draft")
       .setBy("testString")
-      .setAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .setAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
       .build();
     assertEquals(userStateModel.state(), "draft");
     assertEquals(userStateModel.setBy(), "testString");
-    assertEquals(userStateModel.setAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
 
     String json = TestUtilities.serialize(userStateModel);
 
@@ -46,6 +47,6 @@ public class UserStateTest {
     assertTrue(userStateModelNew instanceof UserState);
     assertEquals(userStateModelNew.state(), "draft");
     assertEquals(userStateModelNew.setBy(), "testString");
-    assertEquals(userStateModelNew.setAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(userStateModelNew.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
   }
 }

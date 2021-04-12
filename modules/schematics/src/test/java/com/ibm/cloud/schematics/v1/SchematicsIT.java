@@ -66,8 +66,6 @@ import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJobRecap;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryLogErrorsItem;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryRepoDownloadJob;
-import com.ibm.cloud.schematics.v1.model.JobStateData;
-import com.ibm.cloud.schematics.v1.model.JobStateDataSummaryItem;
 import com.ibm.cloud.schematics.v1.model.JobStatus;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
 import com.ibm.cloud.schematics.v1.model.JobStatusType;
@@ -79,7 +77,6 @@ import com.ibm.cloud.schematics.v1.model.KMSSettingsPrimaryCrk;
 import com.ibm.cloud.schematics.v1.model.KMSSettingsSecondaryCrk;
 import com.ibm.cloud.schematics.v1.model.ListActionsOptions;
 import com.ibm.cloud.schematics.v1.model.ListJobLogsOptions;
-import com.ibm.cloud.schematics.v1.model.ListJobStatesOptions;
 import com.ibm.cloud.schematics.v1.model.ListJobsOptions;
 import com.ibm.cloud.schematics.v1.model.ListResourceGroupOptions;
 import com.ibm.cloud.schematics.v1.model.ListSchematicsLocationOptions;
@@ -108,7 +105,6 @@ import com.ibm.cloud.schematics.v1.model.SharedTargetDataResponse;
 import com.ibm.cloud.schematics.v1.model.StateStoreResponse;
 import com.ibm.cloud.schematics.v1.model.StateStoreResponseList;
 import com.ibm.cloud.schematics.v1.model.SystemLock;
-import com.ibm.cloud.schematics.v1.model.TargetResourceset;
 import com.ibm.cloud.schematics.v1.model.TemplateReadme;
 import com.ibm.cloud.schematics.v1.model.TemplateRepoRequest;
 import com.ibm.cloud.schematics.v1.model.TemplateRepoResponse;
@@ -153,6 +149,9 @@ import com.ibm.cloud.schematics.v1.model.WorkspaceVariableRequest;
 import com.ibm.cloud.schematics.v1.model.WorkspaceVariableResponse;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.IamAuthenticator;
+import com.ibm.cloud.sdk.core.security.IamToken;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
@@ -181,6 +180,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
   public static Map<String, String> config = null;
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
+  public String refresh_token = "";
   /**
    * This method provides our config filename to the base class.
    */
@@ -205,6 +205,17 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     assertNotNull(config);
     assertFalse(config.isEmpty());
     assertEquals(service.getServiceUrl(), config.get("URL"));
+
+    IamAuthenticator auth = new IamAuthenticator(
+      config.get(Authenticator.PROPNAME_APIKEY),
+      config.get(Authenticator.PROPNAME_URL),
+      config.get(Authenticator.PROPNAME_CLIENT_ID),
+      config.get(Authenticator.PROPNAME_CLIENT_SECRET),
+      false, null);
+
+    IamToken token = auth.requestToken();
+
+    refresh_token = token.getRefreshToken();
 
     System.out.println("Setup complete.");
   }
@@ -363,7 +374,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     try {
       RefreshWorkspaceCommandOptions refreshWorkspaceCommandOptions = new RefreshWorkspaceCommandOptions.Builder()
       .wId(wid)
-      .refreshToken("refreshToken")
+      .refreshToken(refresh_token)
       .build();
 
       Response<WorkspaceActivityRefreshResult> response = service
@@ -395,7 +406,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       ApplyWorkspaceCommandOptions applyWorkspaceCommandOptions = new ApplyWorkspaceCommandOptions.Builder()
       .wId(ws.getId())
-      .refreshToken("refreshToken")
+      .refreshToken(refresh_token)
       .build();
 
       Response<WorkspaceActivityApplyResult> response = service.applyWorkspaceCommand(applyWorkspaceCommandOptions)
@@ -432,7 +443,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       DeleteWorkspaceOptions deleteWorkspaceOptions = new DeleteWorkspaceOptions.Builder()
       .wId(wid)
-      .refreshToken("refreshToken")
+      .refreshToken(refresh_token)
       .build();
 
       Response<String> response = service.deleteWorkspace(deleteWorkspaceOptions).execute();
@@ -822,7 +833,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       RunWorkspaceCommandsOptions runWorkspaceCommandsOptions = new RunWorkspaceCommandsOptions.Builder()
       .wId(((WorkspaceResponse)res[0]).getId())
-      .refreshToken("testString")
+      .refreshToken(refresh_token)
       .commands(new java.util.ArrayList<TerraformCommand>(java.util.Arrays.asList(terraformCommandModel)))
       .operationName("testString")
       .description("testString")
@@ -856,7 +867,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     try {
       ApplyWorkspaceCommandOptions applyWorkspaceCommandOptions = new ApplyWorkspaceCommandOptions.Builder()
       .wId(ws.getId())
-      .refreshToken("testString")
+      .refreshToken(refresh_token)
       .build();
 
       // Invoke operation
@@ -886,7 +897,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     try {
       DestroyWorkspaceCommandOptions destroyWorkspaceCommandOptions = new DestroyWorkspaceCommandOptions.Builder()
       .wId(ws.getId())
-      .refreshToken("testString")
+      .refreshToken(refresh_token)
       .build();
 
       // Invoke operation
@@ -913,7 +924,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     try {
       PlanWorkspaceCommandOptions planWorkspaceCommandOptions = new PlanWorkspaceCommandOptions.Builder()
       .wId(ws.getId())
-      .refreshToken("testString")
+      .refreshToken(refresh_token)
       .build();
 
       // Invoke operation
@@ -944,7 +955,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
     try {
       RefreshWorkspaceCommandOptions refreshWorkspaceCommandOptions = new RefreshWorkspaceCommandOptions.Builder()
       .wId(ws.getId())
-      .refreshToken("testString")
+      .refreshToken(refresh_token)
       .build();
 
       // Invoke operation

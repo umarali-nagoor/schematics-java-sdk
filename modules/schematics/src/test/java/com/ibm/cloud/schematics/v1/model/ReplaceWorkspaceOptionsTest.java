@@ -23,6 +23,7 @@ import com.ibm.cloud.schematics.v1.model.WorkspaceStatusUpdateRequest;
 import com.ibm.cloud.schematics.v1.model.WorkspaceVariableRequest;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -131,18 +132,18 @@ public class ReplaceWorkspaceOptionsTest {
 
     WorkspaceStatusUpdateRequest workspaceStatusUpdateRequestModel = new WorkspaceStatusUpdateRequest.Builder()
       .frozen(true)
-      .frozenAt(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .frozenAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .frozenBy("testString")
       .locked(true)
       .lockedBy("testString")
-      .lockedTime(TestUtilities.createMockDateTime("2019-01-01T12:00:00"))
+      .lockedTime(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(workspaceStatusUpdateRequestModel.frozen(), Boolean.valueOf(true));
-    assertEquals(workspaceStatusUpdateRequestModel.frozenAt(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(workspaceStatusUpdateRequestModel.frozenAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
     assertEquals(workspaceStatusUpdateRequestModel.frozenBy(), "testString");
     assertEquals(workspaceStatusUpdateRequestModel.locked(), Boolean.valueOf(true));
     assertEquals(workspaceStatusUpdateRequestModel.lockedBy(), "testString");
-    assertEquals(workspaceStatusUpdateRequestModel.lockedTime(), TestUtilities.createMockDateTime("2019-01-01T12:00:00"));
+    assertEquals(workspaceStatusUpdateRequestModel.lockedTime(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     WorkspaceStatusMessage workspaceStatusMessageModel = new WorkspaceStatusMessage.Builder()
       .statusCode("testString")
