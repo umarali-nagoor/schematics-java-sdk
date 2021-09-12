@@ -38,18 +38,18 @@ public class JobStatusActionTest {
       .statusMessage("testString")
       .bastionStatusCode("none")
       .bastionStatusMessage("testString")
-      .inventoryStatusCode("none")
-      .inventoryStatusMessage("testString")
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .targetsStatusCode("none")
+      .targetsStatusMessage("testString")
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(jobStatusActionModel.actionName(), "testString");
     assertEquals(jobStatusActionModel.statusCode(), "job_pending");
     assertEquals(jobStatusActionModel.statusMessage(), "testString");
     assertEquals(jobStatusActionModel.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModel.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.inventoryStatusCode(), "none");
-    assertEquals(jobStatusActionModel.inventoryStatusMessage(), "testString");
-    assertEquals(jobStatusActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusActionModel.targetsStatusCode(), "none");
+    assertEquals(jobStatusActionModel.targetsStatusMessage(), "testString");
+    assertEquals(jobStatusActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(jobStatusActionModel);
 
@@ -60,8 +60,8 @@ public class JobStatusActionTest {
     assertEquals(jobStatusActionModelNew.statusMessage(), "testString");
     assertEquals(jobStatusActionModelNew.bastionStatusCode(), "none");
     assertEquals(jobStatusActionModelNew.bastionStatusMessage(), "testString");
-    assertEquals(jobStatusActionModelNew.inventoryStatusCode(), "none");
-    assertEquals(jobStatusActionModelNew.inventoryStatusMessage(), "testString");
-    assertEquals(jobStatusActionModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusActionModelNew.targetsStatusCode(), "none");
+    assertEquals(jobStatusActionModelNew.targetsStatusMessage(), "testString");
+    assertEquals(jobStatusActionModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

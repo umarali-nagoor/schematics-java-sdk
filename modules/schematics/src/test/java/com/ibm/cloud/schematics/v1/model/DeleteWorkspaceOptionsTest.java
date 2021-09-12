@@ -32,12 +32,12 @@ public class DeleteWorkspaceOptionsTest {
   @Test
   public void testDeleteWorkspaceOptions() throws Throwable {
     DeleteWorkspaceOptions deleteWorkspaceOptionsModel = new DeleteWorkspaceOptions.Builder()
-      .wId("testString")
       .refreshToken("testString")
+      .wId("testString")
       .destroyResources("testString")
       .build();
-    assertEquals(deleteWorkspaceOptionsModel.wId(), "testString");
     assertEquals(deleteWorkspaceOptionsModel.refreshToken(), "testString");
+    assertEquals(deleteWorkspaceOptionsModel.wId(), "testString");
     assertEquals(deleteWorkspaceOptionsModel.destroyResources(), "testString");
   }
 

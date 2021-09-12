@@ -15,7 +15,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityDestroyResult -.
+ * Response after successfully initiating a request to `destroy` the stack of resources provisioned using Terraform.
  */
 public class WorkspaceActivityDestroyResult extends GenericModel {
 
@@ -24,7 +24,8 @@ public class WorkspaceActivityDestroyResult extends GenericModel {
   /**
    * Gets the activityid.
    *
-   * Activity id.
+   * The ID of the activity or job that was created when you initiated a request to `destroy` a Terraform template.  You
+   * can use the ID to retrieve log file by using the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
    *
    * @return the activityid
    */

@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * List of Inventory resource records.
+ * List of Inventory definition records.
  */
 public class InventoryResourceRecordList extends GenericModel {
 
@@ -64,7 +64,7 @@ public class InventoryResourceRecordList extends GenericModel {
   /**
    * Gets the inventories.
    *
-   * List of inventory resource records.
+   * List of inventory definition records.
    *
    * @return the inventories
    */

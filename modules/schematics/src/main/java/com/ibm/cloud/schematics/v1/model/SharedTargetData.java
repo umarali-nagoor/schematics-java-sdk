@@ -19,7 +19,8 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * SharedTargetData -.
+ * Information about the Target used by the templates originating from the  IBM Cloud catalog offerings. This
+ * information is not relevant for workspace created using your own Terraform template.
  */
 public class SharedTargetData extends GenericModel {
 
@@ -249,7 +250,8 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the clusterId.
    *
-   * Cluster id.
+   * The ID of the cluster where you want to provision the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering.
    *
    * @return the clusterId
    */
@@ -260,7 +262,7 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the clusterName.
    *
-   * Cluster name.
+   * The cluster name.
    *
    * @return the clusterName
    */
@@ -271,7 +273,7 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the clusterType.
    *
-   * Cluster type.
+   * The cluster type.
    *
    * @return the clusterType
    */
@@ -282,7 +284,7 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the entitlementKeys.
    *
-   * Entitlement keys.
+   * The entitlement key that you want to use to install IBM Cloud entitled software.
    *
    * @return the entitlementKeys
    */
@@ -293,7 +295,8 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the namespace.
    *
-   * Target namespace.
+   * The Kubernetes namespace or OpenShift project where the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering are deployed into.
    *
    * @return the namespace
    */
@@ -304,7 +307,8 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the region.
    *
-   * Target region.
+   * The IBM Cloud region that you want to use for the resources of all IBM Cloud catalog templates that are included in
+   * the catalog offering.
    *
    * @return the region
    */
@@ -315,7 +319,8 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the resourceGroupId.
    *
-   * Target resource group id.
+   * The ID of the resource group that you want to use for the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering.
    *
    * @return the resourceGroupId
    */
@@ -326,7 +331,7 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the workerCount.
    *
-   * Cluster worker count.
+   * The cluster worker count.
    *
    * @return the workerCount
    */
@@ -337,7 +342,7 @@ public class SharedTargetData extends GenericModel {
   /**
    * Gets the workerMachineType.
    *
-   * Cluster worker type.
+   * The cluster worker type.
    *
    * @return the workerMachineType
    */

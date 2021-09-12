@@ -16,6 +16,8 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.schematics.v1.model.ActionState;
 import com.ibm.cloud.schematics.v1.model.BastionResourceDefinition;
 import com.ibm.cloud.schematics.v1.model.ExternalSource;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCatalog;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCosBucket;
 import com.ibm.cloud.schematics.v1.model.ExternalSourceGit;
 import com.ibm.cloud.schematics.v1.model.SystemLock;
 import com.ibm.cloud.schematics.v1.model.UpdateActionOptions;
@@ -45,38 +47,59 @@ public class UpdateActionOptionsTest {
     UserState userStateModel = new UserState.Builder()
       .state("draft")
       .setBy("testString")
-      .setAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .setAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(userStateModel.state(), "draft");
     assertEquals(userStateModel.setBy(), "testString");
-    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
+      .computedGitRepoUrl("testString")
       .gitRepoUrl("testString")
       .gitToken("testString")
       .gitRepoFolder("testString")
       .gitRelease("testString")
       .gitBranch("testString")
       .build();
+    assertEquals(externalSourceGitModel.computedGitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitToken(), "testString");
     assertEquals(externalSourceGitModel.gitRepoFolder(), "testString");
     assertEquals(externalSourceGitModel.gitRelease(), "testString");
     assertEquals(externalSourceGitModel.gitBranch(), "testString");
 
+    ExternalSourceCatalog externalSourceCatalogModel = new ExternalSourceCatalog.Builder()
+      .catalogName("testString")
+      .offeringName("testString")
+      .offeringVersion("testString")
+      .offeringKind("testString")
+      .offeringId("testString")
+      .offeringVersionId("testString")
+      .offeringRepoUrl("testString")
+      .build();
+    assertEquals(externalSourceCatalogModel.catalogName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersion(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringKind(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersionId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringRepoUrl(), "testString");
+
+    ExternalSourceCosBucket externalSourceCosBucketModel = new ExternalSourceCosBucket.Builder()
+      .cosBucketUrl("testString")
+      .build();
+    assertEquals(externalSourceCosBucketModel.cosBucketUrl(), "testString");
+
     ExternalSource externalSourceModel = new ExternalSource.Builder()
       .sourceType("local")
       .git(externalSourceGitModel)
+      .catalog(externalSourceCatalogModel)
+      .cosBucket(externalSourceCosBucketModel)
       .build();
     assertEquals(externalSourceModel.sourceType(), "local");
     assertEquals(externalSourceModel.git(), externalSourceGitModel);
-
-    BastionResourceDefinition bastionResourceDefinitionModel = new BastionResourceDefinition.Builder()
-      .name("testString")
-      .host("testString")
-      .build();
-    assertEquals(bastionResourceDefinitionModel.name(), "testString");
-    assertEquals(bastionResourceDefinitionModel.host(), "testString");
+    assertEquals(externalSourceModel.catalog(), externalSourceCatalogModel);
+    assertEquals(externalSourceModel.cosBucket(), externalSourceCosBucketModel);
 
     VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
       .type("boolean")
@@ -122,6 +145,13 @@ public class UpdateActionOptionsTest {
     assertEquals(variableDataModel.value(), "testString");
     assertEquals(variableDataModel.metadata(), variableMetadataModel);
 
+    BastionResourceDefinition bastionResourceDefinitionModel = new BastionResourceDefinition.Builder()
+      .name("testString")
+      .host("testString")
+      .build();
+    assertEquals(bastionResourceDefinitionModel.name(), "testString");
+    assertEquals(bastionResourceDefinitionModel.host(), "testString");
+
     ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
       .statusJobId("testString")
@@ -143,7 +173,7 @@ public class UpdateActionOptionsTest {
     UpdateActionOptions updateActionOptionsModel = new UpdateActionOptions.Builder()
       .actionId("testString")
       .name("Stop Action")
-      .description("This Action can be used to Stop the VSIs")
+      .description("The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.")
       .location("us-south")
       .resourceGroup("testString")
       .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
@@ -152,10 +182,11 @@ public class UpdateActionOptionsTest {
       .source(externalSourceModel)
       .sourceType("local")
       .commandParameter("testString")
-      .bastion(bastionResourceDefinitionModel)
       .inventory("testString")
-      .bastionCredential(variableDataModel)
       .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
+      .bastion(bastionResourceDefinitionModel)
+      .bastionCredential(variableDataModel)
+      .targetsIni("testString")
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -165,7 +196,7 @@ public class UpdateActionOptionsTest {
       .build();
     assertEquals(updateActionOptionsModel.actionId(), "testString");
     assertEquals(updateActionOptionsModel.name(), "Stop Action");
-    assertEquals(updateActionOptionsModel.description(), "This Action can be used to Stop the VSIs");
+    assertEquals(updateActionOptionsModel.description(), "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.");
     assertEquals(updateActionOptionsModel.location(), "us-south");
     assertEquals(updateActionOptionsModel.resourceGroup(), "testString");
     assertEquals(updateActionOptionsModel.tags(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
@@ -174,10 +205,11 @@ public class UpdateActionOptionsTest {
     assertEquals(updateActionOptionsModel.source(), externalSourceModel);
     assertEquals(updateActionOptionsModel.sourceType(), "local");
     assertEquals(updateActionOptionsModel.commandParameter(), "testString");
-    assertEquals(updateActionOptionsModel.bastion(), bastionResourceDefinitionModel);
     assertEquals(updateActionOptionsModel.inventory(), "testString");
-    assertEquals(updateActionOptionsModel.bastionCredential(), variableDataModel);
     assertEquals(updateActionOptionsModel.credentials(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
+    assertEquals(updateActionOptionsModel.bastion(), bastionResourceDefinitionModel);
+    assertEquals(updateActionOptionsModel.bastionCredential(), variableDataModel);
+    assertEquals(updateActionOptionsModel.targetsIni(), "testString");
     assertEquals(updateActionOptionsModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(updateActionOptionsModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(updateActionOptionsModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));

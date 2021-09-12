@@ -16,12 +16,12 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Action Job.
+ * Flow Job log summary.
  */
 public class JobLogSummaryActionJob extends GenericModel {
 
-  @SerializedName("host_count")
-  protected Double hostCount;
+  @SerializedName("target_count")
+  protected Double targetCount;
   @SerializedName("task_count")
   protected Double taskCount;
   @SerializedName("play_count")
@@ -79,14 +79,14 @@ public class JobLogSummaryActionJob extends GenericModel {
   }
 
   /**
-   * Gets the hostCount.
+   * Gets the targetCount.
    *
-   * number of hosts.
+   * number of targets or hosts.
    *
-   * @return the hostCount
+   * @return the targetCount
    */
-  public Double hostCount() {
-    return hostCount;
+  public Double targetCount() {
+    return targetCount;
   }
 
   /**

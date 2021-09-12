@@ -36,12 +36,12 @@ public class JobStatusSchematicsResourcesTest {
       .statusCode("job_pending")
       .statusMessage("testString")
       .schematicsResourceId("testString")
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(jobStatusSchematicsResourcesModel.statusCode(), "job_pending");
     assertEquals(jobStatusSchematicsResourcesModel.statusMessage(), "testString");
     assertEquals(jobStatusSchematicsResourcesModel.schematicsResourceId(), "testString");
-    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(jobStatusSchematicsResourcesModel);
 
@@ -50,6 +50,6 @@ public class JobStatusSchematicsResourcesTest {
     assertEquals(jobStatusSchematicsResourcesModelNew.statusCode(), "job_pending");
     assertEquals(jobStatusSchematicsResourcesModelNew.statusMessage(), "testString");
     assertEquals(jobStatusSchematicsResourcesModelNew.schematicsResourceId(), "testString");
-    assertEquals(jobStatusSchematicsResourcesModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusSchematicsResourcesModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

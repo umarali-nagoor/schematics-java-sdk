@@ -37,17 +37,17 @@ public class JobDataSystemTest {
     JobDataSystem jobDataSystemModel = new JobDataSystem.Builder()
       .keyId("testString")
       .schematicsResourceId(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(jobDataSystemModel.keyId(), "testString");
     assertEquals(jobDataSystemModel.schematicsResourceId(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
-    assertEquals(jobDataSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(jobDataSystemModel);
 
     JobDataSystem jobDataSystemModelNew = TestUtilities.deserialize(json, JobDataSystem.class);
     assertTrue(jobDataSystemModelNew instanceof JobDataSystem);
     assertEquals(jobDataSystemModelNew.keyId(), "testString");
-    assertEquals(jobDataSystemModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataSystemModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

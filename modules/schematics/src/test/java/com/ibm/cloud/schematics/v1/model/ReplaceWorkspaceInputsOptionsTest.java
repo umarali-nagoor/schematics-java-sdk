@@ -52,13 +52,13 @@ public class ReplaceWorkspaceInputsOptionsTest {
     ReplaceWorkspaceInputsOptions replaceWorkspaceInputsOptionsModel = new ReplaceWorkspaceInputsOptions.Builder()
       .wId("testString")
       .tId("testString")
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .values("testString")
       .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
       .build();
     assertEquals(replaceWorkspaceInputsOptionsModel.wId(), "testString");
     assertEquals(replaceWorkspaceInputsOptionsModel.tId(), "testString");
-    assertEquals(replaceWorkspaceInputsOptionsModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(replaceWorkspaceInputsOptionsModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(replaceWorkspaceInputsOptionsModel.values(), "testString");
     assertEquals(replaceWorkspaceInputsOptionsModel.variablestore(), new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)));
   }

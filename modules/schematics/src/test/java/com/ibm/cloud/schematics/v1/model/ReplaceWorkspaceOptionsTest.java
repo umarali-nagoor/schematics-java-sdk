@@ -43,6 +43,7 @@ public class ReplaceWorkspaceOptionsTest {
   public void testReplaceWorkspaceOptions() throws Throwable {
     CatalogRef catalogRefModel = new CatalogRef.Builder()
       .dryRun(true)
+      .owningAccount("testString")
       .itemIconUrl("testString")
       .itemId("testString")
       .itemName("testString")
@@ -52,6 +53,7 @@ public class ReplaceWorkspaceOptionsTest {
       .offeringVersion("testString")
       .build();
     assertEquals(catalogRefModel.dryRun(), Boolean.valueOf(true));
+    assertEquals(catalogRefModel.owningAccount(), "testString");
     assertEquals(catalogRefModel.itemIconUrl(), "testString");
     assertEquals(catalogRefModel.itemId(), "testString");
     assertEquals(catalogRefModel.itemName(), "testString");
@@ -65,7 +67,7 @@ public class ReplaceWorkspaceOptionsTest {
       .clusterId("testString")
       .clusterName("testString")
       .clusterType("testString")
-      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .namespace("testString")
       .region("testString")
       .resourceGroupId("testString")
@@ -76,7 +78,7 @@ public class ReplaceWorkspaceOptionsTest {
     assertEquals(sharedTargetDataModel.clusterId(), "testString");
     assertEquals(sharedTargetDataModel.clusterName(), "testString");
     assertEquals(sharedTargetDataModel.clusterType(), "testString");
-    assertEquals(sharedTargetDataModel.entitlementKeys(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(sharedTargetDataModel.entitlementKeys(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(sharedTargetDataModel.namespace(), "testString");
     assertEquals(sharedTargetDataModel.region(), "testString");
     assertEquals(sharedTargetDataModel.resourceGroupId(), "testString");
@@ -99,22 +101,24 @@ public class ReplaceWorkspaceOptionsTest {
     assertEquals(workspaceVariableRequestModel.value(), "testString");
 
     TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .folder("testString")
+      .compact(true)
       .initStateFile("testString")
       .type("testString")
       .uninstallScriptName("testString")
       .values("testString")
-      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
       .build();
-    assertEquals(templateSourceDataRequestModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(templateSourceDataRequestModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(templateSourceDataRequestModel.folder(), "testString");
+    assertEquals(templateSourceDataRequestModel.compact(), Boolean.valueOf(true));
     assertEquals(templateSourceDataRequestModel.initStateFile(), "testString");
     assertEquals(templateSourceDataRequestModel.type(), "testString");
     assertEquals(templateSourceDataRequestModel.uninstallScriptName(), "testString");
     assertEquals(templateSourceDataRequestModel.values(), "testString");
-    assertEquals(templateSourceDataRequestModel.valuesMetadata(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(templateSourceDataRequestModel.valuesMetadata(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(templateSourceDataRequestModel.variablestore(), new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)));
 
     TemplateRepoUpdateRequest templateRepoUpdateRequestModel = new TemplateRepoUpdateRequest.Builder()

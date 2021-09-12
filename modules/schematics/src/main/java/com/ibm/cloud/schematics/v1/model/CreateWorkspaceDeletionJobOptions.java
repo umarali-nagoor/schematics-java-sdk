@@ -195,7 +195,20 @@ public class CreateWorkspaceDeletionJobOptions extends GenericModel {
   /**
    * Gets the refreshToken.
    *
-   * The IAM refresh token associated with the IBM Cloud account.
+   * The IAM refresh token for the user or service identity.
+   *
+   *   **Retrieving refresh token**:
+   *   * Use `export IBMCLOUD_API_KEY=&lt;ibmcloud_api_key&gt;`, and execute `curl -X POST
+   * "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+   * "grant_type=urn:ibm:params:oauth:grant-type:apikey&amp;apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+   *   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+   * token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+   * key](/apidocs/iam-identity-token-api#create-api-key).
+   *
+   *   **Limitation**:
+   *   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+   *   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+   *   * When the IAM access token is about to expire, use the API key to create a new access token.
    *
    * @return the refreshToken
    */
@@ -239,7 +252,7 @@ public class CreateWorkspaceDeletionJobOptions extends GenericModel {
   /**
    * Gets the newVersion.
    *
-   * Version.
+   * Version of the terraform template.
    *
    * @return the newVersion
    */
@@ -261,7 +274,9 @@ public class CreateWorkspaceDeletionJobOptions extends GenericModel {
   /**
    * Gets the destroyResources.
    *
-   * true or 1 - to destroy resources before deleting workspace;  If this is true, refresh_token is mandatory.
+   * If set to `true`, refresh_token header configuration is required to delete all the Terraform resources, and the
+   * Schematics workspace. If set to `false`, you can remove only the workspace. Your Terraform resources are still
+   * available and must be managed with the resource dashboard or CLI.
    *
    * @return the destroyResources
    */

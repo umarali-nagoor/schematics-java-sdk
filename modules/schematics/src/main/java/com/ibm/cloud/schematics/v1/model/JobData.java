@@ -26,31 +26,43 @@ public class JobData extends GenericModel {
   public interface JobType {
     /** repo_download_job. */
     String REPO_DOWNLOAD_JOB = "repo_download_job";
+    /** workspace_job. */
+    String WORKSPACE_JOB = "workspace_job";
     /** action_job. */
     String ACTION_JOB = "action_job";
     /** system_job. */
     String SYSTEM_JOB = "system_job";
+    /** flow-job. */
+    String FLOW_JOB = "flow-job";
   }
 
   @SerializedName("job_type")
   protected String jobType;
+  @SerializedName("workspace_job_data")
+  protected JobDataWorkspace workspaceJobData;
   @SerializedName("action_job_data")
   protected JobDataAction actionJobData;
   @SerializedName("system_job_data")
   protected JobDataSystem systemJobData;
+  @SerializedName("flow_job_data")
+  protected JobDataFlow flowJobData;
 
   /**
    * Builder.
    */
   public static class Builder {
     private String jobType;
+    private JobDataWorkspace workspaceJobData;
     private JobDataAction actionJobData;
     private JobDataSystem systemJobData;
+    private JobDataFlow flowJobData;
 
     private Builder(JobData jobData) {
       this.jobType = jobData.jobType;
+      this.workspaceJobData = jobData.workspaceJobData;
       this.actionJobData = jobData.actionJobData;
       this.systemJobData = jobData.systemJobData;
+      this.flowJobData = jobData.flowJobData;
     }
 
     /**
@@ -89,6 +101,17 @@ public class JobData extends GenericModel {
     }
 
     /**
+     * Set the workspaceJobData.
+     *
+     * @param workspaceJobData the workspaceJobData
+     * @return the JobData builder
+     */
+    public Builder workspaceJobData(JobDataWorkspace workspaceJobData) {
+      this.workspaceJobData = workspaceJobData;
+      return this;
+    }
+
+    /**
      * Set the actionJobData.
      *
      * @param actionJobData the actionJobData
@@ -109,14 +132,27 @@ public class JobData extends GenericModel {
       this.systemJobData = systemJobData;
       return this;
     }
+
+    /**
+     * Set the flowJobData.
+     *
+     * @param flowJobData the flowJobData
+     * @return the JobData builder
+     */
+    public Builder flowJobData(JobDataFlow flowJobData) {
+      this.flowJobData = flowJobData;
+      return this;
+    }
   }
 
   protected JobData(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.jobType,
       "jobType cannot be null");
     jobType = builder.jobType;
+    workspaceJobData = builder.workspaceJobData;
     actionJobData = builder.actionJobData;
     systemJobData = builder.systemJobData;
+    flowJobData = builder.flowJobData;
   }
 
   /**
@@ -140,6 +176,17 @@ public class JobData extends GenericModel {
   }
 
   /**
+   * Gets the workspaceJobData.
+   *
+   * Workspace Job data.
+   *
+   * @return the workspaceJobData
+   */
+  public JobDataWorkspace workspaceJobData() {
+    return workspaceJobData;
+  }
+
+  /**
    * Gets the actionJobData.
    *
    * Action Job data.
@@ -159,6 +206,17 @@ public class JobData extends GenericModel {
    */
   public JobDataSystem systemJobData() {
     return systemJobData;
+  }
+
+  /**
+   * Gets the flowJobData.
+   *
+   * Flow Job data.
+   *
+   * @return the flowJobData
+   */
+  public JobDataFlow flowJobData() {
+    return flowJobData;
   }
 }
 

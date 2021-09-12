@@ -16,8 +16,11 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.schematics.v1.model.JobLogSummary;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJobRecap;
+import com.ibm.cloud.schematics.v1.model.JobLogSummaryFlowJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryRepoDownloadJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummarySystemJob;
+import com.ibm.cloud.schematics.v1.model.JobLogSummaryWorkitems;
+import com.ibm.cloud.schematics.v1.model.JobLogSummaryWorkspaceJob;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -40,15 +43,32 @@ public class JobLogSummaryTest {
     JobLogSummaryRepoDownloadJob jobLogSummaryRepoDownloadJobModel = new JobLogSummaryRepoDownloadJob.Builder()
       .build();
 
+    JobLogSummaryWorkspaceJob jobLogSummaryWorkspaceJobModel = new JobLogSummaryWorkspaceJob.Builder()
+      .build();
+
+    JobLogSummaryWorkitems jobLogSummaryWorkitemsModel = new JobLogSummaryWorkitems.Builder()
+      .workspaceId("testString")
+      .jobId("testString")
+      .logUrl("testString")
+      .build();
+    assertEquals(jobLogSummaryWorkitemsModel.workspaceId(), "testString");
+    assertEquals(jobLogSummaryWorkitemsModel.jobId(), "testString");
+    assertEquals(jobLogSummaryWorkitemsModel.logUrl(), "testString");
+
+    JobLogSummaryFlowJob jobLogSummaryFlowJobModel = new JobLogSummaryFlowJob.Builder()
+      .workitems(new java.util.ArrayList<JobLogSummaryWorkitems>(java.util.Arrays.asList(jobLogSummaryWorkitemsModel)))
+      .build();
+    assertEquals(jobLogSummaryFlowJobModel.workitems(), new java.util.ArrayList<JobLogSummaryWorkitems>(java.util.Arrays.asList(jobLogSummaryWorkitemsModel)));
+
     JobLogSummaryActionJobRecap jobLogSummaryActionJobRecapModel = new JobLogSummaryActionJobRecap.Builder()
-      .hosts(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .target(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
       .ok(Double.valueOf("72.5"))
       .changed(Double.valueOf("72.5"))
       .failed(Double.valueOf("72.5"))
       .skipped(Double.valueOf("72.5"))
       .unreachable(Double.valueOf("72.5"))
       .build();
-    assertEquals(jobLogSummaryActionJobRecapModel.hosts(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+    assertEquals(jobLogSummaryActionJobRecapModel.target(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
     assertEquals(jobLogSummaryActionJobRecapModel.ok(), Double.valueOf("72.5"));
     assertEquals(jobLogSummaryActionJobRecapModel.changed(), Double.valueOf("72.5"));
     assertEquals(jobLogSummaryActionJobRecapModel.failed(), Double.valueOf("72.5"));
@@ -70,11 +90,15 @@ public class JobLogSummaryTest {
     JobLogSummary jobLogSummaryModel = new JobLogSummary.Builder()
       .jobType("repo_download_job")
       .repoDownloadJob(jobLogSummaryRepoDownloadJobModel)
+      .workspaceJob(jobLogSummaryWorkspaceJobModel)
+      .flowJob(jobLogSummaryFlowJobModel)
       .actionJob(jobLogSummaryActionJobModel)
       .systemJob(jobLogSummarySystemJobModel)
       .build();
     assertEquals(jobLogSummaryModel.jobType(), "repo_download_job");
     assertEquals(jobLogSummaryModel.repoDownloadJob(), jobLogSummaryRepoDownloadJobModel);
+    assertEquals(jobLogSummaryModel.workspaceJob(), jobLogSummaryWorkspaceJobModel);
+    assertEquals(jobLogSummaryModel.flowJob(), jobLogSummaryFlowJobModel);
     assertEquals(jobLogSummaryModel.actionJob(), jobLogSummaryActionJobModel);
     assertEquals(jobLogSummaryModel.systemJob(), jobLogSummarySystemJobModel);
 
@@ -84,6 +108,8 @@ public class JobLogSummaryTest {
     assertTrue(jobLogSummaryModelNew instanceof JobLogSummary);
     assertEquals(jobLogSummaryModelNew.jobType(), "repo_download_job");
     assertEquals(jobLogSummaryModelNew.repoDownloadJob().toString(), jobLogSummaryRepoDownloadJobModel.toString());
+    assertEquals(jobLogSummaryModelNew.workspaceJob().toString(), jobLogSummaryWorkspaceJobModel.toString());
+    assertEquals(jobLogSummaryModelNew.flowJob().toString(), jobLogSummaryFlowJobModel.toString());
     assertEquals(jobLogSummaryModelNew.actionJob().toString(), jobLogSummaryActionJobModel.toString());
     assertEquals(jobLogSummaryModelNew.systemJob().toString(), jobLogSummarySystemJobModel.toString());
   }

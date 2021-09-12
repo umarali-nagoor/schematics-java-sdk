@@ -33,6 +33,7 @@ public class CatalogRefTest {
   public void testCatalogRef() throws Throwable {
     CatalogRef catalogRefModel = new CatalogRef.Builder()
       .dryRun(true)
+      .owningAccount("testString")
       .itemIconUrl("testString")
       .itemId("testString")
       .itemName("testString")
@@ -42,6 +43,7 @@ public class CatalogRefTest {
       .offeringVersion("testString")
       .build();
     assertEquals(catalogRefModel.dryRun(), Boolean.valueOf(true));
+    assertEquals(catalogRefModel.owningAccount(), "testString");
     assertEquals(catalogRefModel.itemIconUrl(), "testString");
     assertEquals(catalogRefModel.itemId(), "testString");
     assertEquals(catalogRefModel.itemName(), "testString");
@@ -55,6 +57,7 @@ public class CatalogRefTest {
     CatalogRef catalogRefModelNew = TestUtilities.deserialize(json, CatalogRef.class);
     assertTrue(catalogRefModelNew instanceof CatalogRef);
     assertEquals(catalogRefModelNew.dryRun(), Boolean.valueOf(true));
+    assertEquals(catalogRefModelNew.owningAccount(), "testString");
     assertEquals(catalogRefModelNew.itemIconUrl(), "testString");
     assertEquals(catalogRefModelNew.itemId(), "testString");
     assertEquals(catalogRefModelNew.itemName(), "testString");

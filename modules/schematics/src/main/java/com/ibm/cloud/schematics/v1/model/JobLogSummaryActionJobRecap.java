@@ -22,7 +22,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class JobLogSummaryActionJobRecap extends GenericModel {
 
-  protected List<String> hosts;
+  protected List<String> target;
   protected Double ok;
   protected Double changed;
   protected Double failed;
@@ -33,7 +33,7 @@ public class JobLogSummaryActionJobRecap extends GenericModel {
    * Builder.
    */
   public static class Builder {
-    private List<String> hosts;
+    private List<String> target;
     private Double ok;
     private Double changed;
     private Double failed;
@@ -41,7 +41,7 @@ public class JobLogSummaryActionJobRecap extends GenericModel {
     private Double unreachable;
 
     private Builder(JobLogSummaryActionJobRecap jobLogSummaryActionJobRecap) {
-      this.hosts = jobLogSummaryActionJobRecap.hosts;
+      this.target = jobLogSummaryActionJobRecap.target;
       this.ok = jobLogSummaryActionJobRecap.ok;
       this.changed = jobLogSummaryActionJobRecap.changed;
       this.failed = jobLogSummaryActionJobRecap.failed;
@@ -65,30 +65,30 @@ public class JobLogSummaryActionJobRecap extends GenericModel {
     }
 
     /**
-     * Adds an hosts to hosts.
+     * Adds an target to target.
      *
-     * @param hosts the new hosts
+     * @param target the new target
      * @return the JobLogSummaryActionJobRecap builder
      */
-    public Builder addHosts(String hosts) {
-      com.ibm.cloud.sdk.core.util.Validator.notNull(hosts,
-        "hosts cannot be null");
-      if (this.hosts == null) {
-        this.hosts = new ArrayList<String>();
+    public Builder addTarget(String target) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(target,
+        "target cannot be null");
+      if (this.target == null) {
+        this.target = new ArrayList<String>();
       }
-      this.hosts.add(hosts);
+      this.target.add(target);
       return this;
     }
 
     /**
-     * Set the hosts.
-     * Existing hosts will be replaced.
+     * Set the target.
+     * Existing target will be replaced.
      *
-     * @param hosts the hosts
+     * @param target the target
      * @return the JobLogSummaryActionJobRecap builder
      */
-    public Builder hosts(List<String> hosts) {
-      this.hosts = hosts;
+    public Builder target(List<String> target) {
+      this.target = target;
       return this;
     }
 
@@ -149,7 +149,7 @@ public class JobLogSummaryActionJobRecap extends GenericModel {
   }
 
   protected JobLogSummaryActionJobRecap(Builder builder) {
-    hosts = builder.hosts;
+    target = builder.target;
     ok = builder.ok;
     changed = builder.changed;
     failed = builder.failed;
@@ -167,14 +167,14 @@ public class JobLogSummaryActionJobRecap extends GenericModel {
   }
 
   /**
-   * Gets the hosts.
+   * Gets the target.
    *
-   * List of host name.
+   * List of target or host name.
    *
-   * @return the hosts
+   * @return the target
    */
-  public List<String> hosts() {
-    return hosts;
+  public List<String> target() {
+    return target;
   }
 
   /**

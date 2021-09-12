@@ -15,7 +15,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityRefreshResult -.
+ * Response after successfully initiating a request to `refresh` the Terraform template in IBM Cloud.
  */
 public class WorkspaceActivityRefreshResult extends GenericModel {
 
@@ -24,7 +24,8 @@ public class WorkspaceActivityRefreshResult extends GenericModel {
   /**
    * Gets the activityid.
    *
-   * Activity id.
+   * The ID of the activity or job that was created for your workspace `refresh` activity or job.  You can use the ID to
+   * retrieve the log file by using the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
    *
    * @return the activityid
    */

@@ -12,13 +12,13 @@
  */
 package com.ibm.cloud.schematics.v1.model;
 
-import java.util.List;
+import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * VersionResponse -.
+ * Successful response when you retrieve detailed information about the IBM Cloud Schematics API.
  */
 public class VersionResponse extends GenericModel {
 
@@ -30,7 +30,7 @@ public class VersionResponse extends GenericModel {
   @SerializedName("helm_version")
   protected String helmVersion;
   @SerializedName("supported_template_types")
-  protected List<Object> supportedTemplateTypes;
+  protected Map<String, Object>[] supportedTemplateTypes;
   @SerializedName("terraform_provider_version")
   protected String terraformProviderVersion;
   @SerializedName("terraform_version")
@@ -39,7 +39,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the builddate.
    *
-   * Build data.
+   * The date when the API version was built.
    *
    * @return the builddate
    */
@@ -50,7 +50,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the buildno.
    *
-   * Build number.
+   * The build number that the API is based on.
    *
    * @return the buildno
    */
@@ -61,7 +61,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the commitsha.
    *
-   * Commit SHA.
+   * The SHA value for the Git commit that represents the latest version of the API.
    *
    * @return the commitsha
    */
@@ -72,7 +72,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the helmProviderVersion.
    *
-   * Version number of 'Helm provider for Terraform'.
+   * The Terraform Helm provider version that is used when you install Helm charts with Schematics.
    *
    * @return the helmProviderVersion
    */
@@ -83,7 +83,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the helmVersion.
    *
-   * Helm Version.
+   * The Helm version that is used when you install Helm charts with Schematics.
    *
    * @return the helmVersion
    */
@@ -98,14 +98,15 @@ public class VersionResponse extends GenericModel {
    *
    * @return the supportedTemplateTypes
    */
-  public List<Object> getSupportedTemplateTypes() {
+  public Map<String, Object>[] getSupportedTemplateTypes() {
     return supportedTemplateTypes;
   }
 
   /**
    * Gets the terraformProviderVersion.
    *
-   * Terraform provider versions.
+   * The version of the IBM Cloud Terraform provider plug-in that is used when you apply Terraform templates with
+   * Schematics.
    *
    * @return the terraformProviderVersion
    */
@@ -116,7 +117,7 @@ public class VersionResponse extends GenericModel {
   /**
    * Gets the terraformVersion.
    *
-   * Terraform versions.
+   * The Terraform version that is used when you apply Terraform templates with Schematics.
    *
    * @return the terraformVersion
    */

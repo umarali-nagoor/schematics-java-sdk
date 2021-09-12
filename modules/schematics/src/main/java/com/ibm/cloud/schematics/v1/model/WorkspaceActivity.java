@@ -19,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivity -.
+ * Information about the workspace jobs.
  */
 public class WorkspaceActivity extends GenericModel {
 
@@ -37,7 +37,8 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the actionId.
    *
-   * Activity id.
+   * The ID of the activity or job.  You can use the ID to retrieve the logs for that job by using the `GET
+   * /v1/workspaces/{id}/actions/{action_id}/logs` API.
    *
    * @return the actionId
    */
@@ -48,7 +49,8 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the message.
    *
-   * StatusMessages -.
+   * Information about the success or failure of your job,  including a success or error code and the timestamp when the
+   * job succeeded or failed.
    *
    * @return the message
    */
@@ -59,7 +61,14 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the name.
    *
-   * WorkspaceActivityAction activity action type.
+   * The type of actovoty or job that ran against your workspace.
+   *
+   *  * **APPLY**: The apply job was created when you used the `PUT /v1/workspaces/{id}/apply` API to apply a Terraform
+   * template in IBM Cloud.
+   *  * **DESTROY**: The destroy job was created when you used the `DELETE /v1/workspaces/{id}/destroy` API to remove
+   * all resources that are associated with your workspace.
+   *  * **PLAN**: The plan job was created when you used the `POST /v1/workspaces/{id}/plan` API to create a Terraform
+   * execution plan.
    *
    * @return the name
    */
@@ -70,7 +79,7 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the performedAt.
    *
-   * Activity performed at.
+   * The timestamp when the job was initiated.
    *
    * @return the performedAt
    */
@@ -81,7 +90,7 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the performedBy.
    *
-   * Activity performed by.
+   * The user ID who initiated the job.
    *
    * @return the performedBy
    */
@@ -92,7 +101,15 @@ public class WorkspaceActivity extends GenericModel {
   /**
    * Gets the status.
    *
-   * WorkspaceActivityStatus activity status type.
+   * The status of your activity or job. To retrieve the URL to your job logs, use the GET
+   * /v1/workspaces/{id}/actions/{action_id}/logs API.
+   *
+   * * **COMPLETED**: The job completed successfully.
+   * * **CREATED**: The job was created, but the provisioning, modification, or removal of IBM Cloud resources has not
+   * started yet.
+   * * **FAILED**: An error occurred during the plan, apply, or destroy job. Use the job ID to retrieve the URL to the
+   * log files for your job.
+   * * **IN PROGRESS**: The job is in progress. You can use the log_url to access the logs.
    *
    * @return the status
    */

@@ -21,14 +21,14 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class ResourceQueryResponseRecord extends GenericModel {
 
-  protected List<ResourceQueryResponseRecordResponseItem> response;
+  protected List<ResourceQueryResponseRecordResponse> response;
 
   /**
    * Gets the response.
    *
    * @return the response
    */
-  public List<ResourceQueryResponseRecordResponseItem> getResponse() {
+  public List<ResourceQueryResponseRecordResponse> getResponse() {
     return response;
   }
 }

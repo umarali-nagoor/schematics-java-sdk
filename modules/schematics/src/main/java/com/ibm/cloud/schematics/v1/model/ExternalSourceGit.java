@@ -20,6 +20,8 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class ExternalSourceGit extends GenericModel {
 
+  @SerializedName("computed_git_repo_url")
+  protected String computedGitRepoUrl;
   @SerializedName("git_repo_url")
   protected String gitRepoUrl;
   @SerializedName("git_token")
@@ -35,6 +37,7 @@ public class ExternalSourceGit extends GenericModel {
    * Builder.
    */
   public static class Builder {
+    private String computedGitRepoUrl;
     private String gitRepoUrl;
     private String gitToken;
     private String gitRepoFolder;
@@ -42,6 +45,7 @@ public class ExternalSourceGit extends GenericModel {
     private String gitBranch;
 
     private Builder(ExternalSourceGit externalSourceGit) {
+      this.computedGitRepoUrl = externalSourceGit.computedGitRepoUrl;
       this.gitRepoUrl = externalSourceGit.gitRepoUrl;
       this.gitToken = externalSourceGit.gitToken;
       this.gitRepoFolder = externalSourceGit.gitRepoFolder;
@@ -62,6 +66,17 @@ public class ExternalSourceGit extends GenericModel {
      */
     public ExternalSourceGit build() {
       return new ExternalSourceGit(this);
+    }
+
+    /**
+     * Set the computedGitRepoUrl.
+     *
+     * @param computedGitRepoUrl the computedGitRepoUrl
+     * @return the ExternalSourceGit builder
+     */
+    public Builder computedGitRepoUrl(String computedGitRepoUrl) {
+      this.computedGitRepoUrl = computedGitRepoUrl;
+      return this;
     }
 
     /**
@@ -121,6 +136,7 @@ public class ExternalSourceGit extends GenericModel {
   }
 
   protected ExternalSourceGit(Builder builder) {
+    computedGitRepoUrl = builder.computedGitRepoUrl;
     gitRepoUrl = builder.gitRepoUrl;
     gitToken = builder.gitToken;
     gitRepoFolder = builder.gitRepoFolder;
@@ -135,6 +151,17 @@ public class ExternalSourceGit extends GenericModel {
    */
   public Builder newBuilder() {
     return new Builder(this);
+  }
+
+  /**
+   * Gets the computedGitRepoUrl.
+   *
+   * The Complete URL which is computed by git_repo_url, git_repo_folder and branch.
+   *
+   * @return the computedGitRepoUrl
+   */
+  public String computedGitRepoUrl() {
+    return computedGitRepoUrl;
   }
 
   /**

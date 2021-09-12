@@ -85,8 +85,8 @@ public class GetResourcesQueryOptions extends GenericModel {
   /**
    * Gets the queryId.
    *
-   * Resource query Id.  Use GET /resource_query API to look up the Resource query definition Ids  in your IBM Cloud
-   * account.
+   * Resource query Id.  Use `GET /v2/resource_query` API to look up the Resource query definition Ids  in your IBM
+   * Cloud account.
    *
    * @return the queryId
    */

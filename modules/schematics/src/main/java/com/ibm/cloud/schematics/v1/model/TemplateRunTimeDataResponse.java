@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateRunTimeDataResponse -.
+ * Information about the provisioning engine, state file, and runtime logs.
  */
 public class TemplateRunTimeDataResponse extends GenericModel {
 
@@ -40,7 +40,7 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the engineCmd.
    *
-   * Engine command.
+   * The command that was used to apply the Terraform template or IBM Cloud catalog software template.
    *
    * @return the engineCmd
    */
@@ -51,7 +51,7 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the engineName.
    *
-   * Engine name.
+   * The provisioning engine that was used to apply the Terraform template or IBM Cloud catalog software template.
    *
    * @return the engineName
    */
@@ -62,7 +62,7 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the engineVersion.
    *
-   * Engine version.
+   * The version of the provisioning engine that was used.
    *
    * @return the engineVersion
    */
@@ -73,7 +73,7 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the id.
    *
-   * Template id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the id
    */
@@ -84,7 +84,7 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the logStoreUrl.
    *
-   * Log store url.
+   * The URL to access the logs that were created during the creation, update, or deletion of your IBM Cloud resources.
    *
    * @return the logStoreUrl
    */
@@ -117,7 +117,9 @@ public class TemplateRunTimeDataResponse extends GenericModel {
   /**
    * Gets the stateStoreUrl.
    *
-   * State store URL.
+   * The URL where the Terraform statefile (`terraform.tfstate`) is stored. You can use the statefile to find an
+   * overview of IBM Cloud resources that were created by Schematics. Schematics uses the statefile as an inventory list
+   * to determine future create, update, or deletion jobs.
    *
    * @return the stateStoreUrl
    */

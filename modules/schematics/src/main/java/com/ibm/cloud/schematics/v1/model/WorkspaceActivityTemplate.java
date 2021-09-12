@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityTemplate -.
+ * Information about the template in the workspace.
  */
 public class WorkspaceActivityTemplate extends GenericModel {
 
@@ -40,7 +40,7 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the endTime.
    *
-   * End time for the activity.
+   * End time for the job.
    *
    * @return the endTime
    */
@@ -51,7 +51,7 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the logSummary.
    *
-   * LogSummary ...
+   * Summary information extracted from the job logs.
    *
    * @return the logSummary
    */
@@ -84,7 +84,7 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the startTime.
    *
-   * Activity start time.
+   * Job start time.
    *
    * @return the startTime
    */
@@ -95,7 +95,15 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the status.
    *
-   * WorkspaceActivityStatus activity status type.
+   * The status of your activity or job. To retrieve the URL to your job logs, use the GET
+   * /v1/workspaces/{id}/actions/{action_id}/logs API.
+   *
+   * * **COMPLETED**: The job completed successfully.
+   * * **CREATED**: The job was created, but the provisioning, modification, or removal of IBM Cloud resources has not
+   * started yet.
+   * * **FAILED**: An error occurred during the plan, apply, or destroy job. Use the job ID to retrieve the URL to the
+   * log files for your job.
+   * * **IN PROGRESS**: The job is in progress. You can use the log_url to access the logs.
    *
    * @return the status
    */
@@ -106,7 +114,7 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the templateId.
    *
-   * Template id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the templateId
    */
@@ -117,7 +125,7 @@ public class WorkspaceActivityTemplate extends GenericModel {
   /**
    * Gets the templateType.
    *
-   * Template type.
+   * The type of template.
    *
    * @return the templateType
    */

@@ -17,6 +17,8 @@ import com.ibm.cloud.schematics.v1.model.Action;
 import com.ibm.cloud.schematics.v1.model.ActionState;
 import com.ibm.cloud.schematics.v1.model.BastionResourceDefinition;
 import com.ibm.cloud.schematics.v1.model.ExternalSource;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCatalog;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCosBucket;
 import com.ibm.cloud.schematics.v1.model.ExternalSourceGit;
 import com.ibm.cloud.schematics.v1.model.SystemLock;
 import com.ibm.cloud.schematics.v1.model.UserState;
@@ -45,38 +47,59 @@ public class ActionTest {
     UserState userStateModel = new UserState.Builder()
       .state("draft")
       .setBy("testString")
-      .setAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .setAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(userStateModel.state(), "draft");
     assertEquals(userStateModel.setBy(), "testString");
-    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
+      .computedGitRepoUrl("testString")
       .gitRepoUrl("testString")
       .gitToken("testString")
       .gitRepoFolder("testString")
       .gitRelease("testString")
       .gitBranch("testString")
       .build();
+    assertEquals(externalSourceGitModel.computedGitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitToken(), "testString");
     assertEquals(externalSourceGitModel.gitRepoFolder(), "testString");
     assertEquals(externalSourceGitModel.gitRelease(), "testString");
     assertEquals(externalSourceGitModel.gitBranch(), "testString");
 
+    ExternalSourceCatalog externalSourceCatalogModel = new ExternalSourceCatalog.Builder()
+      .catalogName("testString")
+      .offeringName("testString")
+      .offeringVersion("testString")
+      .offeringKind("testString")
+      .offeringId("testString")
+      .offeringVersionId("testString")
+      .offeringRepoUrl("testString")
+      .build();
+    assertEquals(externalSourceCatalogModel.catalogName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersion(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringKind(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersionId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringRepoUrl(), "testString");
+
+    ExternalSourceCosBucket externalSourceCosBucketModel = new ExternalSourceCosBucket.Builder()
+      .cosBucketUrl("testString")
+      .build();
+    assertEquals(externalSourceCosBucketModel.cosBucketUrl(), "testString");
+
     ExternalSource externalSourceModel = new ExternalSource.Builder()
       .sourceType("local")
       .git(externalSourceGitModel)
+      .catalog(externalSourceCatalogModel)
+      .cosBucket(externalSourceCosBucketModel)
       .build();
     assertEquals(externalSourceModel.sourceType(), "local");
     assertEquals(externalSourceModel.git(), externalSourceGitModel);
-
-    BastionResourceDefinition bastionResourceDefinitionModel = new BastionResourceDefinition.Builder()
-      .name("testString")
-      .host("testString")
-      .build();
-    assertEquals(bastionResourceDefinitionModel.name(), "testString");
-    assertEquals(bastionResourceDefinitionModel.host(), "testString");
+    assertEquals(externalSourceModel.catalog(), externalSourceCatalogModel);
+    assertEquals(externalSourceModel.cosBucket(), externalSourceCosBucketModel);
 
     VariableMetadata variableMetadataModel = new VariableMetadata.Builder()
       .type("boolean")
@@ -122,6 +145,13 @@ public class ActionTest {
     assertEquals(variableDataModel.value(), "testString");
     assertEquals(variableDataModel.metadata(), variableMetadataModel);
 
+    BastionResourceDefinition bastionResourceDefinitionModel = new BastionResourceDefinition.Builder()
+      .name("testString")
+      .host("testString")
+      .build();
+    assertEquals(bastionResourceDefinitionModel.name(), "testString");
+    assertEquals(bastionResourceDefinitionModel.host(), "testString");
+
     ActionState actionStateModel = new ActionState.Builder()
       .statusCode("normal")
       .statusJobId("testString")
@@ -142,7 +172,7 @@ public class ActionTest {
 
     Action actionModel = new Action.Builder()
       .name("Stop Action")
-      .description("This Action can be used to Stop the VSIs")
+      .description("The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.")
       .location("us-south")
       .resourceGroup("testString")
       .tags(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
@@ -151,10 +181,11 @@ public class ActionTest {
       .source(externalSourceModel)
       .sourceType("local")
       .commandParameter("testString")
-      .bastion(bastionResourceDefinitionModel)
       .inventory("testString")
-      .bastionCredential(variableDataModel)
       .credentials(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
+      .bastion(bastionResourceDefinitionModel)
+      .bastionCredential(variableDataModel)
+      .targetsIni("testString")
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
@@ -162,7 +193,7 @@ public class ActionTest {
       .sysLock(systemLockModel)
       .build();
     assertEquals(actionModel.name(), "Stop Action");
-    assertEquals(actionModel.description(), "This Action can be used to Stop the VSIs");
+    assertEquals(actionModel.description(), "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.");
     assertEquals(actionModel.location(), "us-south");
     assertEquals(actionModel.resourceGroup(), "testString");
     assertEquals(actionModel.tags(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
@@ -171,10 +202,11 @@ public class ActionTest {
     assertEquals(actionModel.source(), externalSourceModel);
     assertEquals(actionModel.sourceType(), "local");
     assertEquals(actionModel.commandParameter(), "testString");
-    assertEquals(actionModel.bastion(), bastionResourceDefinitionModel);
     assertEquals(actionModel.inventory(), "testString");
-    assertEquals(actionModel.bastionCredential(), variableDataModel);
     assertEquals(actionModel.credentials(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
+    assertEquals(actionModel.bastion(), bastionResourceDefinitionModel);
+    assertEquals(actionModel.bastionCredential(), variableDataModel);
+    assertEquals(actionModel.targetsIni(), "testString");
     assertEquals(actionModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(actionModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(actionModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
@@ -186,7 +218,7 @@ public class ActionTest {
     Action actionModelNew = TestUtilities.deserialize(json, Action.class);
     assertTrue(actionModelNew instanceof Action);
     assertEquals(actionModelNew.name(), "Stop Action");
-    assertEquals(actionModelNew.description(), "This Action can be used to Stop the VSIs");
+    assertEquals(actionModelNew.description(), "The description of your action. The description can be up to 2048 characters long in size. **Example** you can use the description to stop the targets.");
     assertEquals(actionModelNew.location(), "us-south");
     assertEquals(actionModelNew.resourceGroup(), "testString");
     assertEquals(actionModelNew.userState().toString(), userStateModel.toString());
@@ -194,9 +226,10 @@ public class ActionTest {
     assertEquals(actionModelNew.source().toString(), externalSourceModel.toString());
     assertEquals(actionModelNew.sourceType(), "local");
     assertEquals(actionModelNew.commandParameter(), "testString");
-    assertEquals(actionModelNew.bastion().toString(), bastionResourceDefinitionModel.toString());
     assertEquals(actionModelNew.inventory(), "testString");
+    assertEquals(actionModelNew.bastion().toString(), bastionResourceDefinitionModel.toString());
     assertEquals(actionModelNew.bastionCredential().toString(), variableDataModel.toString());
+    assertEquals(actionModelNew.targetsIni(), "testString");
     assertEquals(actionModelNew.state().toString(), actionStateModel.toString());
     assertEquals(actionModelNew.sysLock().toString(), systemLockModel.toString());
   }

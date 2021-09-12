@@ -18,13 +18,14 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateSourceDataResponse -.
+ * Information about the input variables that are used in the template.
  */
 public class TemplateSourceDataResponse extends GenericModel {
 
   @SerializedName("env_values")
   protected List<EnvVariableResponse> envValues;
   protected String folder;
+  protected Boolean compact;
   @SerializedName("has_githubtoken")
   protected Boolean hasGithubtoken;
   protected String id;
@@ -52,12 +53,25 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the folder.
    *
-   * Folder name.
+   * The subfolder in your GitHub or GitLab repository where your Terraform template is stored. If your template is
+   * stored in the root directory, `.` is returned.
    *
    * @return the folder
    */
   public String getFolder() {
     return folder;
+  }
+
+  /**
+   * Gets the compact.
+   *
+   * True, to use the files from the specified folder &amp; subfolder in your GitHub or GitLab repository and ignore the
+   * other folders in the repository.
+   *
+   * @return the compact
+   */
+  public Boolean isCompact() {
+    return compact;
   }
 
   /**
@@ -74,7 +88,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the id.
    *
-   * Template id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the id
    */
@@ -85,7 +99,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the type.
    *
-   * Template tyoe.
+   * The Terraform version that was used to run your Terraform code.
    *
    * @return the type
    */
@@ -107,7 +121,10 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the values.
    *
-   * Values.
+   * A list of variable values that you want to apply during the Helm chart installation. The list must be provided in
+   * JSON format, such as `"autoscaling: enabled: true minReplicas: 2"`. The values that you define here override the
+   * default Helm chart values. This field is supported only for IBM Cloud catalog offerings that are provisioned by
+   * using the Terraform Helm provider.
    *
    * @return the values
    */
@@ -118,7 +135,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the valuesMetadata.
    *
-   * List of values metadata.
+   * A list of input variables that are associated with the workspace.
    *
    * @return the valuesMetadata
    */
@@ -129,7 +146,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the valuesUrl.
    *
-   * Values URL.
+   * The API endpoint to access the input variables that you defined for your template.
    *
    * @return the valuesUrl
    */
@@ -140,7 +157,7 @@ public class TemplateSourceDataResponse extends GenericModel {
   /**
    * Gets the variablestore.
    *
-   * VariablesResponse -.
+   * Information about the input variables that your template uses.
    *
    * @return the variablestore
    */

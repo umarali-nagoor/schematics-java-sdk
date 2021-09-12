@@ -23,8 +23,9 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class ReplaceInventoryOptions extends GenericModel {
 
   /**
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    */
   public interface Location {
     /** us-south. */
@@ -210,7 +211,7 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the inventoryId.
    *
-   * Resource Inventory Id.  Use GET /inventories API to look up the Resource Inventory definition Ids  in your IBM
+   * Resource Inventory Id.  Use `GET /v2/inventories` API to look up the Resource Inventory definition Ids  in your IBM
    * Cloud account.
    *
    * @return the inventoryId
@@ -222,7 +223,8 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * Inventory name.
+   * The unique name of your Inventory definition. The name can be up to 128 characters long and can include
+   * alphanumeric characters, spaces, dashes, and underscores.
    *
    * @return the name
    */
@@ -233,7 +235,7 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the description.
    *
-   * Inventory description.
+   * The description of your Inventory definition. The description can be up to 2048 characters long in size.
    *
    * @return the description
    */
@@ -244,8 +246,9 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the location.
    *
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    *
    * @return the location
    */
@@ -256,7 +259,8 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the resourceGroup.
    *
-   * Resource-group name for the Inventory definition.  By default, Action will be created in Default Resource Group.
+   * Resource-group name for the Inventory definition.   By default, Inventory definition will be created in Default
+   * Resource Group.
    *
    * @return the resourceGroup
    */
@@ -267,7 +271,7 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the inventoriesIni.
    *
-   * Input inventory of host and host group for the playbook,  in the .ini file format.
+   * Input inventory of host and host group for the playbook, in the `.ini` file format.
    *
    * @return the inventoriesIni
    */
@@ -278,7 +282,8 @@ public class ReplaceInventoryOptions extends GenericModel {
   /**
    * Gets the resourceQueries.
    *
-   * Input resource queries that is used to dynamically generate  the inventory of host and host group for the playbook.
+   * Input resource query definitions that is used to dynamically generate the inventory of host and host group for the
+   * playbook.
    *
    * @return the resourceQueries
    */

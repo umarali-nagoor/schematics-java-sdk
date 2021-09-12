@@ -45,10 +45,12 @@ public class ApplyWorkspaceCommandOptionsTest {
       .wId("testString")
       .refreshToken("testString")
       .actionOptions(workspaceActivityOptionsTemplateModel)
+      .delegatedToken("testString")
       .build();
     assertEquals(applyWorkspaceCommandOptionsModel.wId(), "testString");
     assertEquals(applyWorkspaceCommandOptionsModel.refreshToken(), "testString");
     assertEquals(applyWorkspaceCommandOptionsModel.actionOptions(), workspaceActivityOptionsTemplateModel);
+    assertEquals(applyWorkspaceCommandOptionsModel.delegatedToken(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

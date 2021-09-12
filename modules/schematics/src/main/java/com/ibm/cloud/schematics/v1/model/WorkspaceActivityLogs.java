@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityLogs -.
+ * Workspace job logs for all the templates in the workspace.
  */
 public class WorkspaceActivityLogs extends GenericModel {
 
@@ -30,7 +30,7 @@ public class WorkspaceActivityLogs extends GenericModel {
   /**
    * Gets the actionId.
    *
-   * Activity id.
+   * The ID of the activity or job that ran against your workspace.
    *
    * @return the actionId
    */
@@ -41,7 +41,14 @@ public class WorkspaceActivityLogs extends GenericModel {
   /**
    * Gets the name.
    *
-   * WorkspaceActivityAction activity action type.
+   * The type of actovoty or job that ran against your workspace.
+   *
+   *  * **APPLY**: The apply job was created when you used the `PUT /v1/workspaces/{id}/apply` API to apply a Terraform
+   * template in IBM Cloud.
+   *  * **DESTROY**: The destroy job was created when you used the `DELETE /v1/workspaces/{id}/destroy` API to remove
+   * all resources that are associated with your workspace.
+   *  * **PLAN**: The plan job was created when you used the `POST /v1/workspaces/{id}/plan` API to create a Terraform
+   * execution plan.
    *
    * @return the name
    */
@@ -52,7 +59,7 @@ public class WorkspaceActivityLogs extends GenericModel {
   /**
    * Gets the templates.
    *
-   * List of activity logs.
+   * List of templates in the workspace.
    *
    * @return the templates
    */

@@ -89,7 +89,11 @@ public class ListWorkspacesOptions extends GenericModel {
   /**
    * Gets the offset.
    *
-   * The number of items to skip before starting to collect the result set.
+   * The starting position of the item in the list of items. For example, if you have three workspaces in your account,
+   * the first workspace is assigned position number 0, the second workspace is assigned position number 1, and so
+   * forth. If you have 6 workspaces and you want to list the details for workspaces 2-6, enter 1. To limit the number
+   * of workspaces that is returned, use the `limit` option in addition to the `offset` option. Negative numbers are not
+   * supported and are ignored.
    *
    * @return the offset
    */
@@ -100,7 +104,8 @@ public class ListWorkspacesOptions extends GenericModel {
   /**
    * Gets the limit.
    *
-   * The numbers of items to return.
+   * The maximum number of items that you want to list. The number must be a positive integer between 1 and 2000. If no
+   * value is provided, 100 is used by default.
    *
    * @return the limit
    */

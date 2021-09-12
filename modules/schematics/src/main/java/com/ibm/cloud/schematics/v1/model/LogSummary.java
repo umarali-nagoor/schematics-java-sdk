@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * LogSummary ...
+ * Summary information extracted from the job logs.
  */
 public class LogSummary extends GenericModel {
 
@@ -43,7 +43,15 @@ public class LogSummary extends GenericModel {
   /**
    * Gets the activityStatus.
    *
-   * WorkspaceActivityStatus activity status type.
+   * The status of your activity or job. To retrieve the URL to your job logs, use the GET
+   * /v1/workspaces/{id}/actions/{action_id}/logs API.
+   *
+   * * **COMPLETED**: The job completed successfully.
+   * * **CREATED**: The job was created, but the provisioning, modification, or removal of IBM Cloud resources has not
+   * started yet.
+   * * **FAILED**: An error occurred during the plan, apply, or destroy job. Use the job ID to retrieve the URL to the
+   * log files for your job.
+   * * **IN PROGRESS**: The job is in progress. You can use the log_url to access the logs.
    *
    * @return the activityStatus
    */
@@ -142,7 +150,7 @@ public class LogSummary extends GenericModel {
   /**
    * Gets the timeTaken.
    *
-   * Time takemn to perform activity.
+   * Elapsed time to run the job.
    *
    * @return the timeTaken
    */

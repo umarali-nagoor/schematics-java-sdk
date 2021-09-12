@@ -19,21 +19,21 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class DeleteWorkspaceOptions extends GenericModel {
 
-  protected String wId;
   protected String refreshToken;
+  protected String wId;
   protected String destroyResources;
 
   /**
    * Builder.
    */
   public static class Builder {
-    private String wId;
     private String refreshToken;
+    private String wId;
     private String destroyResources;
 
     private Builder(DeleteWorkspaceOptions deleteWorkspaceOptions) {
-      this.wId = deleteWorkspaceOptions.wId;
       this.refreshToken = deleteWorkspaceOptions.refreshToken;
+      this.wId = deleteWorkspaceOptions.wId;
       this.destroyResources = deleteWorkspaceOptions.destroyResources;
     }
 
@@ -46,12 +46,12 @@ public class DeleteWorkspaceOptions extends GenericModel {
     /**
      * Instantiates a new builder with required properties.
      *
-     * @param wId the wId
      * @param refreshToken the refreshToken
+     * @param wId the wId
      */
-    public Builder(String wId, String refreshToken) {
-      this.wId = wId;
+    public Builder(String refreshToken, String wId) {
       this.refreshToken = refreshToken;
+      this.wId = wId;
     }
 
     /**
@@ -64,17 +64,6 @@ public class DeleteWorkspaceOptions extends GenericModel {
     }
 
     /**
-     * Set the wId.
-     *
-     * @param wId the wId
-     * @return the DeleteWorkspaceOptions builder
-     */
-    public Builder wId(String wId) {
-      this.wId = wId;
-      return this;
-    }
-
-    /**
      * Set the refreshToken.
      *
      * @param refreshToken the refreshToken
@@ -82,6 +71,17 @@ public class DeleteWorkspaceOptions extends GenericModel {
      */
     public Builder refreshToken(String refreshToken) {
       this.refreshToken = refreshToken;
+      return this;
+    }
+
+    /**
+     * Set the wId.
+     *
+     * @param wId the wId
+     * @return the DeleteWorkspaceOptions builder
+     */
+    public Builder wId(String wId) {
+      this.wId = wId;
       return this;
     }
 
@@ -98,12 +98,12 @@ public class DeleteWorkspaceOptions extends GenericModel {
   }
 
   protected DeleteWorkspaceOptions(Builder builder) {
-    com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.wId,
-      "wId cannot be empty");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.refreshToken,
       "refreshToken cannot be null");
-    wId = builder.wId;
+    com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.wId,
+      "wId cannot be empty");
     refreshToken = builder.refreshToken;
+    wId = builder.wId;
     destroyResources = builder.destroyResources;
   }
 
@@ -117,21 +117,24 @@ public class DeleteWorkspaceOptions extends GenericModel {
   }
 
   /**
-   * Gets the wId.
-   *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
-   *
-   * @return the wId
-   */
-  public String wId() {
-    return wId;
-  }
-
-  /**
    * Gets the refreshToken.
    *
-   * The IAM refresh token associated with the IBM Cloud account.
+   * The IAM refresh token for the user or service identity. The IAM refresh token is required only if you want to
+   * destroy the Terraform resources before deleting the Schematics workspace. If you want to delete the workspace only
+   * and keep all your Terraform resources, refresh token is not required.
+   *
+   *   **Retrieving refresh token**:
+   *   * Use `export IBMCLOUD_API_KEY=&lt;ibmcloud_api_key&gt;`, and execute `curl -X POST
+   * "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+   * "grant_type=urn:ibm:params:oauth:grant-type:apikey&amp;apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+   *   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+   * token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+   * key](/apidocs/iam-identity-token-api#create-api-key).
+   *
+   *   **Limitation**:
+   *   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+   *   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+   *   * When the IAM access token is about to expire, use the API key to create a new access token.
    *
    * @return the refreshToken
    */
@@ -140,9 +143,22 @@ public class DeleteWorkspaceOptions extends GenericModel {
   }
 
   /**
+   * Gets the wId.
+   *
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
+   *
+   * @return the wId
+   */
+  public String wId() {
+    return wId;
+  }
+
+  /**
    * Gets the destroyResources.
    *
-   * true or 1 - to destroy resources before deleting workspace;  If this is true, refresh_token is mandatory.
+   * If set to `true`, refresh_token header configuration is required to delete all the Terraform resources, and the
+   * Schematics workspace. If set to `false`, you can remove only the workspace. Your Terraform resources are still
+   * available and must be managed with the resource dashboard or CLI.
    *
    * @return the destroyResources
    */

@@ -32,12 +32,15 @@ public class SchematicsLocationsTest {
   @Test
   public void testSchematicsLocations() throws Throwable {
     SchematicsLocations schematicsLocationsModel = new SchematicsLocations();
+    assertNull(schematicsLocationsModel.getName());
+    assertNull(schematicsLocationsModel.getId());
     assertNull(schematicsLocationsModel.getCountry());
     assertNull(schematicsLocationsModel.getGeography());
-    assertNull(schematicsLocationsModel.getId());
-    assertNull(schematicsLocationsModel.getKind());
+    assertNull(schematicsLocationsModel.getGeographyCode());
     assertNull(schematicsLocationsModel.getMetro());
     assertNull(schematicsLocationsModel.getMultizoneMetro());
-    assertNull(schematicsLocationsModel.getName());
+    assertNull(schematicsLocationsModel.getKind());
+    assertNull(schematicsLocationsModel.getPairedRegion());
+    assertNull(schematicsLocationsModel.isRestricted());
   }
 }

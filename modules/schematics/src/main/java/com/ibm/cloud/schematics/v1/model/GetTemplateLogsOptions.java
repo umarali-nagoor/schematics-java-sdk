@@ -164,8 +164,7 @@ public class GetTemplateLogsOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -176,8 +175,8 @@ public class GetTemplateLogsOptions extends GenericModel {
   /**
    * Gets the tId.
    *
-   * The Template ID for which you want to get the values.  Use the GET /workspaces to look up the workspace IDs  or
-   * template IDs in your IBM Cloud account.
+   * The ID of the Terraform template or IBM Cloud catalog software template in the workspace.  Use the `GET
+   * /v1/workspaces` to look up the workspace IDs and template IDs or `template_data.id`.
    *
    * @return the tId
    */
@@ -188,7 +187,11 @@ public class GetTemplateLogsOptions extends GenericModel {
   /**
    * Gets the logTfCmd.
    *
-   * `false` will hide the terraform command header in the logs.
+   * Enter false to replace the first line in each Terraform command section, such as Terraform INIT or Terraform PLAN,
+   * with Schematics INIT (Schematics PLAN) in your log output.  In addition, the log lines Starting command: terraform
+   * init -input=false -no-color and Starting command: terraform apply -state=terraform.tfstate
+   * -var-file=schematics.tfvars -auto-approve -no-color are suppressed.  All subsequent command lines still use the
+   * Terraform command prefix. To remove this prefix, use the log_tf_prefix option.
    *
    * @return the logTfCmd
    */

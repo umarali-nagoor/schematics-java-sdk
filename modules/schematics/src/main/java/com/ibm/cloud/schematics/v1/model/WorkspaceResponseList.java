@@ -17,7 +17,7 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceResponseList -.
+ * List of workspaces.
  */
 public class WorkspaceResponseList extends GenericModel {
 
@@ -29,7 +29,7 @@ public class WorkspaceResponseList extends GenericModel {
   /**
    * Gets the count.
    *
-   * Total number of workspaces.
+   * The number of workspaces in the IBM Cloud account that you have access to and that matched your search criteria.
    *
    * @return the count
    */
@@ -40,7 +40,8 @@ public class WorkspaceResponseList extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Limit for the list.
+   * The `limit` value that you set in your API request and that represents the maximum number of workspaces that you
+   * wanted to list.
    *
    * @return the limit
    */
@@ -51,7 +52,8 @@ public class WorkspaceResponseList extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Offset for the list.
+   * The `offset` value that you set in your API request. The offset value represents the position number of the
+   * workspace from which you wanted to start listing your workspaces.
    *
    * @return the offset
    */
@@ -62,7 +64,7 @@ public class WorkspaceResponseList extends GenericModel {
   /**
    * Gets the workspaces.
    *
-   * List of Workspaces.
+   * The list of workspaces that was included in your API response.
    *
    * @return the workspaces
    */

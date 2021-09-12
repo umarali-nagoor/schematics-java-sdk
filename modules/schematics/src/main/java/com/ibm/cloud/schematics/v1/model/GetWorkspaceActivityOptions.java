@@ -104,8 +104,7 @@ public class GetWorkspaceActivityOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -116,7 +115,8 @@ public class GetWorkspaceActivityOptions extends GenericModel {
   /**
    * Gets the activityId.
    *
-   * The activity ID that you want to see additional details.
+   * The ID of the activity or job, for which you want to retrieve details.  To find the job ID, use the `GET
+   * /v1/workspaces/{id}/actions` API.
    *
    * @return the activityId
    */

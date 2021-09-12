@@ -22,12 +22,10 @@ import com.ibm.cloud.schematics.v1.model.ApplyWorkspaceCommandOptions;
 import com.ibm.cloud.schematics.v1.model.CatalogRef;
 import com.ibm.cloud.schematics.v1.model.CreateActionOptions;
 import com.ibm.cloud.schematics.v1.model.CreateJobOptions;
-import com.ibm.cloud.schematics.v1.model.CreateSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.CreateWorkspaceDeletionJobOptions;
 import com.ibm.cloud.schematics.v1.model.CreateWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.DeleteActionOptions;
 import com.ibm.cloud.schematics.v1.model.DeleteJobOptions;
-import com.ibm.cloud.schematics.v1.model.DeleteSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.DeleteWorkspaceActivityOptions;
 import com.ibm.cloud.schematics.v1.model.DeleteWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.DestroyWorkspaceCommandOptions;
@@ -36,11 +34,9 @@ import com.ibm.cloud.schematics.v1.model.ExternalSource;
 import com.ibm.cloud.schematics.v1.model.ExternalSourceGit;
 import com.ibm.cloud.schematics.v1.model.GetActionOptions;
 import com.ibm.cloud.schematics.v1.model.GetAllWorkspaceInputsOptions;
-import com.ibm.cloud.schematics.v1.model.GetDiscoveredKmsInstancesOptions;
 import com.ibm.cloud.schematics.v1.model.GetJobOptions;
 import com.ibm.cloud.schematics.v1.model.GetKmsSettingsOptions;
 import com.ibm.cloud.schematics.v1.model.GetSchematicsVersionOptions;
-import com.ibm.cloud.schematics.v1.model.GetSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.GetTemplateActivityLogOptions;
 import com.ibm.cloud.schematics.v1.model.GetTemplateLogsOptions;
 import com.ibm.cloud.schematics.v1.model.GetWorkspaceActivityLogsOptions;
@@ -64,14 +60,13 @@ import com.ibm.cloud.schematics.v1.model.JobLog;
 import com.ibm.cloud.schematics.v1.model.JobLogSummary;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJob;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryActionJobRecap;
-import com.ibm.cloud.schematics.v1.model.JobLogSummaryLogErrorsItem;
+import com.ibm.cloud.schematics.v1.model.JobLogSummaryLogErrors;
 import com.ibm.cloud.schematics.v1.model.JobLogSummaryRepoDownloadJob;
 import com.ibm.cloud.schematics.v1.model.JobStatus;
 import com.ibm.cloud.schematics.v1.model.JobStatusAction;
-import com.ibm.cloud.schematics.v1.model.JobStatusType;
 import com.ibm.cloud.schematics.v1.model.KMSDiscovery;
 import com.ibm.cloud.schematics.v1.model.KMSInstances;
-import com.ibm.cloud.schematics.v1.model.KMSInstancesKeysItem;
+import com.ibm.cloud.schematics.v1.model.KMSInstancesKeys;
 import com.ibm.cloud.schematics.v1.model.KMSSettings;
 import com.ibm.cloud.schematics.v1.model.KMSSettingsPrimaryCrk;
 import com.ibm.cloud.schematics.v1.model.KMSSettingsSecondaryCrk;
@@ -80,26 +75,19 @@ import com.ibm.cloud.schematics.v1.model.ListJobLogsOptions;
 import com.ibm.cloud.schematics.v1.model.ListJobsOptions;
 import com.ibm.cloud.schematics.v1.model.ListResourceGroupOptions;
 import com.ibm.cloud.schematics.v1.model.ListSchematicsLocationOptions;
-import com.ibm.cloud.schematics.v1.model.ListSharedDatasetsOptions;
 import com.ibm.cloud.schematics.v1.model.ListWorkspaceActivitiesOptions;
 import com.ibm.cloud.schematics.v1.model.ListWorkspacesOptions;
 import com.ibm.cloud.schematics.v1.model.LogStoreResponse;
 import com.ibm.cloud.schematics.v1.model.LogStoreResponseList;
 import com.ibm.cloud.schematics.v1.model.LogSummary;
-import com.ibm.cloud.schematics.v1.model.OutputValuesItem;
+import com.ibm.cloud.schematics.v1.model.OutputValuesInner;
 import com.ibm.cloud.schematics.v1.model.PlanWorkspaceCommandOptions;
 import com.ibm.cloud.schematics.v1.model.RefreshWorkspaceCommandOptions;
-import com.ibm.cloud.schematics.v1.model.ReplaceJobOptions;
-import com.ibm.cloud.schematics.v1.model.ReplaceKmsSettingsOptions;
-import com.ibm.cloud.schematics.v1.model.ReplaceSharedDatasetOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceInputsOptions;
 import com.ibm.cloud.schematics.v1.model.ReplaceWorkspaceOptions;
 import com.ibm.cloud.schematics.v1.model.ResourceGroupResponse;
 import com.ibm.cloud.schematics.v1.model.RunWorkspaceCommandsOptions;
 import com.ibm.cloud.schematics.v1.model.SchematicsLocations;
-import com.ibm.cloud.schematics.v1.model.SharedDatasetData;
-import com.ibm.cloud.schematics.v1.model.SharedDatasetResponse;
-import com.ibm.cloud.schematics.v1.model.SharedDatasetResponseList;
 import com.ibm.cloud.schematics.v1.model.SharedTargetData;
 import com.ibm.cloud.schematics.v1.model.SharedTargetDataResponse;
 import com.ibm.cloud.schematics.v1.model.StateStoreResponse;
@@ -114,12 +102,11 @@ import com.ibm.cloud.schematics.v1.model.TemplateResources;
 import com.ibm.cloud.schematics.v1.model.TemplateRunTimeDataResponse;
 import com.ibm.cloud.schematics.v1.model.TemplateSourceDataRequest;
 import com.ibm.cloud.schematics.v1.model.TemplateSourceDataResponse;
-import com.ibm.cloud.schematics.v1.model.TemplateStateStore;
 import com.ibm.cloud.schematics.v1.model.TemplateValues;
 import com.ibm.cloud.schematics.v1.model.TerraformCommand;
 import com.ibm.cloud.schematics.v1.model.UpdateActionOptions;
 import com.ibm.cloud.schematics.v1.model.UpdateWorkspaceOptions;
-import com.ibm.cloud.schematics.v1.model.UploadTemplateTarOptions;
+import com.ibm.cloud.schematics.v1.model.TemplateRepoUploadOptions;
 import com.ibm.cloud.schematics.v1.model.UserState;
 import com.ibm.cloud.schematics.v1.model.UserValues;
 import com.ibm.cloud.schematics.v1.model.VariableData;
@@ -349,14 +336,14 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
       String currentDir = System.getProperty("user.dir");
 
-      UploadTemplateTarOptions uploadTemplateTarOptions = new UploadTemplateTarOptions.Builder()
+      TemplateRepoUploadOptions uploadTemplateTarOptions = new TemplateRepoUploadOptions.Builder()
       .wId(ws.getId())
       .tId(ws.getTemplateData().get(0).getId())
       .fileContentType("multipart/form-data")
       .file(new File(currentDir + "/testfiles/tf_cloudless_sleepy_git_archive.tar"))
       .build();
 
-      Response<TemplateRepoTarUploadResponse> response = service.uploadTemplateTar(uploadTemplateTarOptions).execute();
+      Response<TemplateRepoTarUploadResponse> response = service.templateRepoUpload(uploadTemplateTarOptions).execute();
 
       TemplateRepoTarUploadResponse workspaceResponseList = response.getResult();
 
@@ -696,7 +683,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
 
     try {
 
-      UploadTemplateTarOptions uploadTemplateTarOptions = new UploadTemplateTarOptions.Builder()
+      TemplateRepoUploadOptions uploadTemplateTarOptions = new TemplateRepoUploadOptions.Builder()
       .wId(ws.getId())
       .tId(ws.getTemplateData().get(0).getId())
       .file(new FileInputStream(new File("testfiles/tf_cloudless_sleepy_git_archive.tar")))
@@ -704,7 +691,7 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .build();
 
       // Invoke operation
-      Response<TemplateRepoTarUploadResponse> response = service.uploadTemplateTar(uploadTemplateTarOptions).execute();
+      Response<TemplateRepoTarUploadResponse> response = service.templateRepoUpload(uploadTemplateTarOptions).execute();
       // Validate response
       assertNotNull(response);
       assertEquals(response.getStatusCode(), 200);
@@ -1113,12 +1100,12 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .build();
 
       // Invoke operation
-      Response<List<OutputValuesItem>> response = service.getWorkspaceOutputs(getWorkspaceOutputsOptions).execute();
+      Response<List<OutputValuesInner>> response = service.getWorkspaceOutputs(getWorkspaceOutputsOptions).execute();
       // Validate response
       assertNotNull(response);
       assertEquals(response.getStatusCode(), 200);
 
-      List<OutputValuesItem> listOutputValuesItemResult = response.getResult();
+      List<OutputValuesInner> listOutputValuesItemResult = response.getResult();
 
       assertNotNull(listOutputValuesItemResult);
     } catch (ServiceResponseException e) {
@@ -1195,12 +1182,12 @@ public class SchematicsIT extends SdkIntegrationTestBase {
       .build();
 
       // Invoke operation
-      Response<TemplateStateStore> response = service.getWorkspaceTemplateState(getWorkspaceTemplateStateOptions).execute();
+      Response<Object> response = service.getWorkspaceTemplateState(getWorkspaceTemplateStateOptions).execute();
       // Validate response
       assertNotNull(response);
       assertEquals(response.getStatusCode(), 200);
 
-      TemplateStateStore templateStateStoreResult = response.getResult();
+      Object templateStateStoreResult = response.getResult();
 
       assertNotNull(templateStateStoreResult);
     } catch (ServiceResponseException e) {

@@ -37,6 +37,7 @@ public class ListJobsOptionsTest {
       .sort("testString")
       .profile("ids")
       .resource("workspace")
+      .resourceId("testString")
       .actionId("testString")
       .list("all")
       .build();
@@ -45,6 +46,7 @@ public class ListJobsOptionsTest {
     assertEquals(listJobsOptionsModel.sort(), "testString");
     assertEquals(listJobsOptionsModel.profile(), "ids");
     assertEquals(listJobsOptionsModel.resource(), "workspace");
+    assertEquals(listJobsOptionsModel.resourceId(), "testString");
     assertEquals(listJobsOptionsModel.actionId(), "testString");
     assertEquals(listJobsOptionsModel.list(), "all");
   }

@@ -104,8 +104,7 @@ public class GetWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -116,8 +115,9 @@ public class GetWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the tId.
    *
-   * The Template ID for which you want to get the values.  Use the GET /workspaces to look up the workspace IDs  or
-   * template IDs in your IBM Cloud account.
+   * The ID of the Terraform template in your workspace.  When you create a workspace, the Terraform template that  your
+   * workspace points to is assigned a unique ID. Use the `GET /v1/workspaces` to look up the workspace IDs  and
+   * template IDs or `template_data.id` in your IBM Cloud account.
    *
    * @return the tId
    */

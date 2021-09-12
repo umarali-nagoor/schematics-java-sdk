@@ -19,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Workspace Activity Options Template.
+ * Workspace job options template.
  */
 public class WorkspaceActivityOptionsTemplate extends GenericModel {
 
@@ -128,7 +128,7 @@ public class WorkspaceActivityOptionsTemplate extends GenericModel {
   /**
    * Gets the target.
    *
-   * Workspace Activity targets.
+   * A list of Terraform resources to target.
    *
    * @return the target
    */
@@ -139,7 +139,7 @@ public class WorkspaceActivityOptionsTemplate extends GenericModel {
   /**
    * Gets the tfVars.
    *
-   * Workspace Activity tfvars.
+   * Terraform variables for the workspace job options.
    *
    * @return the tfVars
    */

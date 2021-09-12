@@ -125,8 +125,7 @@ public class GetWorkspaceReadmeOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -137,7 +136,9 @@ public class GetWorkspaceReadmeOptions extends GenericModel {
   /**
    * Gets the ref.
    *
-   * The name of the commit/branch/tag.  Default, the repository’s default branch (usually master).
+   * The GitHub or GitLab branch where the `README.md` file is stored,  or the commit ID or tag that references the
+   * `README.md` file that you want to retrieve.  If you do not specify this option, the `README.md` file is retrieved
+   * from the master branch by default.
    *
    * @return the ref
    */

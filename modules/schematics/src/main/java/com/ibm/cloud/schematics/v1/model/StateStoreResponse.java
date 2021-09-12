@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * StateStoreResponse -.
+ * Information about workspace runtime data.
  */
 public class StateStoreResponse extends GenericModel {
 
@@ -31,7 +31,7 @@ public class StateStoreResponse extends GenericModel {
   /**
    * Gets the engineName.
    *
-   * Engine name.
+   * The provisioning engine that was used to apply the Terraform template or IBM Cloud catalog software template.
    *
    * @return the engineName
    */
@@ -42,7 +42,7 @@ public class StateStoreResponse extends GenericModel {
   /**
    * Gets the engineVersion.
    *
-   * Engine version.
+   * The version of the provisioning engine that was used.
    *
    * @return the engineVersion
    */
@@ -53,7 +53,7 @@ public class StateStoreResponse extends GenericModel {
   /**
    * Gets the id.
    *
-   * State store id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the id
    */
@@ -64,7 +64,9 @@ public class StateStoreResponse extends GenericModel {
   /**
    * Gets the stateStoreUrl.
    *
-   * State store url.
+   * The URL where the Terraform statefile (`terraform.tfstate`) is stored. You can use the statefile to find an
+   * overview of IBM Cloud resources that were created by Schematics. Schematics uses the statefile as an inventory list
+   * to determine future create, update, or deletion jobs.
    *
    * @return the stateStoreUrl
    */

@@ -32,12 +32,14 @@ public class ExternalSourceGitTest {
   @Test
   public void testExternalSourceGit() throws Throwable {
     ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
+      .computedGitRepoUrl("testString")
       .gitRepoUrl("testString")
       .gitToken("testString")
       .gitRepoFolder("testString")
       .gitRelease("testString")
       .gitBranch("testString")
       .build();
+    assertEquals(externalSourceGitModel.computedGitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitToken(), "testString");
     assertEquals(externalSourceGitModel.gitRepoFolder(), "testString");
@@ -48,6 +50,7 @@ public class ExternalSourceGitTest {
 
     ExternalSourceGit externalSourceGitModelNew = TestUtilities.deserialize(json, ExternalSourceGit.class);
     assertTrue(externalSourceGitModelNew instanceof ExternalSourceGit);
+    assertEquals(externalSourceGitModelNew.computedGitRepoUrl(), "testString");
     assertEquals(externalSourceGitModelNew.gitRepoUrl(), "testString");
     assertEquals(externalSourceGitModelNew.gitToken(), "testString");
     assertEquals(externalSourceGitModelNew.gitRepoFolder(), "testString");

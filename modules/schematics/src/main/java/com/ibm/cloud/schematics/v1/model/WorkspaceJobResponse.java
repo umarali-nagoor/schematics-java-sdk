@@ -16,21 +16,21 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceJobResponse -.
+ * Response from the workspace bulk job status.
  */
 public class WorkspaceJobResponse extends GenericModel {
 
   @SerializedName("job_status")
-  protected JobStatusType jobStatus;
+  protected WorkspaceJobStatusType jobStatus;
 
   /**
    * Gets the jobStatus.
    *
-   * JobStatusType -.
+   * Status of the workspace bulk job.
    *
    * @return the jobStatus
    */
-  public JobStatusType getJobStatus() {
+  public WorkspaceJobStatusType getJobStatus() {
     return jobStatus;
   }
 }

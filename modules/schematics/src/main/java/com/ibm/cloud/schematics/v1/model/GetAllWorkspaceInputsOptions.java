@@ -85,8 +85,8 @@ public class GetAllWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace for which you want to retrieve input parameters and  values. To find the workspace ID, use
+   * the `GET /workspaces` API.
    *
    * @return the wId
    */

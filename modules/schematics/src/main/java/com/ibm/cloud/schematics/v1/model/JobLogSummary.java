@@ -35,6 +35,8 @@ public class JobLogSummary extends GenericModel {
     String ACTION_JOB = "action_job";
     /** system_job. */
     String SYSTEM_JOB = "system_job";
+    /** flow_job. */
+    String FLOW_JOB = "flow_job";
   }
 
   @SerializedName("job_id")
@@ -48,9 +50,13 @@ public class JobLogSummary extends GenericModel {
   @SerializedName("elapsed_time")
   protected Double elapsedTime;
   @SerializedName("log_errors")
-  protected List<JobLogSummaryLogErrorsItem> logErrors;
+  protected List<JobLogSummaryLogErrors> logErrors;
   @SerializedName("repo_download_job")
   protected JobLogSummaryRepoDownloadJob repoDownloadJob;
+  @SerializedName("workspace_job")
+  protected JobLogSummaryWorkspaceJob workspaceJob;
+  @SerializedName("flow_job")
+  protected JobLogSummaryFlowJob flowJob;
   @SerializedName("action_job")
   protected JobLogSummaryActionJob actionJob;
   @SerializedName("system_job")
@@ -62,12 +68,16 @@ public class JobLogSummary extends GenericModel {
   public static class Builder {
     private String jobType;
     private JobLogSummaryRepoDownloadJob repoDownloadJob;
+    private JobLogSummaryWorkspaceJob workspaceJob;
+    private JobLogSummaryFlowJob flowJob;
     private JobLogSummaryActionJob actionJob;
     private JobLogSummarySystemJob systemJob;
 
     private Builder(JobLogSummary jobLogSummary) {
       this.jobType = jobLogSummary.jobType;
       this.repoDownloadJob = jobLogSummary.repoDownloadJob;
+      this.workspaceJob = jobLogSummary.workspaceJob;
+      this.flowJob = jobLogSummary.flowJob;
       this.actionJob = jobLogSummary.actionJob;
       this.systemJob = jobLogSummary.systemJob;
     }
@@ -110,6 +120,28 @@ public class JobLogSummary extends GenericModel {
     }
 
     /**
+     * Set the workspaceJob.
+     *
+     * @param workspaceJob the workspaceJob
+     * @return the JobLogSummary builder
+     */
+    public Builder workspaceJob(JobLogSummaryWorkspaceJob workspaceJob) {
+      this.workspaceJob = workspaceJob;
+      return this;
+    }
+
+    /**
+     * Set the flowJob.
+     *
+     * @param flowJob the flowJob
+     * @return the JobLogSummary builder
+     */
+    public Builder flowJob(JobLogSummaryFlowJob flowJob) {
+      this.flowJob = flowJob;
+      return this;
+    }
+
+    /**
      * Set the actionJob.
      *
      * @param actionJob the actionJob
@@ -135,6 +167,8 @@ public class JobLogSummary extends GenericModel {
   protected JobLogSummary(Builder builder) {
     jobType = builder.jobType;
     repoDownloadJob = builder.repoDownloadJob;
+    workspaceJob = builder.workspaceJob;
+    flowJob = builder.flowJob;
     actionJob = builder.actionJob;
     systemJob = builder.systemJob;
   }
@@ -210,7 +244,7 @@ public class JobLogSummary extends GenericModel {
    *
    * @return the logErrors
    */
-  public List<JobLogSummaryLogErrorsItem> logErrors() {
+  public List<JobLogSummaryLogErrors> logErrors() {
     return logErrors;
   }
 
@@ -226,9 +260,31 @@ public class JobLogSummary extends GenericModel {
   }
 
   /**
+   * Gets the workspaceJob.
+   *
+   * Workspace Job log summary.
+   *
+   * @return the workspaceJob
+   */
+  public JobLogSummaryWorkspaceJob workspaceJob() {
+    return workspaceJob;
+  }
+
+  /**
+   * Gets the flowJob.
+   *
+   * Flow Job log summary.
+   *
+   * @return the flowJob
+   */
+  public JobLogSummaryFlowJob flowJob() {
+    return flowJob;
+  }
+
+  /**
    * Gets the actionJob.
    *
-   * Action Job.
+   * Flow Job log summary.
    *
    * @return the actionJob
    */

@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * ResourceGroupResponse -.
+ * A list of resource groups that your account has access to.
  */
 public class ResourceGroupResponse extends GenericModel {
 
@@ -33,7 +33,7 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the accountId.
    *
-   * Account id.
+   * The ID of the account for which you listed the resource groups.
    *
    * @return the accountId
    */
@@ -44,7 +44,7 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the crn.
    *
-   * CRN.
+   * The CRN of the resource group.
    *
    * @return the crn
    */
@@ -55,7 +55,8 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the xDefault.
    *
-   * default.
+   * If set to **true**, the resource group is used as the default resource group for your account. If set to **false**,
+   * the resource group is not used as the default resource group in your account.
    *
    * @return the xDefault
    */
@@ -66,7 +67,7 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the name.
    *
-   * Resource group name.
+   * The name of the resource group.
    *
    * @return the name
    */
@@ -77,7 +78,7 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the resourceGroupId.
    *
-   * Resource group id.
+   * The ID of the resource group.
    *
    * @return the resourceGroupId
    */
@@ -88,7 +89,7 @@ public class ResourceGroupResponse extends GenericModel {
   /**
    * Gets the state.
    *
-   * Resource group state.
+   * The state of the resource group.
    *
    * @return the state
    */

@@ -101,7 +101,7 @@ public class JobDataActionTest {
       .inputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .outputs(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
       .settings(new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)))
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .inventoryRecord(inventoryResourceRecordModel)
       .materializedInventory("testString")
       .build();
@@ -109,7 +109,7 @@ public class JobDataActionTest {
     assertEquals(jobDataActionModel.inputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.outputs(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
     assertEquals(jobDataActionModel.settings(), new java.util.ArrayList<VariableData>(java.util.Arrays.asList(variableDataModel)));
-    assertEquals(jobDataActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataActionModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
     assertEquals(jobDataActionModel.inventoryRecord(), inventoryResourceRecordModel);
     assertEquals(jobDataActionModel.materializedInventory(), "testString");
 
@@ -118,7 +118,7 @@ public class JobDataActionTest {
     JobDataAction jobDataActionModelNew = TestUtilities.deserialize(json, JobDataAction.class);
     assertTrue(jobDataActionModelNew instanceof JobDataAction);
     assertEquals(jobDataActionModelNew.actionName(), "testString");
-    assertEquals(jobDataActionModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobDataActionModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
     assertEquals(jobDataActionModelNew.inventoryRecord().toString(), inventoryResourceRecordModel.toString());
     assertEquals(jobDataActionModelNew.materializedInventory(), "testString");
   }

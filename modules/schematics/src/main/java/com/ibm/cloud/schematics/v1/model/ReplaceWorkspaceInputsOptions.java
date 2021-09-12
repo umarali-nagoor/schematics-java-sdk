@@ -186,8 +186,7 @@ public class ReplaceWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -198,8 +197,9 @@ public class ReplaceWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the tId.
    *
-   * The Template ID for which you want to get the values.  Use the GET /workspaces to look up the workspace IDs  or
-   * template IDs in your IBM Cloud account.
+   * The ID of the Terraform template in your workspace.  When you create a workspace, the Terraform template that  your
+   * workspace points to is assigned a unique ID. Use the `GET /v1/workspaces` to look up the workspace IDs  and
+   * template IDs or `template_data.id` in your IBM Cloud account.
    *
    * @return the tId
    */
@@ -210,7 +210,12 @@ public class ReplaceWorkspaceInputsOptions extends GenericModel {
   /**
    * Gets the envValues.
    *
-   * EnvVariableRequest ..
+   * A list of environment variables that you want to apply during the execution of a bash script or Terraform job. This
+   * field must be provided as a list of key-value pairs, for example, **TF_LOG=debug**. Each entry will be a map with
+   * one entry where `key is the environment variable name and value is value`. You can define environment variables for
+   * IBM Cloud catalog offerings that are provisioned by using a bash script. See [example to use special environment
+   * variable](https://cloud.ibm.com/docs/schematics?topic=schematics-set-parallelism#parallelism-example)  that are
+   * supported by Schematics.
    *
    * @return the envValues
    */

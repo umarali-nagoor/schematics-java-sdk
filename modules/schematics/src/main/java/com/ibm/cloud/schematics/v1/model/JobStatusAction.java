@@ -30,8 +30,8 @@ public class JobStatusAction extends GenericModel {
     String JOB_PENDING = "job_pending";
     /** job_in_progress. */
     String JOB_IN_PROGRESS = "job_in_progress";
-    /** iob_finished. */
-    String IOB_FINISHED = "iob_finished";
+    /** job_finished. */
+    String JOB_FINISHED = "job_finished";
     /** job_failed. */
     String JOB_FAILED = "job_failed";
     /** job_cancelled. */
@@ -55,7 +55,7 @@ public class JobStatusAction extends GenericModel {
   /**
    * Status of Resources.
    */
-  public interface InventoryStatusCode {
+  public interface TargetsStatusCode {
     /** none. */
     String NONE = "none";
     /** ready. */
@@ -76,10 +76,10 @@ public class JobStatusAction extends GenericModel {
   protected String bastionStatusCode;
   @SerializedName("bastion_status_message")
   protected String bastionStatusMessage;
-  @SerializedName("inventory_status_code")
-  protected String inventoryStatusCode;
-  @SerializedName("inventory_status_message")
-  protected String inventoryStatusMessage;
+  @SerializedName("targets_status_code")
+  protected String targetsStatusCode;
+  @SerializedName("targets_status_message")
+  protected String targetsStatusMessage;
   @SerializedName("updated_at")
   protected Date updatedAt;
 
@@ -92,8 +92,8 @@ public class JobStatusAction extends GenericModel {
     private String statusMessage;
     private String bastionStatusCode;
     private String bastionStatusMessage;
-    private String inventoryStatusCode;
-    private String inventoryStatusMessage;
+    private String targetsStatusCode;
+    private String targetsStatusMessage;
     private Date updatedAt;
 
     private Builder(JobStatusAction jobStatusAction) {
@@ -102,8 +102,8 @@ public class JobStatusAction extends GenericModel {
       this.statusMessage = jobStatusAction.statusMessage;
       this.bastionStatusCode = jobStatusAction.bastionStatusCode;
       this.bastionStatusMessage = jobStatusAction.bastionStatusMessage;
-      this.inventoryStatusCode = jobStatusAction.inventoryStatusCode;
-      this.inventoryStatusMessage = jobStatusAction.inventoryStatusMessage;
+      this.targetsStatusCode = jobStatusAction.targetsStatusCode;
+      this.targetsStatusMessage = jobStatusAction.targetsStatusMessage;
       this.updatedAt = jobStatusAction.updatedAt;
     }
 
@@ -178,24 +178,24 @@ public class JobStatusAction extends GenericModel {
     }
 
     /**
-     * Set the inventoryStatusCode.
+     * Set the targetsStatusCode.
      *
-     * @param inventoryStatusCode the inventoryStatusCode
+     * @param targetsStatusCode the targetsStatusCode
      * @return the JobStatusAction builder
      */
-    public Builder inventoryStatusCode(String inventoryStatusCode) {
-      this.inventoryStatusCode = inventoryStatusCode;
+    public Builder targetsStatusCode(String targetsStatusCode) {
+      this.targetsStatusCode = targetsStatusCode;
       return this;
     }
 
     /**
-     * Set the inventoryStatusMessage.
+     * Set the targetsStatusMessage.
      *
-     * @param inventoryStatusMessage the inventoryStatusMessage
+     * @param targetsStatusMessage the targetsStatusMessage
      * @return the JobStatusAction builder
      */
-    public Builder inventoryStatusMessage(String inventoryStatusMessage) {
-      this.inventoryStatusMessage = inventoryStatusMessage;
+    public Builder targetsStatusMessage(String targetsStatusMessage) {
+      this.targetsStatusMessage = targetsStatusMessage;
       return this;
     }
 
@@ -217,8 +217,8 @@ public class JobStatusAction extends GenericModel {
     statusMessage = builder.statusMessage;
     bastionStatusCode = builder.bastionStatusCode;
     bastionStatusMessage = builder.bastionStatusMessage;
-    inventoryStatusCode = builder.inventoryStatusCode;
-    inventoryStatusMessage = builder.inventoryStatusMessage;
+    targetsStatusCode = builder.targetsStatusCode;
+    targetsStatusMessage = builder.targetsStatusMessage;
     updatedAt = builder.updatedAt;
   }
 
@@ -287,25 +287,25 @@ public class JobStatusAction extends GenericModel {
   }
 
   /**
-   * Gets the inventoryStatusCode.
+   * Gets the targetsStatusCode.
    *
    * Status of Resources.
    *
-   * @return the inventoryStatusCode
+   * @return the targetsStatusCode
    */
-  public String inventoryStatusCode() {
-    return inventoryStatusCode;
+  public String targetsStatusCode() {
+    return targetsStatusCode;
   }
 
   /**
-   * Gets the inventoryStatusMessage.
+   * Gets the targetsStatusMessage.
    *
-   * Aggregated status message for all inventory resources,  to be displayed along with the inventory_status_code;.
+   * Aggregated status message for all target resources,  to be displayed along with the targets_status_code;.
    *
-   * @return the inventoryStatusMessage
+   * @return the targetsStatusMessage
    */
-  public String inventoryStatusMessage() {
-    return inventoryStatusMessage;
+  public String targetsStatusMessage() {
+    return targetsStatusMessage;
   }
 
   /**

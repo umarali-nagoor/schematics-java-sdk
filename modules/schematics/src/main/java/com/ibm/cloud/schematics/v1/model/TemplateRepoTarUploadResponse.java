@@ -40,7 +40,7 @@ public class TemplateRepoTarUploadResponse extends GenericModel {
   /**
    * Gets the hasReceivedFile.
    *
-   * Has received tar file.
+   * Has received tar file?.
    *
    * @return the hasReceivedFile
    */
@@ -51,7 +51,7 @@ public class TemplateRepoTarUploadResponse extends GenericModel {
   /**
    * Gets the id.
    *
-   * Template id.
+   * Template ID.
    *
    * @return the id
    */

@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityTemplateLogs -.
+ * Information about the log URL for a job that ran for a template against your workspace.
  */
 public class WorkspaceActivityTemplateLogs extends GenericModel {
 
@@ -30,7 +30,7 @@ public class WorkspaceActivityTemplateLogs extends GenericModel {
   /**
    * Gets the logUrl.
    *
-   * Log URL.
+   * The URL to access the logs that were created during the plan, apply, or destroy job.
    *
    * @return the logUrl
    */
@@ -41,7 +41,7 @@ public class WorkspaceActivityTemplateLogs extends GenericModel {
   /**
    * Gets the templateId.
    *
-   * Template id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the templateId
    */
@@ -52,7 +52,7 @@ public class WorkspaceActivityTemplateLogs extends GenericModel {
   /**
    * Gets the templateType.
    *
-   * Template type.
+   * The type of template.
    *
    * @return the templateType
    */

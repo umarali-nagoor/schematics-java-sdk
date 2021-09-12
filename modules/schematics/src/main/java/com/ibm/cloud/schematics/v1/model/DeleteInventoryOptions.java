@@ -115,7 +115,7 @@ public class DeleteInventoryOptions extends GenericModel {
   /**
    * Gets the inventoryId.
    *
-   * Resource Inventory Id.  Use GET /inventories API to look up the Resource Inventory definition Ids  in your IBM
+   * Resource Inventory Id.  Use `GET /v2/inventories` API to look up the Resource Inventory definition Ids  in your IBM
    * Cloud account.
    *
    * @return the inventoryId

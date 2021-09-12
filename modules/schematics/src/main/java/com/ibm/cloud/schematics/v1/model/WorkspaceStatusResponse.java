@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceStatusResponse -.
+ * Response that indicate the status of the workspace as either frozen or locked.
  */
 public class WorkspaceStatusResponse extends GenericModel {
 
@@ -36,7 +36,7 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the frozen.
    *
-   * Frozen status.
+   * If set to true, the workspace is frozen and changes to the workspace are disabled.
    *
    * @return the frozen
    */
@@ -47,7 +47,7 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the frozenAt.
    *
-   * Frozen at.
+   * The timestamp when the workspace was frozen.
    *
    * @return the frozenAt
    */
@@ -58,7 +58,7 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the frozenBy.
    *
-   * Frozen by.
+   * The user ID that froze the workspace.
    *
    * @return the frozenBy
    */
@@ -69,7 +69,7 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the locked.
    *
-   * Locked status.
+   * If set to true, the workspace is locked and disabled for changes.
    *
    * @return the locked
    */
@@ -80,7 +80,8 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the lockedBy.
    *
-   * Locked by.
+   * The user ID that initiated a resource-related job, such as applying or destroying resources, that locked the
+   * workspace.
    *
    * @return the lockedBy
    */
@@ -91,7 +92,7 @@ public class WorkspaceStatusResponse extends GenericModel {
   /**
    * Gets the lockedTime.
    *
-   * Locked at.
+   * The timestamp when the workspace was locked.
    *
    * @return the lockedTime
    */

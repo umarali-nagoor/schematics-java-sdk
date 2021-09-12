@@ -35,11 +35,11 @@ public class UserStateTest {
     UserState userStateModel = new UserState.Builder()
       .state("draft")
       .setBy("testString")
-      .setAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .setAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(userStateModel.state(), "draft");
     assertEquals(userStateModel.setBy(), "testString");
-    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(userStateModel.setAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(userStateModel);
 
@@ -47,6 +47,6 @@ public class UserStateTest {
     assertTrue(userStateModelNew instanceof UserState);
     assertEquals(userStateModelNew.state(), "draft");
     assertEquals(userStateModelNew.setBy(), "testString");
-    assertEquals(userStateModelNew.setAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(userStateModelNew.setAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

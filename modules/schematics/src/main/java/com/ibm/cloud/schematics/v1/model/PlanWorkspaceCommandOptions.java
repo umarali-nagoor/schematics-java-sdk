@@ -21,6 +21,7 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
 
   protected String wId;
   protected String refreshToken;
+  protected String delegatedToken;
 
   /**
    * Builder.
@@ -28,10 +29,12 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
   public static class Builder {
     private String wId;
     private String refreshToken;
+    private String delegatedToken;
 
     private Builder(PlanWorkspaceCommandOptions planWorkspaceCommandOptions) {
       this.wId = planWorkspaceCommandOptions.wId;
       this.refreshToken = planWorkspaceCommandOptions.refreshToken;
+      this.delegatedToken = planWorkspaceCommandOptions.delegatedToken;
     }
 
     /**
@@ -81,6 +84,17 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
       this.refreshToken = refreshToken;
       return this;
     }
+
+    /**
+     * Set the delegatedToken.
+     *
+     * @param delegatedToken the delegatedToken
+     * @return the PlanWorkspaceCommandOptions builder
+     */
+    public Builder delegatedToken(String delegatedToken) {
+      this.delegatedToken = delegatedToken;
+      return this;
+    }
   }
 
   protected PlanWorkspaceCommandOptions(Builder builder) {
@@ -90,6 +104,7 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
       "refreshToken cannot be null");
     wId = builder.wId;
     refreshToken = builder.refreshToken;
+    delegatedToken = builder.delegatedToken;
   }
 
   /**
@@ -104,8 +119,8 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace, for which you want to run a Schematics `plan` job.  To find the ID of your workspace, use
+   * the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -116,12 +131,37 @@ public class PlanWorkspaceCommandOptions extends GenericModel {
   /**
    * Gets the refreshToken.
    *
-   * The IAM refresh token associated with the IBM Cloud account.
+   * The IAM refresh token for the user or service identity.
+   *
+   *   **Retrieving refresh token**:
+   *   * Use `export IBMCLOUD_API_KEY=&lt;ibmcloud_api_key&gt;`, and execute `curl -X POST
+   * "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+   * "grant_type=urn:ibm:params:oauth:grant-type:apikey&amp;apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+   *   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+   * token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+   * key](/apidocs/iam-identity-token-api#create-api-key).
+   *
+   *   **Limitation**:
+   *   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+   *   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+   *   * When the IAM access token is about to expire, use the API key to create a new access token.
    *
    * @return the refreshToken
    */
   public String refreshToken() {
     return refreshToken;
+  }
+
+  /**
+   * Gets the delegatedToken.
+   *
+   * The IAM delegated token for your IBM Cloud account.  This token is required for requests that are sent via the UI
+   * only.
+   *
+   * @return the delegatedToken
+   */
+  public String delegatedToken() {
+    return delegatedToken;
   }
 }
 

@@ -15,7 +15,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateReadme -.
+ * The `README.md` file for the template used by the workspace.
  */
 public class TemplateReadme extends GenericModel {
 
@@ -24,7 +24,7 @@ public class TemplateReadme extends GenericModel {
   /**
    * Gets the readme.
    *
-   * Readme string.
+   * The `README.md` file for the template used by the workspace.
    *
    * @return the readme
    */

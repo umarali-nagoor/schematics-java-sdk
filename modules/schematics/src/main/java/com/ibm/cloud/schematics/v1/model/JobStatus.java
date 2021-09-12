@@ -20,21 +20,29 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class JobStatus extends GenericModel {
 
+  @SerializedName("workspace_job_status")
+  protected JobStatusWorkspace workspaceJobStatus;
   @SerializedName("action_job_status")
   protected JobStatusAction actionJobStatus;
   @SerializedName("system_job_status")
   protected JobStatusSystem systemJobStatus;
+  @SerializedName("flow_job_status")
+  protected JobStatusFlow flowJobStatus;
 
   /**
    * Builder.
    */
   public static class Builder {
+    private JobStatusWorkspace workspaceJobStatus;
     private JobStatusAction actionJobStatus;
     private JobStatusSystem systemJobStatus;
+    private JobStatusFlow flowJobStatus;
 
     private Builder(JobStatus jobStatus) {
+      this.workspaceJobStatus = jobStatus.workspaceJobStatus;
       this.actionJobStatus = jobStatus.actionJobStatus;
       this.systemJobStatus = jobStatus.systemJobStatus;
+      this.flowJobStatus = jobStatus.flowJobStatus;
     }
 
     /**
@@ -50,6 +58,17 @@ public class JobStatus extends GenericModel {
      */
     public JobStatus build() {
       return new JobStatus(this);
+    }
+
+    /**
+     * Set the workspaceJobStatus.
+     *
+     * @param workspaceJobStatus the workspaceJobStatus
+     * @return the JobStatus builder
+     */
+    public Builder workspaceJobStatus(JobStatusWorkspace workspaceJobStatus) {
+      this.workspaceJobStatus = workspaceJobStatus;
+      return this;
     }
 
     /**
@@ -73,11 +92,24 @@ public class JobStatus extends GenericModel {
       this.systemJobStatus = systemJobStatus;
       return this;
     }
+
+    /**
+     * Set the flowJobStatus.
+     *
+     * @param flowJobStatus the flowJobStatus
+     * @return the JobStatus builder
+     */
+    public Builder flowJobStatus(JobStatusFlow flowJobStatus) {
+      this.flowJobStatus = flowJobStatus;
+      return this;
+    }
   }
 
   protected JobStatus(Builder builder) {
+    workspaceJobStatus = builder.workspaceJobStatus;
     actionJobStatus = builder.actionJobStatus;
     systemJobStatus = builder.systemJobStatus;
+    flowJobStatus = builder.flowJobStatus;
   }
 
   /**
@@ -87,6 +119,17 @@ public class JobStatus extends GenericModel {
    */
   public Builder newBuilder() {
     return new Builder(this);
+  }
+
+  /**
+   * Gets the workspaceJobStatus.
+   *
+   * Workspace Job Status.
+   *
+   * @return the workspaceJobStatus
+   */
+  public JobStatusWorkspace workspaceJobStatus() {
+    return workspaceJobStatus;
   }
 
   /**
@@ -109,6 +152,17 @@ public class JobStatus extends GenericModel {
    */
   public JobStatusSystem systemJobStatus() {
     return systemJobStatus;
+  }
+
+  /**
+   * Gets the flowJobStatus.
+   *
+   * Environment Flow JOB Status.
+   *
+   * @return the flowJobStatus
+   */
+  public JobStatusFlow flowJobStatus() {
+    return flowJobStatus;
   }
 }
 

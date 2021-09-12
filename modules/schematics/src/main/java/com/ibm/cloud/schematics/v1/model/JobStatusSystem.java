@@ -32,8 +32,8 @@ public class JobStatusSystem extends GenericModel {
     String JOB_PENDING = "job_pending";
     /** job_in_progress. */
     String JOB_IN_PROGRESS = "job_in_progress";
-    /** iob_finished. */
-    String IOB_FINISHED = "iob_finished";
+    /** job_finished. */
+    String JOB_FINISHED = "job_finished";
     /** job_failed. */
     String JOB_FAILED = "job_failed";
     /** job_cancelled. */
@@ -194,7 +194,7 @@ public class JobStatusSystem extends GenericModel {
   /**
    * Gets the updatedAt.
    *
-   * Job status updation timestamp urces'.
+   * Job status updation timestamp.
    *
    * @return the updatedAt
    */

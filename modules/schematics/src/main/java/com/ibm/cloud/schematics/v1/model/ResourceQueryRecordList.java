@@ -26,7 +26,7 @@ public class ResourceQueryRecordList extends GenericModel {
   protected Long totalCount;
   protected Long limit;
   protected Long offset;
-  @SerializedName("ResourceQueries")
+  @SerializedName("resource_queries")
   protected List<ResourceQueryRecord> resourceQueries;
 
   /**

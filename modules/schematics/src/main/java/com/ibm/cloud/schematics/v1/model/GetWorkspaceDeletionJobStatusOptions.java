@@ -85,7 +85,7 @@ public class GetWorkspaceDeletionJobStatusOptions extends GenericModel {
   /**
    * Gets the wjId.
    *
-   * The workspace job deletion ID.
+   * The workspace job ID.
    *
    * @return the wjId
    */

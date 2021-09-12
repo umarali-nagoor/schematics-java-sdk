@@ -22,6 +22,7 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
   protected String wId;
   protected String refreshToken;
   protected WorkspaceActivityOptionsTemplate actionOptions;
+  protected String delegatedToken;
 
   /**
    * Builder.
@@ -30,11 +31,13 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
     private String wId;
     private String refreshToken;
     private WorkspaceActivityOptionsTemplate actionOptions;
+    private String delegatedToken;
 
     private Builder(DestroyWorkspaceCommandOptions destroyWorkspaceCommandOptions) {
       this.wId = destroyWorkspaceCommandOptions.wId;
       this.refreshToken = destroyWorkspaceCommandOptions.refreshToken;
       this.actionOptions = destroyWorkspaceCommandOptions.actionOptions;
+      this.delegatedToken = destroyWorkspaceCommandOptions.delegatedToken;
     }
 
     /**
@@ -95,6 +98,17 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
       this.actionOptions = actionOptions;
       return this;
     }
+
+    /**
+     * Set the delegatedToken.
+     *
+     * @param delegatedToken the delegatedToken
+     * @return the DestroyWorkspaceCommandOptions builder
+     */
+    public Builder delegatedToken(String delegatedToken) {
+      this.delegatedToken = delegatedToken;
+      return this;
+    }
   }
 
   protected DestroyWorkspaceCommandOptions(Builder builder) {
@@ -105,6 +119,7 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
     wId = builder.wId;
     refreshToken = builder.refreshToken;
     actionOptions = builder.actionOptions;
+    delegatedToken = builder.delegatedToken;
   }
 
   /**
@@ -119,8 +134,8 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace for which you want to perform a Schematics `destroy` job.  To find the workspace ID, use
+   * the `GET /workspaces` API.
    *
    * @return the wId
    */
@@ -131,7 +146,20 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
   /**
    * Gets the refreshToken.
    *
-   * The IAM refresh token associated with the IBM Cloud account.
+   * The IAM refresh token for the user or service identity.
+   *
+   *   **Retrieving refresh token**:
+   *   * Use `export IBMCLOUD_API_KEY=&lt;ibmcloud_api_key&gt;`, and execute `curl -X POST
+   * "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+   * "grant_type=urn:ibm:params:oauth:grant-type:apikey&amp;apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+   *   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+   * token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+   * key](/apidocs/iam-identity-token-api#create-api-key).
+   *
+   *   **Limitation**:
+   *   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+   *   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+   *   * When the IAM access token is about to expire, use the API key to create a new access token.
    *
    * @return the refreshToken
    */
@@ -142,12 +170,24 @@ public class DestroyWorkspaceCommandOptions extends GenericModel {
   /**
    * Gets the actionOptions.
    *
-   * Workspace Activity Options Template.
+   * Workspace job options template.
    *
    * @return the actionOptions
    */
   public WorkspaceActivityOptionsTemplate actionOptions() {
     return actionOptions;
+  }
+
+  /**
+   * Gets the delegatedToken.
+   *
+   * The IAM delegated token for your IBM Cloud account.  This token is required for requests that are sent via the UI
+   * only.
+   *
+   * @return the delegatedToken
+   */
+  public String delegatedToken() {
+    return delegatedToken;
   }
 }
 

@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateRepoResponse -.
+ * Information about the Template repository used by the workspace.
  */
 public class TemplateRepoResponse extends GenericModel {
 
@@ -35,7 +35,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the branch.
    *
-   * Repo branch.
+   * The repository branch.
    *
    * @return the branch
    */
@@ -46,7 +46,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the fullUrl.
    *
-   * Full repo URL.
+   * Full repository URL.
    *
    * @return the fullUrl
    */
@@ -57,7 +57,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the hasUploadedgitrepotar.
    *
-   * Has uploaded git repo tar.
+   * Has uploaded Git repository tar.
    *
    * @return the hasUploadedgitrepotar
    */
@@ -68,7 +68,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the release.
    *
-   * Repo release.
+   * The repository release.
    *
    * @return the release
    */
@@ -79,7 +79,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the repoShaValue.
    *
-   * Repo SHA value.
+   * The repository SHA value.
    *
    * @return the repoShaValue
    */
@@ -90,7 +90,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the repoUrl.
    *
-   * Repo URL.
+   * The repository URL.
    *
    * @return the repoUrl
    */
@@ -101,7 +101,7 @@ public class TemplateRepoResponse extends GenericModel {
   /**
    * Gets the url.
    *
-   * Source URL.
+   * The source URL.
    *
    * @return the url
    */

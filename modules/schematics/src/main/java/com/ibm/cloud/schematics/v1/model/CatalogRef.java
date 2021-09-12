@@ -16,12 +16,15 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * CatalogRef -.
+ * Information about the software template that you chose from the IBM Cloud catalog. This information is returned for
+ * IBM Cloud catalog offerings only.
  */
 public class CatalogRef extends GenericModel {
 
   @SerializedName("dry_run")
   protected Boolean dryRun;
+  @SerializedName("owning_account")
+  protected String owningAccount;
   @SerializedName("item_icon_url")
   protected String itemIconUrl;
   @SerializedName("item_id")
@@ -42,6 +45,7 @@ public class CatalogRef extends GenericModel {
    */
   public static class Builder {
     private Boolean dryRun;
+    private String owningAccount;
     private String itemIconUrl;
     private String itemId;
     private String itemName;
@@ -52,6 +56,7 @@ public class CatalogRef extends GenericModel {
 
     private Builder(CatalogRef catalogRef) {
       this.dryRun = catalogRef.dryRun;
+      this.owningAccount = catalogRef.owningAccount;
       this.itemIconUrl = catalogRef.itemIconUrl;
       this.itemId = catalogRef.itemId;
       this.itemName = catalogRef.itemName;
@@ -84,6 +89,17 @@ public class CatalogRef extends GenericModel {
      */
     public Builder dryRun(Boolean dryRun) {
       this.dryRun = dryRun;
+      return this;
+    }
+
+    /**
+     * Set the owningAccount.
+     *
+     * @param owningAccount the owningAccount
+     * @return the CatalogRef builder
+     */
+    public Builder owningAccount(String owningAccount) {
+      this.owningAccount = owningAccount;
       return this;
     }
 
@@ -167,6 +183,7 @@ public class CatalogRef extends GenericModel {
 
   protected CatalogRef(Builder builder) {
     dryRun = builder.dryRun;
+    owningAccount = builder.owningAccount;
     itemIconUrl = builder.itemIconUrl;
     itemId = builder.itemId;
     itemName = builder.itemName;
@@ -197,9 +214,20 @@ public class CatalogRef extends GenericModel {
   }
 
   /**
+   * Gets the owningAccount.
+   *
+   * Owning account ID of the catalog.
+   *
+   * @return the owningAccount
+   */
+  public String owningAccount() {
+    return owningAccount;
+  }
+
+  /**
    * Gets the itemIconUrl.
    *
-   * Catalog item icon url.
+   * The URL to the icon of the software template in the IBM Cloud catalog.
    *
    * @return the itemIconUrl
    */
@@ -210,7 +238,8 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the itemId.
    *
-   * Catalog item id.
+   * The ID of the software template that you chose to install from the IBM Cloud catalog. This software is provisioned
+   * with Schematics.
    *
    * @return the itemId
    */
@@ -221,7 +250,7 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the itemName.
    *
-   * Catalog item name.
+   * The name of the software that you chose to install from the IBM Cloud catalog.
    *
    * @return the itemName
    */
@@ -232,7 +261,7 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the itemReadmeUrl.
    *
-   * Catalog item readme url.
+   * The URL to the readme file of the software template in the IBM Cloud catalog.
    *
    * @return the itemReadmeUrl
    */
@@ -243,7 +272,7 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the itemUrl.
    *
-   * Catalog item url.
+   * The URL to the software template in the IBM Cloud catalog.
    *
    * @return the itemUrl
    */
@@ -254,7 +283,7 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the launchUrl.
    *
-   * Catalog item launch url.
+   * The URL to the dashboard to access your software.
    *
    * @return the launchUrl
    */
@@ -265,7 +294,7 @@ public class CatalogRef extends GenericModel {
   /**
    * Gets the offeringVersion.
    *
-   * Catalog item offering version.
+   * The version of the software template that you chose to install from the IBM Cloud catalog.
    *
    * @return the offeringVersion
    */

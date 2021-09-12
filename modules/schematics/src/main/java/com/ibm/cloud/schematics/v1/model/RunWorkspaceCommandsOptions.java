@@ -169,8 +169,7 @@ public class RunWorkspaceCommandsOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -181,7 +180,20 @@ public class RunWorkspaceCommandsOptions extends GenericModel {
   /**
    * Gets the refreshToken.
    *
-   * The IAM refresh token associated with the IBM Cloud account.
+   * The IAM refresh token for the user or service identity.
+   *
+   *   **Retrieving refresh token**:
+   *   * Use `export IBMCLOUD_API_KEY=&lt;ibmcloud_api_key&gt;`, and execute `curl -X POST
+   * "https://iam.cloud.ibm.com/identity/token" -H "Content-Type: application/x-www-form-urlencoded" -d
+   * "grant_type=urn:ibm:params:oauth:grant-type:apikey&amp;apikey=$IBMCLOUD_API_KEY" -u bx:bx`.
+   *   * For more information, about creating IAM access token and API Docs, refer, [IAM access
+   * token](/apidocs/iam-identity-token-api#gettoken-password) and [Create API
+   * key](/apidocs/iam-identity-token-api#create-api-key).
+   *
+   *   **Limitation**:
+   *   * If the token is expired, you can use `refresh token` to get a new IAM access token.
+   *   * The `refresh_token` parameter cannot be used to retrieve a new IAM access token.
+   *   * When the IAM access token is about to expire, use the API key to create a new access token.
    *
    * @return the refreshToken
    */
@@ -192,7 +204,9 @@ public class RunWorkspaceCommandsOptions extends GenericModel {
   /**
    * Gets the commands.
    *
-   * List of commands.
+   * List of commands.  You can execute single set of commands or multiple commands.  For more information, about the
+   * payload of the multiple commands,  refer to
+   * [Commands](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#commands).
    *
    * @return the commands
    */

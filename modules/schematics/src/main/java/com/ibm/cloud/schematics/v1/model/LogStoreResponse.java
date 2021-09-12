@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * LogStoreResponse -.
+ * Log file URL for job that ran against your workspace.
  */
 public class LogStoreResponse extends GenericModel {
 
@@ -31,7 +31,7 @@ public class LogStoreResponse extends GenericModel {
   /**
    * Gets the engineName.
    *
-   * Engine name.
+   * The provisioning engine that was used for the job.
    *
    * @return the engineName
    */
@@ -42,7 +42,7 @@ public class LogStoreResponse extends GenericModel {
   /**
    * Gets the engineVersion.
    *
-   * Engine version.
+   * The version of the provisioning engine that was used for the job.
    *
    * @return the engineVersion
    */
@@ -53,7 +53,7 @@ public class LogStoreResponse extends GenericModel {
   /**
    * Gets the id.
    *
-   * Engine id.
+   * The ID that was assigned to your Terraform template of IBM Cloud catalog software template.
    *
    * @return the id
    */
@@ -64,7 +64,7 @@ public class LogStoreResponse extends GenericModel {
   /**
    * Gets the logStoreUrl.
    *
-   * Log store url.
+   * The URL to access the logs that were created during the plan, apply, or destroy job.
    *
    * @return the logStoreUrl
    */

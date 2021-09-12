@@ -52,6 +52,7 @@ public class ListJobsOptions extends GenericModel {
   protected String sort;
   protected String profile;
   protected String resource;
+  protected String resourceId;
   protected String actionId;
   protected String list;
 
@@ -64,6 +65,7 @@ public class ListJobsOptions extends GenericModel {
     private String sort;
     private String profile;
     private String resource;
+    private String resourceId;
     private String actionId;
     private String list;
 
@@ -73,6 +75,7 @@ public class ListJobsOptions extends GenericModel {
       this.sort = listJobsOptions.sort;
       this.profile = listJobsOptions.profile;
       this.resource = listJobsOptions.resource;
+      this.resourceId = listJobsOptions.resourceId;
       this.actionId = listJobsOptions.actionId;
       this.list = listJobsOptions.list;
     }
@@ -148,6 +151,17 @@ public class ListJobsOptions extends GenericModel {
     }
 
     /**
+     * Set the resourceId.
+     *
+     * @param resourceId the resourceId
+     * @return the ListJobsOptions builder
+     */
+    public Builder resourceId(String resourceId) {
+      this.resourceId = resourceId;
+      return this;
+    }
+
+    /**
      * Set the actionId.
      *
      * @param actionId the actionId
@@ -176,6 +190,7 @@ public class ListJobsOptions extends GenericModel {
     sort = builder.sort;
     profile = builder.profile;
     resource = builder.resource;
+    resourceId = builder.resourceId;
     actionId = builder.actionId;
     list = builder.list;
   }
@@ -192,7 +207,11 @@ public class ListJobsOptions extends GenericModel {
   /**
    * Gets the offset.
    *
-   * The number of items to skip before starting to collect the result set.
+   * The starting position of the item in the list of items. For example, if you have three workspaces in your account,
+   * the first workspace is assigned position number 0, the second workspace is assigned position number 1, and so
+   * forth. If you have 6 workspaces and you want to list the details for workspaces 2-6, enter 1. To limit the number
+   * of workspaces that is returned, use the `limit` option in addition to the `offset` option. Negative numbers are not
+   * supported and are ignored.
    *
    * @return the offset
    */
@@ -203,7 +222,8 @@ public class ListJobsOptions extends GenericModel {
   /**
    * Gets the limit.
    *
-   * The numbers of items to return.
+   * The maximum number of items that you want to list. The number must be a positive integer between 1 and 2000. If no
+   * value is provided, 100 is used by default.
    *
    * @return the limit
    */
@@ -244,6 +264,17 @@ public class ListJobsOptions extends GenericModel {
    */
   public String resource() {
     return resource;
+  }
+
+  /**
+   * Gets the resourceId.
+   *
+   * The Resource Id. It could be an Action-id or Workspace-id.
+   *
+   * @return the resourceId
+   */
+  public String resourceId() {
+    return resourceId;
   }
 
   /**

@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * LogStoreResponseList -.
+ * List of log file URL that ran against your workspace.
  */
 public class LogStoreResponseList extends GenericModel {
 

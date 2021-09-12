@@ -39,23 +39,23 @@ public class JobStatusSystemTest {
       .statusCode("job_pending")
       .statusMessage("testString")
       .schematicsResourceId("testString")
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(jobStatusSchematicsResourcesModel.statusCode(), "job_pending");
     assertEquals(jobStatusSchematicsResourcesModel.statusMessage(), "testString");
     assertEquals(jobStatusSchematicsResourcesModel.schematicsResourceId(), "testString");
-    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusSchematicsResourcesModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     JobStatusSystem jobStatusSystemModel = new JobStatusSystem.Builder()
       .systemStatusMessage("testString")
       .systemStatusCode("job_pending")
       .schematicsResourceStatus(new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)))
-      .updatedAt(DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"))
+      .updatedAt(DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"))
       .build();
     assertEquals(jobStatusSystemModel.systemStatusMessage(), "testString");
     assertEquals(jobStatusSystemModel.systemStatusCode(), "job_pending");
     assertEquals(jobStatusSystemModel.schematicsResourceStatus(), new java.util.ArrayList<JobStatusSchematicsResources>(java.util.Arrays.asList(jobStatusSchematicsResourcesModel)));
-    assertEquals(jobStatusSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusSystemModel.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
 
     String json = TestUtilities.serialize(jobStatusSystemModel);
 
@@ -63,6 +63,6 @@ public class JobStatusSystemTest {
     assertTrue(jobStatusSystemModelNew instanceof JobStatusSystem);
     assertEquals(jobStatusSystemModelNew.systemStatusMessage(), "testString");
     assertEquals(jobStatusSystemModelNew.systemStatusCode(), "job_pending");
-    assertEquals(jobStatusSystemModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-11-06T16:19:32.000Z"));
+    assertEquals(jobStatusSystemModelNew.updatedAt(), DateUtils.parseAsDateTime("2019-01-01T12:00:00.000Z"));
   }
 }

@@ -14,7 +14,7 @@
 package com.ibm.cloud.schematics.v1.model;
 
 import com.ibm.cloud.schematics.v1.model.KMSInstances;
-import com.ibm.cloud.schematics.v1.model.KMSInstancesKeysItem;
+import com.ibm.cloud.schematics.v1.model.KMSInstancesKeys;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;

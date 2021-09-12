@@ -30,7 +30,12 @@ public class UserValues extends GenericModel {
   /**
    * Gets the envValues.
    *
-   * EnvVariableRequest ..
+   * A list of environment variables that you want to apply during the execution of a bash script or Terraform job. This
+   * field must be provided as a list of key-value pairs, for example, **TF_LOG=debug**. Each entry will be a map with
+   * one entry where `key is the environment variable name and value is value`. You can define environment variables for
+   * IBM Cloud catalog offerings that are provisioned by using a bash script. See [example to use special environment
+   * variable](https://cloud.ibm.com/docs/schematics?topic=schematics-set-parallelism#parallelism-example)  that are
+   * supported by Schematics.
    *
    * @return the envValues
    */
@@ -52,7 +57,7 @@ public class UserValues extends GenericModel {
   /**
    * Gets the variablestore.
    *
-   * VariablesResponse -.
+   * Information about the input variables that your template uses.
    *
    * @return the variablestore
    */

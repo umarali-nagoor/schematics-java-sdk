@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceBulkDeleteResponse -.
+ * Response after successfully initiating the bulk job to delete multiple workspaces.
  */
 public class WorkspaceBulkDeleteResponse extends GenericModel {
 

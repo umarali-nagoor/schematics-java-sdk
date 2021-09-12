@@ -25,8 +25,9 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class Action extends GenericModel {
 
   /**
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    */
   public interface Location {
     /** us-south. */
@@ -57,6 +58,8 @@ public class Action extends GenericModel {
     String IBM_CLOUD_CATALOG = "ibm_cloud_catalog";
     /** external_scm. */
     String EXTERNAL_SCM = "external_scm";
+    /** cos_bucket. */
+    String COS_BUCKET = "cos_bucket";
   }
 
   protected String name;
@@ -74,11 +77,13 @@ public class Action extends GenericModel {
   protected String sourceType;
   @SerializedName("command_parameter")
   protected String commandParameter;
-  protected BastionResourceDefinition bastion;
   protected String inventory;
+  protected List<VariableData> credentials;
+  protected BastionResourceDefinition bastion;
   @SerializedName("bastion_credential")
   protected VariableData bastionCredential;
-  protected List<VariableData> credentials;
+  @SerializedName("targets_ini")
+  protected String targetsIni;
   protected List<VariableData> inputs;
   protected List<VariableData> outputs;
   protected List<VariableData> settings;
@@ -121,10 +126,11 @@ public class Action extends GenericModel {
     private ExternalSource source;
     private String sourceType;
     private String commandParameter;
-    private BastionResourceDefinition bastion;
     private String inventory;
-    private VariableData bastionCredential;
     private List<VariableData> credentials;
+    private BastionResourceDefinition bastion;
+    private VariableData bastionCredential;
+    private String targetsIni;
     private List<VariableData> inputs;
     private List<VariableData> outputs;
     private List<VariableData> settings;
@@ -142,10 +148,11 @@ public class Action extends GenericModel {
       this.source = action.source;
       this.sourceType = action.sourceType;
       this.commandParameter = action.commandParameter;
-      this.bastion = action.bastion;
       this.inventory = action.inventory;
-      this.bastionCredential = action.bastionCredential;
       this.credentials = action.credentials;
+      this.bastion = action.bastion;
+      this.bastionCredential = action.bastionCredential;
+      this.targetsIni = action.targetsIni;
       this.inputs = action.inputs;
       this.outputs = action.outputs;
       this.settings = action.settings;
@@ -360,17 +367,6 @@ public class Action extends GenericModel {
     }
 
     /**
-     * Set the bastion.
-     *
-     * @param bastion the bastion
-     * @return the Action builder
-     */
-    public Builder bastion(BastionResourceDefinition bastion) {
-      this.bastion = bastion;
-      return this;
-    }
-
-    /**
      * Set the inventory.
      *
      * @param inventory the inventory
@@ -378,6 +374,29 @@ public class Action extends GenericModel {
      */
     public Builder inventory(String inventory) {
       this.inventory = inventory;
+      return this;
+    }
+
+    /**
+     * Set the credentials.
+     * Existing credentials will be replaced.
+     *
+     * @param credentials the credentials
+     * @return the Action builder
+     */
+    public Builder credentials(List<VariableData> credentials) {
+      this.credentials = credentials;
+      return this;
+    }
+
+    /**
+     * Set the bastion.
+     *
+     * @param bastion the bastion
+     * @return the Action builder
+     */
+    public Builder bastion(BastionResourceDefinition bastion) {
+      this.bastion = bastion;
       return this;
     }
 
@@ -393,14 +412,13 @@ public class Action extends GenericModel {
     }
 
     /**
-     * Set the credentials.
-     * Existing credentials will be replaced.
+     * Set the targetsIni.
      *
-     * @param credentials the credentials
+     * @param targetsIni the targetsIni
      * @return the Action builder
      */
-    public Builder credentials(List<VariableData> credentials) {
-      this.credentials = credentials;
+    public Builder targetsIni(String targetsIni) {
+      this.targetsIni = targetsIni;
       return this;
     }
 
@@ -474,10 +492,11 @@ public class Action extends GenericModel {
     source = builder.source;
     sourceType = builder.sourceType;
     commandParameter = builder.commandParameter;
-    bastion = builder.bastion;
     inventory = builder.inventory;
-    bastionCredential = builder.bastionCredential;
     credentials = builder.credentials;
+    bastion = builder.bastion;
+    bastionCredential = builder.bastionCredential;
+    targetsIni = builder.targetsIni;
     inputs = builder.inputs;
     outputs = builder.outputs;
     settings = builder.settings;
@@ -497,7 +516,8 @@ public class Action extends GenericModel {
   /**
    * Gets the name.
    *
-   * Action name (unique for an account).
+   * The unique name of your action. The name can be up to 128 characters long and can include alphanumeric characters,
+   * spaces, dashes, and underscores. **Example** you can use the name to stop action.
    *
    * @return the name
    */
@@ -519,8 +539,9 @@ public class Action extends GenericModel {
   /**
    * Gets the location.
    *
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    *
    * @return the location
    */
@@ -531,7 +552,7 @@ public class Action extends GenericModel {
   /**
    * Gets the resourceGroup.
    *
-   * Resource-group name for the Action.  By default, Action will be created in Default Resource Group.
+   * Resource-group name for an action.  By default, action is created in default resource group.
    *
    * @return the resourceGroup
    */
@@ -564,7 +585,7 @@ public class Action extends GenericModel {
   /**
    * Gets the sourceReadmeUrl.
    *
-   * URL of the README file, for the source.
+   * URL of the `README` file, for the source URL.
    *
    * @return the sourceReadmeUrl
    */
@@ -606,6 +627,28 @@ public class Action extends GenericModel {
   }
 
   /**
+   * Gets the inventory.
+   *
+   * Target inventory record ID, used by the action or ansible playbook.
+   *
+   * @return the inventory
+   */
+  public String inventory() {
+    return inventory;
+  }
+
+  /**
+   * Gets the credentials.
+   *
+   * credentials of the Action.
+   *
+   * @return the credentials
+   */
+  public List<VariableData> credentials() {
+    return credentials;
+  }
+
+  /**
    * Gets the bastion.
    *
    * Describes a bastion resource.
@@ -614,17 +657,6 @@ public class Action extends GenericModel {
    */
   public BastionResourceDefinition bastion() {
     return bastion;
-  }
-
-  /**
-   * Gets the inventory.
-   *
-   * Inventory ID.
-   *
-   * @return the inventory
-   */
-  public String inventory() {
-    return inventory;
   }
 
   /**
@@ -639,14 +671,19 @@ public class Action extends GenericModel {
   }
 
   /**
-   * Gets the credentials.
+   * Gets the targetsIni.
    *
-   * credentials of the Action.
+   * Inventory of host and host group for the playbook in `INI` file format. For example, `"targets_ini":
+   * "[webserverhost]
+   *  172.22.192.6
+   *  [dbhost]
+   *  172.22.192.5"`. For more information, about an inventory host group syntax, see [Inventory host
+   * groups](https://cloud.ibm.com/docs/schematics?topic=schematics-schematics-cli-reference#schematics-inventory-host-grps).
    *
-   * @return the credentials
+   * @return the targetsIni
    */
-  public List<VariableData> credentials() {
-    return credentials;
+  public String targetsIni() {
+    return targetsIni;
   }
 
   /**
@@ -685,7 +722,7 @@ public class Action extends GenericModel {
   /**
    * Gets the id.
    *
-   * Action Id.
+   * Action ID.
    *
    * @return the id
    */
@@ -707,7 +744,7 @@ public class Action extends GenericModel {
   /**
    * Gets the account.
    *
-   * Action account id.
+   * Action account ID.
    *
    * @return the account
    */
@@ -729,7 +766,7 @@ public class Action extends GenericModel {
   /**
    * Gets the sourceCreatedBy.
    *
-   * Email address of user who created the Action Playbook Source.
+   * E-mail address of user who created the Action Playbook Source.
    *
    * @return the sourceCreatedBy
    */
@@ -740,7 +777,7 @@ public class Action extends GenericModel {
   /**
    * Gets the sourceUpdatedAt.
    *
-   * Action Playbook updation time.
+   * The action playbook updation time.
    *
    * @return the sourceUpdatedAt
    */
@@ -751,7 +788,7 @@ public class Action extends GenericModel {
   /**
    * Gets the sourceUpdatedBy.
    *
-   * Email address of user who updated the Action Playbook Source.
+   * E-mail address of user who updated the action playbook source.
    *
    * @return the sourceUpdatedBy
    */
@@ -773,7 +810,7 @@ public class Action extends GenericModel {
   /**
    * Gets the createdBy.
    *
-   * Email address of user who created the action.
+   * E-mail address of the user who created an action.
    *
    * @return the createdBy
    */
@@ -795,7 +832,7 @@ public class Action extends GenericModel {
   /**
    * Gets the updatedBy.
    *
-   * Email address of user who updated the action.
+   * E-mail address of the user who updated an action.
    *
    * @return the updatedBy
    */
@@ -817,7 +854,7 @@ public class Action extends GenericModel {
   /**
    * Gets the playbookNames.
    *
-   * Playbook names retrieved from repo.
+   * Playbook names retrieved from the respository.
    *
    * @return the playbookNames
    */

@@ -15,7 +15,8 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivityCommandResult -.
+ * Response after successfully initiating a request to run a workspace command on the stack of resources provisioned
+ * using Terraform.
  */
 public class WorkspaceActivityCommandResult extends GenericModel {
 
@@ -24,7 +25,8 @@ public class WorkspaceActivityCommandResult extends GenericModel {
   /**
    * Gets the activityid.
    *
-   * Activity id.
+   * The ID of the job that was created when you initiated a request to `apply` a Terraform template.  You can use the
+   * ID to retrieve log file by using the `GET /v1/workspaces/{id}/actions/{action_id}/logs` API.
    *
    * @return the activityid
    */

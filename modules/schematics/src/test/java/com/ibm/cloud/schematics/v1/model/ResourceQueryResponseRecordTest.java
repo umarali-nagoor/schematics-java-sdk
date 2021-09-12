@@ -15,8 +15,8 @@ package com.ibm.cloud.schematics.v1.model;
 
 import com.ibm.cloud.schematics.v1.model.ResourceQueryParam;
 import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecord;
-import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordResponseItem;
-import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordResponseItemQueryOutputItem;
+import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordQueryOutput;
+import com.ibm.cloud.schematics.v1.model.ResourceQueryResponseRecordResponse;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;

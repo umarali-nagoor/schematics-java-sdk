@@ -110,7 +110,7 @@ public class SystemLock extends GenericModel {
   /**
    * Gets the sysLocked.
    *
-   * Is the Workspace locked by a Schematic action ?.
+   * Is the automation locked by a Schematic job ?.
    *
    * @return the sysLocked
    */
@@ -121,7 +121,7 @@ public class SystemLock extends GenericModel {
   /**
    * Gets the sysLockedBy.
    *
-   * Name of the User who performed the action, that lead to the locking of the Workspace.
+   * Name of the User who performed the job, that lead to the locking of the automation.
    *
    * @return the sysLockedBy
    */
@@ -132,7 +132,7 @@ public class SystemLock extends GenericModel {
   /**
    * Gets the sysLockedAt.
    *
-   * When the User performed the action that lead to locking of the Workspace ?.
+   * When the User performed the job that lead to locking of the automation ?.
    *
    * @return the sysLockedAt
    */

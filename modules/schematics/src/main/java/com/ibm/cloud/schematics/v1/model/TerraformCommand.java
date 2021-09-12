@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TerraformCommand -.
+ * Inputs for running a Terraform command on the workspace.
  */
 public class TerraformCommand extends GenericModel {
 
@@ -27,9 +27,9 @@ public class TerraformCommand extends GenericModel {
   protected String commandName;
   @SerializedName("command_desc")
   protected String commandDesc;
-  @SerializedName("command_onError")
+  @SerializedName("command_on_error")
   protected String commandOnError;
-  @SerializedName("command_dependsOn")
+  @SerializedName("command_depends_on")
   protected String commandDependsOn;
   @SerializedName("command_status")
   protected String commandStatus;
@@ -171,7 +171,8 @@ public class TerraformCommand extends GenericModel {
   /**
    * Gets the command.
    *
-   * Command to execute.
+   * You must provide the command to execute. Supported commands are `show`,`taint`, `untaint`, `state`, `import`,
+   * `output`.
    *
    * @return the command
    */
@@ -182,7 +183,9 @@ public class TerraformCommand extends GenericModel {
   /**
    * Gets the commandParams.
    *
-   * Command Parameters.
+   * The required address parameters for the command name. You can send the option flag and address parameter in the
+   * payload. **Syntax ** "command_params": "&lt;option&gt;=&lt;flag&gt;", "&lt;address&gt;". **Example **
+   * "command_params": "-allow-missing=true", "-lock=true", "data.template_file.test".
    *
    * @return the commandParams
    */
@@ -193,7 +196,7 @@ public class TerraformCommand extends GenericModel {
   /**
    * Gets the commandName.
    *
-   * Command name.
+   * The optional name for the command block.
    *
    * @return the commandName
    */
@@ -204,7 +207,7 @@ public class TerraformCommand extends GenericModel {
   /**
    * Gets the commandDesc.
    *
-   * Command description.
+   * The optional text to describe the command block.
    *
    * @return the commandDesc
    */
@@ -237,7 +240,7 @@ public class TerraformCommand extends GenericModel {
   /**
    * Gets the commandStatus.
    *
-   * Command status.
+   * Displays the command executed status, either `success` or `failure`.
    *
    * @return the commandStatus
    */

@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateResources -.
+ * Information about the resources provisioned by the Terraform template.
  */
 public class TemplateResources extends GenericModel {
 
@@ -37,7 +37,8 @@ public class TemplateResources extends GenericModel {
   /**
    * Gets the folder.
    *
-   * Template folder name.
+   * The subfolder in GitHub or GitLab where your Terraform templates are stored.  If your template is stored in the
+   * root directory, `.` is returned.
    *
    * @return the folder
    */
@@ -48,7 +49,7 @@ public class TemplateResources extends GenericModel {
   /**
    * Gets the id.
    *
-   * Template id.
+   * The ID that was assigned to your Terraform template or IBM Cloud catalog software template.
    *
    * @return the id
    */
@@ -70,7 +71,7 @@ public class TemplateResources extends GenericModel {
   /**
    * Gets the relatedResources.
    *
-   * List of related resources.
+   * Information about the IBM Cloud resources that are associated with your workspace.
    *
    * @return the relatedResources
    */
@@ -81,7 +82,10 @@ public class TemplateResources extends GenericModel {
   /**
    * Gets the resources.
    *
-   * List of resources.
+   * Information about the IBM Cloud resources that are associated with your workspace. **Note** The `resource_tainted`
+   * flag marks `true` when an instance is times out after few hours, if your resource provisioning takes longer
+   * duration. When you rerun the apply plan, based on the `resource_taint` flag result the provisioning continues from
+   * the state where the provisioning has stopped.
    *
    * @return the resources
    */
@@ -103,7 +107,7 @@ public class TemplateResources extends GenericModel {
   /**
    * Gets the templateType.
    *
-   * Type of templaes.
+   * The Terraform version that was used to apply your template.
    *
    * @return the templateType
    */

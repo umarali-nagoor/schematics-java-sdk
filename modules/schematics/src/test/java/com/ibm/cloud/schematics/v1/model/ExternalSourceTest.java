@@ -14,6 +14,8 @@
 package com.ibm.cloud.schematics.v1.model;
 
 import com.ibm.cloud.schematics.v1.model.ExternalSource;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCatalog;
+import com.ibm.cloud.schematics.v1.model.ExternalSourceCosBucket;
 import com.ibm.cloud.schematics.v1.model.ExternalSourceGit;
 import com.ibm.cloud.schematics.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -33,24 +35,52 @@ public class ExternalSourceTest {
   @Test
   public void testExternalSource() throws Throwable {
     ExternalSourceGit externalSourceGitModel = new ExternalSourceGit.Builder()
+      .computedGitRepoUrl("testString")
       .gitRepoUrl("testString")
       .gitToken("testString")
       .gitRepoFolder("testString")
       .gitRelease("testString")
       .gitBranch("testString")
       .build();
+    assertEquals(externalSourceGitModel.computedGitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitRepoUrl(), "testString");
     assertEquals(externalSourceGitModel.gitToken(), "testString");
     assertEquals(externalSourceGitModel.gitRepoFolder(), "testString");
     assertEquals(externalSourceGitModel.gitRelease(), "testString");
     assertEquals(externalSourceGitModel.gitBranch(), "testString");
 
+    ExternalSourceCatalog externalSourceCatalogModel = new ExternalSourceCatalog.Builder()
+      .catalogName("testString")
+      .offeringName("testString")
+      .offeringVersion("testString")
+      .offeringKind("testString")
+      .offeringId("testString")
+      .offeringVersionId("testString")
+      .offeringRepoUrl("testString")
+      .build();
+    assertEquals(externalSourceCatalogModel.catalogName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringName(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersion(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringKind(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringVersionId(), "testString");
+    assertEquals(externalSourceCatalogModel.offeringRepoUrl(), "testString");
+
+    ExternalSourceCosBucket externalSourceCosBucketModel = new ExternalSourceCosBucket.Builder()
+      .cosBucketUrl("testString")
+      .build();
+    assertEquals(externalSourceCosBucketModel.cosBucketUrl(), "testString");
+
     ExternalSource externalSourceModel = new ExternalSource.Builder()
       .sourceType("local")
       .git(externalSourceGitModel)
+      .catalog(externalSourceCatalogModel)
+      .cosBucket(externalSourceCosBucketModel)
       .build();
     assertEquals(externalSourceModel.sourceType(), "local");
     assertEquals(externalSourceModel.git(), externalSourceGitModel);
+    assertEquals(externalSourceModel.catalog(), externalSourceCatalogModel);
+    assertEquals(externalSourceModel.cosBucket(), externalSourceCosBucketModel);
 
     String json = TestUtilities.serialize(externalSourceModel);
 
@@ -58,6 +88,8 @@ public class ExternalSourceTest {
     assertTrue(externalSourceModelNew instanceof ExternalSource);
     assertEquals(externalSourceModelNew.sourceType(), "local");
     assertEquals(externalSourceModelNew.git().toString(), externalSourceGitModel.toString());
+    assertEquals(externalSourceModelNew.catalog().toString(), externalSourceCatalogModel.toString());
+    assertEquals(externalSourceModelNew.cosBucket().toString(), externalSourceCosBucketModel.toString());
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

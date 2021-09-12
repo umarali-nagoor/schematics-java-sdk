@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceActivities -.
+ * List of workspace jobs.
  */
 public class WorkspaceActivities extends GenericModel {
 
@@ -31,7 +31,7 @@ public class WorkspaceActivities extends GenericModel {
   /**
    * Gets the actions.
    *
-   * List of workspace activities.
+   * List of workspace jobs.
    *
    * @return the actions
    */
@@ -42,7 +42,7 @@ public class WorkspaceActivities extends GenericModel {
   /**
    * Gets the workspaceId.
    *
-   * Workspace id.
+   * The ID of the workspace.
    *
    * @return the workspaceId
    */
@@ -53,7 +53,7 @@ public class WorkspaceActivities extends GenericModel {
   /**
    * Gets the workspaceName.
    *
-   * Workspace name.
+   * The name of the workspace.
    *
    * @return the workspaceName
    */

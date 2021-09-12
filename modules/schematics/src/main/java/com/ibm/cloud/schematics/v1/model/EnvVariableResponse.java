@@ -15,7 +15,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * EnvVariableResponse -.
+ * List of environment values.
  */
 public class EnvVariableResponse extends GenericModel {
 
@@ -27,7 +27,7 @@ public class EnvVariableResponse extends GenericModel {
   /**
    * Gets the hidden.
    *
-   * Env variable is hidden.
+   * Environment variable is hidden.
    *
    * @return the hidden
    */
@@ -38,7 +38,7 @@ public class EnvVariableResponse extends GenericModel {
   /**
    * Gets the name.
    *
-   * Env variable name.
+   * Environment variable name.
    *
    * @return the name
    */
@@ -49,7 +49,7 @@ public class EnvVariableResponse extends GenericModel {
   /**
    * Gets the secure.
    *
-   * Env variable is secure.
+   * Environment variable is secure.
    *
    * @return the secure
    */
@@ -60,7 +60,7 @@ public class EnvVariableResponse extends GenericModel {
   /**
    * Gets the value.
    *
-   * Value for env variable.
+   * Value for environment variable.
    *
    * @return the value
    */

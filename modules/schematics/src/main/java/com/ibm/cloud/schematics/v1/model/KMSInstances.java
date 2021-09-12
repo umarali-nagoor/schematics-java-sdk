@@ -35,7 +35,7 @@ public class KMSInstances extends GenericModel {
   protected String kmsPrivateEndpoint;
   @SerializedName("kms_public_endpoint")
   protected String kmsPublicEndpoint;
-  protected List<KMSInstancesKeysItem> keys;
+  protected List<KMSInstancesKeys> keys;
 
   /**
    * Gets the location.
@@ -121,7 +121,7 @@ public class KMSInstances extends GenericModel {
    *
    * @return the keys
    */
-  public List<KMSInstancesKeysItem> getKeys() {
+  public List<KMSInstancesKeys> getKeys() {
     return keys;
   }
 }

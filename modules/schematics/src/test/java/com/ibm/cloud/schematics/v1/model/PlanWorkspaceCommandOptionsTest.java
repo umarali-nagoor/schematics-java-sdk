@@ -34,9 +34,11 @@ public class PlanWorkspaceCommandOptionsTest {
     PlanWorkspaceCommandOptions planWorkspaceCommandOptionsModel = new PlanWorkspaceCommandOptions.Builder()
       .wId("testString")
       .refreshToken("testString")
+      .delegatedToken("testString")
       .build();
     assertEquals(planWorkspaceCommandOptionsModel.wId(), "testString");
     assertEquals(planWorkspaceCommandOptionsModel.refreshToken(), "testString");
+    assertEquals(planWorkspaceCommandOptionsModel.delegatedToken(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

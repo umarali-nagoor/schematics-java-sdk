@@ -340,7 +340,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the appliedShareddataIds.
    *
-   * List of applied shared dataset id.
+   * List of applied shared dataset ID.
    *
    * @return the appliedShareddataIds
    */
@@ -351,7 +351,8 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the catalogRef.
    *
-   * CatalogRef -.
+   * Information about the software template that you chose from the IBM Cloud catalog. This information is returned for
+   * IBM Cloud catalog offerings only.
    *
    * @return the catalogRef
    */
@@ -362,7 +363,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the description.
    *
-   * Workspace description.
+   * The description of the workspace.
    *
    * @return the description
    */
@@ -373,7 +374,10 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the location.
    *
-   * Workspace location.
+   * The location where you want to create your Schematics workspace and run the Schematics jobs. The location that you
+   * enter must match the API endpoint that you use. For example, if you use the Frankfurt API endpoint, you must
+   * specify `eu-de` as your location. If you use an API endpoint for a geography and you do not specify a location,
+   * Schematics determines the location based on availability.
    *
    * @return the location
    */
@@ -384,7 +388,10 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * Workspace name.
+   * The name of your workspace. The name can be up to 128 characters long and can include alphanumeric characters,
+   * spaces, dashes, and underscores. When you create a workspace for your own Terraform template, consider including
+   * the microservice component that you set up with your Terraform template and the IBM Cloud environment where you
+   * want to deploy your resources in your name.
    *
    * @return the name
    */
@@ -395,7 +402,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the resourceGroup.
    *
-   * Workspace resource group.
+   * The ID of the resource group where you want to provision the workspace.
    *
    * @return the resourceGroup
    */
@@ -406,7 +413,8 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the sharedData.
    *
-   * SharedTargetData -.
+   * Information about the Target used by the templates originating from the  IBM Cloud catalog offerings. This
+   * information is not relevant for workspace created using your own Terraform template.
    *
    * @return the sharedData
    */
@@ -417,7 +425,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the tags.
    *
-   * Workspace tags.
+   * A list of tags that are associated with the workspace.
    *
    * @return the tags
    */
@@ -428,7 +436,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the templateData.
    *
-   * TemplateData -.
+   * Input data for the Template.
    *
    * @return the templateData
    */
@@ -450,7 +458,7 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the templateRepo.
    *
-   * TemplateRepoRequest -.
+   * Input variables for the Template repoository, while creating a workspace.
    *
    * @return the templateRepo
    */
@@ -483,7 +491,8 @@ public class CreateWorkspaceOptions extends GenericModel {
   /**
    * Gets the xGithubToken.
    *
-   * The github token associated with the GIT. Required for cloning of repo.
+   * The personal access token to authenticate with your private GitHub or GitLab repository and access your Terraform
+   * template.
    *
    * @return the xGithubToken
    */

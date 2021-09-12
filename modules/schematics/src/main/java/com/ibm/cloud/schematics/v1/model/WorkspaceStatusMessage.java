@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceStatusMessage -.
+ * Information about the last job that ran against the workspace. -.
  */
 public class WorkspaceStatusMessage extends GenericModel {
 
@@ -92,7 +92,8 @@ public class WorkspaceStatusMessage extends GenericModel {
   /**
    * Gets the statusCode.
    *
-   * Status code.
+   * The success or error code that was returned for the last plan, apply, or destroy job that ran against your
+   * workspace.
    *
    * @return the statusCode
    */
@@ -103,7 +104,8 @@ public class WorkspaceStatusMessage extends GenericModel {
   /**
    * Gets the statusMsg.
    *
-   * Status message.
+   * The success or error message that was returned for the last plan, apply, or destroy job that ran against your
+   * workspace.
    *
    * @return the statusMsg
    */

@@ -34,9 +34,11 @@ public class RefreshWorkspaceCommandOptionsTest {
     RefreshWorkspaceCommandOptions refreshWorkspaceCommandOptionsModel = new RefreshWorkspaceCommandOptions.Builder()
       .wId("testString")
       .refreshToken("testString")
+      .delegatedToken("testString")
       .build();
     assertEquals(refreshWorkspaceCommandOptionsModel.wId(), "testString");
     assertEquals(refreshWorkspaceCommandOptionsModel.refreshToken(), "testString");
+    assertEquals(refreshWorkspaceCommandOptionsModel.delegatedToken(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceStatusUpdateRequest -.
+ * Input to update the workspace status.
  */
 public class WorkspaceStatusUpdateRequest extends GenericModel {
 
@@ -156,7 +156,7 @@ public class WorkspaceStatusUpdateRequest extends GenericModel {
   /**
    * Gets the frozen.
    *
-   * Frozen status.
+   * If set to true, the workspace is frozen and changes to the workspace are disabled.
    *
    * @return the frozen
    */

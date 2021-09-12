@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateValues -.
+ * Information about the input variables that are declared in the template that your workspace points to.
  */
 public class TemplateValues extends GenericModel {
 

@@ -15,7 +15,7 @@ package com.ibm.cloud.schematics.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceVariableResponse -.
+ * The description of your input variable.
  */
 public class WorkspaceVariableResponse extends GenericModel {
 
@@ -28,7 +28,7 @@ public class WorkspaceVariableResponse extends GenericModel {
   /**
    * Gets the description.
    *
-   * Variable descrption.
+   * The description of your input variable.
    *
    * @return the description
    */
@@ -39,7 +39,7 @@ public class WorkspaceVariableResponse extends GenericModel {
   /**
    * Gets the name.
    *
-   * Variable name.
+   * The name of the variable.
    *
    * @return the name
    */
@@ -50,7 +50,7 @@ public class WorkspaceVariableResponse extends GenericModel {
   /**
    * Gets the secure.
    *
-   * Variable is secure.
+   * If set to `true`, the value of your input variable is protected and not returned in your API response.
    *
    * @return the secure
    */
@@ -61,7 +61,13 @@ public class WorkspaceVariableResponse extends GenericModel {
   /**
    * Gets the type.
    *
-   * Variable type.
+   * `Terraform v0.11` supports `string`, `list`, `map` data type. For more information, about the syntax, see
+   * [Configuring input variables](https://www.terraform.io/docs/configuration-0-11/variables.html).
+   * &lt;br&gt; `Terraform v0.12` additionally, supports `bool`, `number` and complex data types such as `list(type)`,
+   * `map(type)`,
+   * `object({attribute name=type,..})`, `set(type)`, `tuple([type])`. For more information, about the syntax to use the
+   * complex data type, see [Configuring
+   * variables](https://www.terraform.io/docs/configuration/variables.html#type-constraints).
    *
    * @return the type
    */
@@ -72,7 +78,11 @@ public class WorkspaceVariableResponse extends GenericModel {
   /**
    * Gets the value.
    *
-   * Value of the Variable.
+   * Enter the value as a string for the primitive types such as `bool`, `number`, `string`, and `HCL` format for the
+   * complex variables, as you provide in a `.tfvars` file. **You need to enter escaped string of `HCL` format for the
+   * complex variable value**. For more information, about how to declare variables in a terraform configuration file
+   * and provide value to schematics, see [Providing values for the declared
+   * variables](https://cloud.ibm.com/docs/schematics?topic=schematics-create-tf-config#declare-variable).
    *
    * @return the value
    */

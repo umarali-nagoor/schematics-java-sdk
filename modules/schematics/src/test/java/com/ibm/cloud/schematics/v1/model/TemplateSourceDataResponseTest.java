@@ -36,6 +36,7 @@ public class TemplateSourceDataResponseTest {
     TemplateSourceDataResponse templateSourceDataResponseModel = new TemplateSourceDataResponse();
     assertNull(templateSourceDataResponseModel.getEnvValues());
     assertNull(templateSourceDataResponseModel.getFolder());
+    assertNull(templateSourceDataResponseModel.isCompact());
     assertNull(templateSourceDataResponseModel.isHasGithubtoken());
     assertNull(templateSourceDataResponseModel.getId());
     assertNull(templateSourceDataResponseModel.getType());

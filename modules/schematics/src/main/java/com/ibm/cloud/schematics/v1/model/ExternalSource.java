@@ -38,11 +38,16 @@ public class ExternalSource extends GenericModel {
     String IBM_CLOUD_CATALOG = "ibm_cloud_catalog";
     /** external_scm. */
     String EXTERNAL_SCM = "external_scm";
+    /** cos_bucket. */
+    String COS_BUCKET = "cos_bucket";
   }
 
   @SerializedName("source_type")
   protected String sourceType;
   protected ExternalSourceGit git;
+  protected ExternalSourceCatalog catalog;
+  @SerializedName("cos_bucket")
+  protected ExternalSourceCosBucket cosBucket;
 
   /**
    * Builder.
@@ -50,10 +55,14 @@ public class ExternalSource extends GenericModel {
   public static class Builder {
     private String sourceType;
     private ExternalSourceGit git;
+    private ExternalSourceCatalog catalog;
+    private ExternalSourceCosBucket cosBucket;
 
     private Builder(ExternalSource externalSource) {
       this.sourceType = externalSource.sourceType;
       this.git = externalSource.git;
+      this.catalog = externalSource.catalog;
+      this.cosBucket = externalSource.cosBucket;
     }
 
     /**
@@ -101,6 +110,28 @@ public class ExternalSource extends GenericModel {
       this.git = git;
       return this;
     }
+
+    /**
+     * Set the catalog.
+     *
+     * @param catalog the catalog
+     * @return the ExternalSource builder
+     */
+    public Builder catalog(ExternalSourceCatalog catalog) {
+      this.catalog = catalog;
+      return this;
+    }
+
+    /**
+     * Set the cosBucket.
+     *
+     * @param cosBucket the cosBucket
+     * @return the ExternalSource builder
+     */
+    public Builder cosBucket(ExternalSourceCosBucket cosBucket) {
+      this.cosBucket = cosBucket;
+      return this;
+    }
   }
 
   protected ExternalSource(Builder builder) {
@@ -108,6 +139,8 @@ public class ExternalSource extends GenericModel {
       "sourceType cannot be null");
     sourceType = builder.sourceType;
     git = builder.git;
+    catalog = builder.catalog;
+    cosBucket = builder.cosBucket;
   }
 
   /**
@@ -139,6 +172,28 @@ public class ExternalSource extends GenericModel {
    */
   public ExternalSourceGit git() {
     return git;
+  }
+
+  /**
+   * Gets the catalog.
+   *
+   * Connection details to IBM Cloud Catalog source.
+   *
+   * @return the catalog
+   */
+  public ExternalSourceCatalog catalog() {
+    return catalog;
+  }
+
+  /**
+   * Gets the cosBucket.
+   *
+   * Connection details to a IBM Cloud Object Storage bucket.
+   *
+   * @return the cosBucket
+   */
+  public ExternalSourceCosBucket cosBucket() {
+    return cosBucket;
   }
 }
 

@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * TemplateRepoRequest -.
+ * Input variables for the Template repoository, while creating a workspace.
  */
 public class TemplateRepoRequest extends GenericModel {
 
@@ -137,7 +137,7 @@ public class TemplateRepoRequest extends GenericModel {
   /**
    * Gets the branch.
    *
-   * Repo branch.
+   * The repository branch.
    *
    * @return the branch
    */
@@ -148,7 +148,7 @@ public class TemplateRepoRequest extends GenericModel {
   /**
    * Gets the release.
    *
-   * Repo release.
+   * The repository release.
    *
    * @return the release
    */
@@ -159,7 +159,7 @@ public class TemplateRepoRequest extends GenericModel {
   /**
    * Gets the repoShaValue.
    *
-   * Repo SHA value.
+   * The repository SHA value.
    *
    * @return the repoShaValue
    */
@@ -170,7 +170,7 @@ public class TemplateRepoRequest extends GenericModel {
   /**
    * Gets the repoUrl.
    *
-   * Repo URL.
+   * The repository URL.
    *
    * @return the repoUrl
    */
@@ -181,7 +181,7 @@ public class TemplateRepoRequest extends GenericModel {
   /**
    * Gets the url.
    *
-   * Source URL.
+   * The source URL.
    *
    * @return the url
    */

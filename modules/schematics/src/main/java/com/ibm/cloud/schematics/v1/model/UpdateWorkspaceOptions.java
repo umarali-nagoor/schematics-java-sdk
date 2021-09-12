@@ -289,8 +289,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the wId.
    *
-   * The workspace ID for the workspace that you want to query.  You can run the GET /workspaces call if you need to
-   * look up the  workspace IDs in your IBM Cloud account.
+   * The ID of the workspace.  To find the workspace ID, use the `GET /v1/workspaces` API.
    *
    * @return the wId
    */
@@ -301,7 +300,8 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the catalogRef.
    *
-   * CatalogRef -.
+   * Information about the software template that you chose from the IBM Cloud catalog. This information is returned for
+   * IBM Cloud catalog offerings only.
    *
    * @return the catalogRef
    */
@@ -312,7 +312,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the description.
    *
-   * Workspace description.
+   * The description of the workspace.
    *
    * @return the description
    */
@@ -323,7 +323,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * Workspace name.
+   * The name of the workspace.
    *
    * @return the name
    */
@@ -334,7 +334,8 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the sharedData.
    *
-   * SharedTargetData -.
+   * Information about the Target used by the templates originating from the  IBM Cloud catalog offerings. This
+   * information is not relevant for workspace created using your own Terraform template.
    *
    * @return the sharedData
    */
@@ -345,7 +346,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the tags.
    *
-   * Tags -.
+   * A list of tags that you want to associate with your workspace.
    *
    * @return the tags
    */
@@ -356,7 +357,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the templateData.
    *
-   * TemplateData -.
+   * Input data for the Template.
    *
    * @return the templateData
    */
@@ -367,7 +368,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the templateRepo.
    *
-   * TemplateRepoUpdateRequest -.
+   * Input to update the template repository data.
    *
    * @return the templateRepo
    */
@@ -389,7 +390,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the workspaceStatus.
    *
-   * WorkspaceStatusUpdateRequest -.
+   * Input to update the workspace status.
    *
    * @return the workspaceStatus
    */
@@ -400,7 +401,7 @@ public class UpdateWorkspaceOptions extends GenericModel {
   /**
    * Gets the workspaceStatusMsg.
    *
-   * WorkspaceStatusMessage -.
+   * Information about the last job that ran against the workspace. -.
    *
    * @return the workspaceStatusMsg
    */

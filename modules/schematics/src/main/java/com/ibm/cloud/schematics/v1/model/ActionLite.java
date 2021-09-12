@@ -24,8 +24,9 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class ActionLite extends GenericModel {
 
   /**
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    */
   public interface Location {
     /** us-south. */
@@ -110,8 +111,9 @@ public class ActionLite extends GenericModel {
   /**
    * Gets the location.
    *
-   * List of workspace locations supported by IBM Cloud Schematics service.  Note, this does not limit the location of
-   * the resources provisioned using Schematics.
+   * List of locations supported by IBM Cloud Schematics service.  While creating your workspace or action, choose the
+   * right region, since it cannot be changed.  Note, this does not limit the location of the IBM Cloud resources,
+   * provisioned using Schematics.
    *
    * @return the location
    */

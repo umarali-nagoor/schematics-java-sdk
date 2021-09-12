@@ -18,7 +18,8 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * SharedTargetDataResponse -.
+ * Information about the Target used by the templates originating from IBM Cloud catalog offerings. This information is
+ * not relevant when you create a workspace from your own Terraform template.
  */
 public class SharedTargetDataResponse extends GenericModel {
 
@@ -36,7 +37,8 @@ public class SharedTargetDataResponse extends GenericModel {
   /**
    * Gets the clusterId.
    *
-   * Target cluster id.
+   * The ID of the cluster where you want to provision the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering.
    *
    * @return the clusterId
    */
@@ -58,7 +60,7 @@ public class SharedTargetDataResponse extends GenericModel {
   /**
    * Gets the entitlementKeys.
    *
-   * Entitlement keys.
+   * The entitlement key that you want to use to install IBM Cloud entitled software.
    *
    * @return the entitlementKeys
    */
@@ -69,7 +71,8 @@ public class SharedTargetDataResponse extends GenericModel {
   /**
    * Gets the namespace.
    *
-   * Target namespace.
+   * The Kubernetes namespace or OpenShift project where the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering are deployed into.
    *
    * @return the namespace
    */
@@ -80,7 +83,8 @@ public class SharedTargetDataResponse extends GenericModel {
   /**
    * Gets the region.
    *
-   * Target region.
+   * The IBM Cloud region that you want to use for the resources of all IBM Cloud catalog templates that are included in
+   * the catalog offering.
    *
    * @return the region
    */
@@ -91,7 +95,8 @@ public class SharedTargetDataResponse extends GenericModel {
   /**
    * Gets the resourceGroupId.
    *
-   * Target resource group id.
+   * The ID of the resource group that you want to use for the resources of all IBM Cloud catalog templates that are
+   * included in the catalog offering.
    *
    * @return the resourceGroupId
    */

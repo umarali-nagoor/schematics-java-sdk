@@ -12,27 +12,56 @@
  */
 package com.ibm.cloud.schematics.v1.model;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Schematics locations.
+ * Information about the location.
  */
 public class SchematicsLocations extends GenericModel {
 
+  protected String name;
+  protected String id;
   protected String country;
   protected String geography;
-  protected String id;
-  protected String kind;
+  @SerializedName("geography_code")
+  protected String geographyCode;
   protected String metro;
   @SerializedName("multizone_metro")
   protected String multizoneMetro;
-  protected String name;
+  protected String kind;
+  @SerializedName("paired_region")
+  protected List<String> pairedRegion;
+  protected Boolean restricted;
+
+  /**
+   * Gets the name.
+   *
+   * The name of the location.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Gets the id.
+   *
+   * The ID of the location.
+   *
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
   /**
    * Gets the country.
    *
-   * Country.
+   * The country where the location is located.
    *
    * @return the country
    */
@@ -43,7 +72,7 @@ public class SchematicsLocations extends GenericModel {
   /**
    * Gets the geography.
    *
-   * Geography.
+   * The geography that the location belongs to.
    *
    * @return the geography
    */
@@ -52,31 +81,20 @@ public class SchematicsLocations extends GenericModel {
   }
 
   /**
-   * Gets the id.
+   * Gets the geographyCode.
    *
-   * Location id.
+   * Geographical continent locations code having the data centres of IBM Cloud Schematics service.
    *
-   * @return the id
+   * @return the geographyCode
    */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Gets the kind.
-   *
-   * Kind.
-   *
-   * @return the kind
-   */
-  public String getKind() {
-    return kind;
+  public String getGeographyCode() {
+    return geographyCode;
   }
 
   /**
    * Gets the metro.
    *
-   * Metro.
+   * The metro area that the location belongs to.
    *
    * @return the metro
    */
@@ -87,7 +105,7 @@ public class SchematicsLocations extends GenericModel {
   /**
    * Gets the multizoneMetro.
    *
-   * Multizone metro.
+   * The multizone metro area that the location belongs to.
    *
    * @return the multizoneMetro
    */
@@ -96,14 +114,36 @@ public class SchematicsLocations extends GenericModel {
   }
 
   /**
-   * Gets the name.
+   * Gets the kind.
    *
-   * Location name.
+   * The kind of location.
    *
-   * @return the name
+   * @return the kind
    */
-  public String getName() {
-    return name;
+  public String getKind() {
+    return kind;
+  }
+
+  /**
+   * Gets the pairedRegion.
+   *
+   * List of paired regions used by Schematics.
+   *
+   * @return the pairedRegion
+   */
+  public List<String> getPairedRegion() {
+    return pairedRegion;
+  }
+
+  /**
+   * Gets the restricted.
+   *
+   * Restricted Region.
+   *
+   * @return the restricted
+   */
+  public Boolean isRestricted() {
+    return restricted;
   }
 }
 

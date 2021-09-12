@@ -50,22 +50,24 @@ public class TemplateSourceDataRequestTest {
     assertEquals(workspaceVariableRequestModel.value(), "testString");
 
     TemplateSourceDataRequest templateSourceDataRequestModel = new TemplateSourceDataRequest.Builder()
-      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .envValues(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .folder("testString")
+      .compact(true)
       .initStateFile("testString")
       .type("testString")
       .uninstallScriptName("testString")
       .values("testString")
-      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .valuesMetadata(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .variablestore(new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)))
       .build();
-    assertEquals(templateSourceDataRequestModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(templateSourceDataRequestModel.envValues(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(templateSourceDataRequestModel.folder(), "testString");
+    assertEquals(templateSourceDataRequestModel.compact(), Boolean.valueOf(true));
     assertEquals(templateSourceDataRequestModel.initStateFile(), "testString");
     assertEquals(templateSourceDataRequestModel.type(), "testString");
     assertEquals(templateSourceDataRequestModel.uninstallScriptName(), "testString");
     assertEquals(templateSourceDataRequestModel.values(), "testString");
-    assertEquals(templateSourceDataRequestModel.valuesMetadata(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(templateSourceDataRequestModel.valuesMetadata(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(templateSourceDataRequestModel.variablestore(), new java.util.ArrayList<WorkspaceVariableRequest>(java.util.Arrays.asList(workspaceVariableRequestModel)));
 
     String json = TestUtilities.serialize(templateSourceDataRequestModel);
@@ -73,6 +75,7 @@ public class TemplateSourceDataRequestTest {
     TemplateSourceDataRequest templateSourceDataRequestModelNew = TestUtilities.deserialize(json, TemplateSourceDataRequest.class);
     assertTrue(templateSourceDataRequestModelNew instanceof TemplateSourceDataRequest);
     assertEquals(templateSourceDataRequestModelNew.folder(), "testString");
+    assertEquals(templateSourceDataRequestModelNew.compact(), Boolean.valueOf(true));
     assertEquals(templateSourceDataRequestModelNew.initStateFile(), "testString");
     assertEquals(templateSourceDataRequestModelNew.type(), "testString");
     assertEquals(templateSourceDataRequestModelNew.uninstallScriptName(), "testString");

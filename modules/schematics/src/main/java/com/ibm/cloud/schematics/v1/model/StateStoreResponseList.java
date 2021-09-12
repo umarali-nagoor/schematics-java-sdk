@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * StateStoreResponseList -.
+ * Information about the Terraform statefile URL.
  */
 public class StateStoreResponseList extends GenericModel {
 
@@ -28,7 +28,7 @@ public class StateStoreResponseList extends GenericModel {
   /**
    * Gets the runtimeData.
    *
-   * List of state stores.
+   * Information about workspace runtime data.
    *
    * @return the runtimeData
    */

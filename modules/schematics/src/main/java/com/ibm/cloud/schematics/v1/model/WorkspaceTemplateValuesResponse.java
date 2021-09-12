@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * WorkspaceTemplateValuesResponse -.
+ * Response with the template details in your workspace.
  */
 public class WorkspaceTemplateValuesResponse extends GenericModel {
 
@@ -32,7 +32,7 @@ public class WorkspaceTemplateValuesResponse extends GenericModel {
   /**
    * Gets the runtimeData.
    *
-   * List of runtime data.
+   * Information about the provisioning engine, state file, and runtime logs.
    *
    * @return the runtimeData
    */
@@ -43,7 +43,8 @@ public class WorkspaceTemplateValuesResponse extends GenericModel {
   /**
    * Gets the sharedData.
    *
-   * SharedTargetData -.
+   * Information about the Target used by the templates originating from the  IBM Cloud catalog offerings. This
+   * information is not relevant for workspace created using your own Terraform template.
    *
    * @return the sharedData
    */
@@ -54,7 +55,7 @@ public class WorkspaceTemplateValuesResponse extends GenericModel {
   /**
    * Gets the templateData.
    *
-   * List of source data.
+   * Information about the input variables that are used in the template.
    *
    * @return the templateData
    */

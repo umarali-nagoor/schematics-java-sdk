@@ -38,7 +38,7 @@ public class SharedTargetDataTest {
       .clusterId("testString")
       .clusterName("testString")
       .clusterType("testString")
-      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")))
+      .entitlementKeys(new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())))
       .namespace("testString")
       .region("testString")
       .resourceGroupId("testString")
@@ -49,7 +49,7 @@ public class SharedTargetDataTest {
     assertEquals(sharedTargetDataModel.clusterId(), "testString");
     assertEquals(sharedTargetDataModel.clusterName(), "testString");
     assertEquals(sharedTargetDataModel.clusterType(), "testString");
-    assertEquals(sharedTargetDataModel.entitlementKeys(), new java.util.ArrayList<Object>(java.util.Arrays.asList("testString")));
+    assertEquals(sharedTargetDataModel.entitlementKeys(), new java.util.ArrayList<Object>(java.util.Arrays.asList(TestUtilities.createMockMap())));
     assertEquals(sharedTargetDataModel.namespace(), "testString");
     assertEquals(sharedTargetDataModel.region(), "testString");
     assertEquals(sharedTargetDataModel.resourceGroupId(), "testString");

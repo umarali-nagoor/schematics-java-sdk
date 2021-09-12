@@ -61,7 +61,7 @@ public class JobLog extends GenericModel {
   /**
    * Gets the jobName.
    *
-   * Job name, uniquely derived from the related Action.
+   * Job name, uniquely derived from the related Workspace, Action or Controls.
    *
    * @return the jobName
    */

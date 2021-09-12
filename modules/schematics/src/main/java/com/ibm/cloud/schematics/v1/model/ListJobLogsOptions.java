@@ -85,7 +85,7 @@ public class ListJobLogsOptions extends GenericModel {
   /**
    * Gets the jobId.
    *
-   * Job Id. Use GET /jobs API to look up the Job Ids in your IBM Cloud account.
+   * Job Id. Use `GET /v2/jobs` API to look up the Job Ids in your IBM Cloud account.
    *
    * @return the jobId
    */
