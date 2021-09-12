@@ -1,9 +1,17 @@
-# [1.0.0-beta.3](https://github.com/IBM/schematics-java-sdk/compare/1.0.0-beta.2...1.0.0-beta.3) (2021-04-12)
+## [1.0.1](https://github.com/IBM/schematics-java-sdk/compare/1.0.0...1.0.1) (2021-04-12)
 
 
 ### Bug Fixes
 
 * **schematics:** Regenerate SDK with latest OpenAPI spec ([3b90e8a](https://github.com/IBM/schematics-java-sdk/commit/3b90e8a1e0d4684e9a35dc41e10498d71fad6895))
+
+# 1.0.0 (2021-02-23)
+
+
+### Features
+
+* **schematics:** SDK for IBM Cloud Schematics api ([78d6dba](https://github.com/IBM/schematics-java-sdk/commit/78d6dba7779940ce7d32b7274c8125478025afac))
+* **terraform command api:** add support for terraform command api and action api updates ([aad9e98](https://github.com/IBM/schematics-java-sdk/commit/aad9e98aaa72c20e928b6cbed1d4766c20598e7c))
 
 # [1.0.0-beta.2](https://github.com/IBM/schematics-java-sdk/compare/1.0.0-beta.1...1.0.0-beta.2) (2021-02-23)
 
