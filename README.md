@@ -21,7 +21,7 @@ Changes might occur which impact applications that use this SDK.
 
 <!-- toc -->
 
-- [IBM Cloud Schematics Java SDK Version 1.1.0](#ibm-cloud-schematics-java-sdk-version-100)
+- [IBM Cloud Schematics Java SDK Version 1.1.0](#ibm-cloud-schematics-java-sdk-version-110)
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Prerequisites](#prerequisites)
@@ -29,6 +29,9 @@ Changes might occur which impact applications that use this SDK.
         - [Maven](#maven)
         - [Gradle](#gradle)
   - [Authentication](#authentication)
+    - [Authenticate with environment variables](#authenticate-with-environment-variables)
+    - [Authenticate with external configuration](#authenticate-with-external-configuration)
+    - [Authenticate programmatically](#authenticate-programmatically)
   - [Getting Started](#getting-started)
   - [Error handling](#error-handling)
   - [Using the SDK](#using-the-sdk)
@@ -61,14 +64,10 @@ The current version of this SDK is: 1.1.0
 
 Each service's artifact coordinates are listed in the table above.
 
-The project artifacts are published on the following public maven repositories:
-- [JCenter](https://bintray.com/bintray/jcenter) - For information on how to use the
-public JCenter maven repository, open [this link](https://bintray.com/bintray/jcenter)
-then click the `Set Me Up!` button.
-- [Maven Central](https://repo1.maven.org/maven2/) - This is the default public repository
-used by maven when searching for dependencies.  To use this repository within your
-gradle build, please see
-[this link](https://docs.gradle.org/current/userguide/declaring_repositories.html).
+The project artifacts are published on the public [Maven Central](https://repo1.maven.org/maven2/) artifact repository. 
+This is the default public repository used by maven when searching for dependencies. 
+To use this repository within a gradle build, 
+please see [this link](https://docs.gradle.org/current/userguide/declaring_repositories.html).
 
 To use a particular service, define a dependency that contains the
 artifact coordinates (group id, artifact id and version) for the service, like this:
