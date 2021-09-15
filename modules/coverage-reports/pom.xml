@@ -13,6 +13,12 @@
 
     <name>Schematics Coverage Reports</name>
 
+    <properties>
+        <!-- There is no need to publish this module's artifacts on maven central -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+
     <dependencies>
         <!-- 
             There should be a dependency for EACH module in the project.
