@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -35,6 +35,8 @@ public class JobLite extends GenericModel {
     String SYSTEM = "system";
     /** environment. */
     String ENVIRONMENT = "environment";
+    /** blueprint. */
+    String BLUEPRINT = "blueprint";
   }
 
   /**
@@ -87,14 +89,40 @@ public class JobLite extends GenericModel {
     String PUT_ENVIRONMENT = "put_environment";
     /** delete_environment. */
     String DELETE_ENVIRONMENT = "delete_environment";
-    /** environment_init. */
-    String ENVIRONMENT_INIT = "environment_init";
+    /** environment_create_init. */
+    String ENVIRONMENT_CREATE_INIT = "environment_create_init";
+    /** environment_update_init. */
+    String ENVIRONMENT_UPDATE_INIT = "environment_update_init";
     /** environment_install. */
     String ENVIRONMENT_INSTALL = "environment_install";
     /** environment_uninstall. */
     String ENVIRONMENT_UNINSTALL = "environment_uninstall";
+    /** blueprint_create_init. */
+    String BLUEPRINT_CREATE_INIT = "blueprint_create_init";
+    /** blueprint_update_init. */
+    String BLUEPRINT_UPDATE_INIT = "blueprint_update_init";
+    /** blueprint_install. */
+    String BLUEPRINT_INSTALL = "blueprint_install";
+    /** blueprint_destroy. */
+    String BLUEPRINT_DESTROY = "blueprint_destroy";
+    /** blueprint_delete. */
+    String BLUEPRINT_DELETE = "blueprint_delete";
+    /** blueprint_plan_init. */
+    String BLUEPRINT_PLAN_INIT = "blueprint_plan_init";
+    /** blueprint_plan_apply. */
+    String BLUEPRINT_PLAN_APPLY = "blueprint_plan_apply";
+    /** blueprint_plan_destroy. */
+    String BLUEPRINT_PLAN_DESTROY = "blueprint_plan_destroy";
+    /** blueprint_run_plan. */
+    String BLUEPRINT_RUN_PLAN = "blueprint_run_plan";
+    /** blueprint_run_apply. */
+    String BLUEPRINT_RUN_APPLY = "blueprint_run_apply";
+    /** blueprint_run_destroy. */
+    String BLUEPRINT_RUN_DESTROY = "blueprint_run_destroy";
     /** repository_process. */
     String REPOSITORY_PROCESS = "repository_process";
+    /** terraform_commands. */
+    String TERRAFORM_COMMANDS = "terraform_commands";
   }
 
   /**
@@ -140,6 +168,11 @@ public class JobLite extends GenericModel {
   protected JobLogSummary logSummary;
   @SerializedName("updated_at")
   protected Date updatedAt;
+  @SerializedName("job_runner_id")
+  protected String jobRunnerId;
+  protected AgentInfo agent;
+
+  protected JobLite() { }
 
   /**
    * Gets the id.
@@ -328,6 +361,28 @@ public class JobLite extends GenericModel {
    */
   public Date getUpdatedAt() {
     return updatedAt;
+  }
+
+  /**
+   * Gets the jobRunnerId.
+   *
+   * ID of the Job Runner.
+   *
+   * @return the jobRunnerId
+   */
+  public String getJobRunnerId() {
+    return jobRunnerId;
+  }
+
+  /**
+   * Gets the agent.
+   *
+   * Agent name, Agent id and associated policy ID information.
+   *
+   * @return the agent
+   */
+  public AgentInfo getAgent() {
+    return agent;
   }
 }
 

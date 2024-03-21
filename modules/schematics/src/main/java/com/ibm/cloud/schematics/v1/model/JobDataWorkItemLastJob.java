@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -32,6 +32,8 @@ public class JobDataWorkItemLastJob extends GenericModel {
     String SYSTEM = "system";
     /** environment. */
     String ENVIRONMENT = "environment";
+    /** blueprint. */
+    String BLUEPRINT = "blueprint";
   }
 
   /**
@@ -84,14 +86,40 @@ public class JobDataWorkItemLastJob extends GenericModel {
     String PUT_ENVIRONMENT = "put_environment";
     /** delete_environment. */
     String DELETE_ENVIRONMENT = "delete_environment";
-    /** environment_init. */
-    String ENVIRONMENT_INIT = "environment_init";
+    /** environment_create_init. */
+    String ENVIRONMENT_CREATE_INIT = "environment_create_init";
+    /** environment_update_init. */
+    String ENVIRONMENT_UPDATE_INIT = "environment_update_init";
     /** environment_install. */
     String ENVIRONMENT_INSTALL = "environment_install";
     /** environment_uninstall. */
     String ENVIRONMENT_UNINSTALL = "environment_uninstall";
+    /** blueprint_create_init. */
+    String BLUEPRINT_CREATE_INIT = "blueprint_create_init";
+    /** blueprint_update_init. */
+    String BLUEPRINT_UPDATE_INIT = "blueprint_update_init";
+    /** blueprint_install. */
+    String BLUEPRINT_INSTALL = "blueprint_install";
+    /** blueprint_destroy. */
+    String BLUEPRINT_DESTROY = "blueprint_destroy";
+    /** blueprint_delete. */
+    String BLUEPRINT_DELETE = "blueprint_delete";
+    /** blueprint_plan_init. */
+    String BLUEPRINT_PLAN_INIT = "blueprint_plan_init";
+    /** blueprint_plan_apply. */
+    String BLUEPRINT_PLAN_APPLY = "blueprint_plan_apply";
+    /** blueprint_plan_destroy. */
+    String BLUEPRINT_PLAN_DESTROY = "blueprint_plan_destroy";
+    /** blueprint_run_plan. */
+    String BLUEPRINT_RUN_PLAN = "blueprint_run_plan";
+    /** blueprint_run_apply. */
+    String BLUEPRINT_RUN_APPLY = "blueprint_run_apply";
+    /** blueprint_run_destroy. */
+    String BLUEPRINT_RUN_DESTROY = "blueprint_run_destroy";
     /** repository_process. */
     String REPOSITORY_PROCESS = "repository_process";
+    /** terraform_commands. */
+    String TERRAFORM_COMMANDS = "terraform_commands";
   }
 
   /**
@@ -108,6 +136,12 @@ public class JobDataWorkItemLastJob extends GenericModel {
     String JOB_FAILED = "job_failed";
     /** job_cancelled. */
     String JOB_CANCELLED = "job_cancelled";
+    /** job_stopped. */
+    String JOB_STOPPED = "job_stopped";
+    /** job_stop_in_progress. */
+    String JOB_STOP_IN_PROGRESS = "job_stop_in_progress";
+    /** job_ready_to_execute. */
+    String JOB_READY_TO_EXECUTE = "job_ready_to_execute";
   }
 
   @SerializedName("command_object")
@@ -134,6 +168,11 @@ public class JobDataWorkItemLastJob extends GenericModel {
     private String jobId;
     private String jobStatus;
 
+    /**
+     * Instantiates a new Builder from an existing JobDataWorkItemLastJob instance.
+     *
+     * @param jobDataWorkItemLastJob the instance to initialize the Builder with
+     */
     private Builder(JobDataWorkItemLastJob jobDataWorkItemLastJob) {
       this.commandObject = jobDataWorkItemLastJob.commandObject;
       this.commandObjectName = jobDataWorkItemLastJob.commandObjectName;
@@ -224,6 +263,8 @@ public class JobDataWorkItemLastJob extends GenericModel {
       return this;
     }
   }
+
+  protected JobDataWorkItemLastJob() { }
 
   protected JobDataWorkItemLastJob(Builder builder) {
     commandObject = builder.commandObject;

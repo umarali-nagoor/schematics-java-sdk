@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -36,6 +36,8 @@ public class Job extends GenericModel {
     String SYSTEM = "system";
     /** environment. */
     String ENVIRONMENT = "environment";
+    /** blueprint. */
+    String BLUEPRINT = "blueprint";
   }
 
   /**
@@ -88,14 +90,40 @@ public class Job extends GenericModel {
     String PUT_ENVIRONMENT = "put_environment";
     /** delete_environment. */
     String DELETE_ENVIRONMENT = "delete_environment";
-    /** environment_init. */
-    String ENVIRONMENT_INIT = "environment_init";
+    /** environment_create_init. */
+    String ENVIRONMENT_CREATE_INIT = "environment_create_init";
+    /** environment_update_init. */
+    String ENVIRONMENT_UPDATE_INIT = "environment_update_init";
     /** environment_install. */
     String ENVIRONMENT_INSTALL = "environment_install";
     /** environment_uninstall. */
     String ENVIRONMENT_UNINSTALL = "environment_uninstall";
+    /** blueprint_create_init. */
+    String BLUEPRINT_CREATE_INIT = "blueprint_create_init";
+    /** blueprint_update_init. */
+    String BLUEPRINT_UPDATE_INIT = "blueprint_update_init";
+    /** blueprint_install. */
+    String BLUEPRINT_INSTALL = "blueprint_install";
+    /** blueprint_destroy. */
+    String BLUEPRINT_DESTROY = "blueprint_destroy";
+    /** blueprint_delete. */
+    String BLUEPRINT_DELETE = "blueprint_delete";
+    /** blueprint_plan_init. */
+    String BLUEPRINT_PLAN_INIT = "blueprint_plan_init";
+    /** blueprint_plan_apply. */
+    String BLUEPRINT_PLAN_APPLY = "blueprint_plan_apply";
+    /** blueprint_plan_destroy. */
+    String BLUEPRINT_PLAN_DESTROY = "blueprint_plan_destroy";
+    /** blueprint_run_plan. */
+    String BLUEPRINT_RUN_PLAN = "blueprint_run_plan";
+    /** blueprint_run_apply. */
+    String BLUEPRINT_RUN_APPLY = "blueprint_run_apply";
+    /** blueprint_run_destroy. */
+    String BLUEPRINT_RUN_DESTROY = "blueprint_run_destroy";
     /** repository_process. */
     String REPOSITORY_PROCESS = "repository_process";
+    /** terraform_commands. */
+    String TERRAFORM_COMMANDS = "terraform_commands";
   }
 
   /**
@@ -143,6 +171,8 @@ public class Job extends GenericModel {
   protected Date endAt;
   protected String duration;
   protected JobStatus status;
+  @SerializedName("cart_order_data")
+  protected List<CartOrderData> cartOrderData;
   protected JobData data;
   protected BastionResourceDefinition bastion;
   @SerializedName("log_summary")
@@ -155,6 +185,9 @@ public class Job extends GenericModel {
   protected String resultsUrl;
   @SerializedName("updated_at")
   protected Date updatedAt;
+  @SerializedName("job_runner_id")
+  protected String jobRunnerId;
+  protected AgentInfo agent;
 
   /**
    * Builder.
@@ -170,10 +203,17 @@ public class Job extends GenericModel {
     private List<String> tags;
     private String location;
     private JobStatus status;
+    private List<CartOrderData> cartOrderData;
     private JobData data;
     private BastionResourceDefinition bastion;
     private JobLogSummary logSummary;
+    private AgentInfo agent;
 
+    /**
+     * Instantiates a new Builder from an existing Job instance.
+     *
+     * @param job the instance to initialize the Builder with
+     */
     private Builder(Job job) {
       this.commandObject = job.commandObject;
       this.commandObjectId = job.commandObjectId;
@@ -185,9 +225,11 @@ public class Job extends GenericModel {
       this.tags = job.tags;
       this.location = job.location;
       this.status = job.status;
+      this.cartOrderData = job.cartOrderData;
       this.data = job.data;
       this.bastion = job.bastion;
       this.logSummary = job.logSummary;
+      this.agent = job.agent;
     }
 
     /**
@@ -206,9 +248,9 @@ public class Job extends GenericModel {
     }
 
     /**
-     * Adds an commandOptions to commandOptions.
+     * Adds a new element to commandOptions.
      *
-     * @param commandOptions the new commandOptions
+     * @param commandOptions the new element to be added
      * @return the Job builder
      */
     public Builder addCommandOptions(String commandOptions) {
@@ -222,9 +264,9 @@ public class Job extends GenericModel {
     }
 
     /**
-     * Adds an inputs to inputs.
+     * Adds a new element to inputs.
      *
-     * @param inputs the new inputs
+     * @param inputs the new element to be added
      * @return the Job builder
      */
     public Builder addInputs(VariableData inputs) {
@@ -238,9 +280,9 @@ public class Job extends GenericModel {
     }
 
     /**
-     * Adds an settings to settings.
+     * Adds a new element to settings.
      *
-     * @param settings the new settings
+     * @param settings the new element to be added
      * @return the Job builder
      */
     public Builder addSettings(VariableData settings) {
@@ -254,9 +296,9 @@ public class Job extends GenericModel {
     }
 
     /**
-     * Adds an tags to tags.
+     * Adds a new element to tags.
      *
-     * @param tags the new tags
+     * @param tags the new element to be added
      * @return the Job builder
      */
     public Builder addTags(String tags) {
@@ -266,6 +308,22 @@ public class Job extends GenericModel {
         this.tags = new ArrayList<String>();
       }
       this.tags.add(tags);
+      return this;
+    }
+
+    /**
+     * Adds a new element to cartOrderData.
+     *
+     * @param cartOrderData the new element to be added
+     * @return the Job builder
+     */
+    public Builder addCartOrderData(CartOrderData cartOrderData) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(cartOrderData,
+        "cartOrderData cannot be null");
+      if (this.cartOrderData == null) {
+        this.cartOrderData = new ArrayList<CartOrderData>();
+      }
+      this.cartOrderData.add(cartOrderData);
       return this;
     }
 
@@ -384,6 +442,18 @@ public class Job extends GenericModel {
     }
 
     /**
+     * Set the cartOrderData.
+     * Existing cartOrderData will be replaced.
+     *
+     * @param cartOrderData the cartOrderData
+     * @return the Job builder
+     */
+    public Builder cartOrderData(List<CartOrderData> cartOrderData) {
+      this.cartOrderData = cartOrderData;
+      return this;
+    }
+
+    /**
      * Set the data.
      *
      * @param data the data
@@ -415,7 +485,20 @@ public class Job extends GenericModel {
       this.logSummary = logSummary;
       return this;
     }
+
+    /**
+     * Set the agent.
+     *
+     * @param agent the agent
+     * @return the Job builder
+     */
+    public Builder agent(AgentInfo agent) {
+      this.agent = agent;
+      return this;
+    }
   }
+
+  protected Job() { }
 
   protected Job(Builder builder) {
     commandObject = builder.commandObject;
@@ -428,9 +511,11 @@ public class Job extends GenericModel {
     tags = builder.tags;
     location = builder.location;
     status = builder.status;
+    cartOrderData = builder.cartOrderData;
     data = builder.data;
     bastion = builder.bastion;
     logSummary = builder.logSummary;
+    agent = builder.agent;
   }
 
   /**
@@ -655,6 +740,17 @@ public class Job extends GenericModel {
   }
 
   /**
+   * Gets the cartOrderData.
+   *
+   * Contains the cart order data which can be used for different purpose for eg. service tagging.
+   *
+   * @return the cartOrderData
+   */
+  public List<CartOrderData> cartOrderData() {
+    return cartOrderData;
+  }
+
+  /**
    * Gets the data.
    *
    * Job data.
@@ -729,6 +825,28 @@ public class Job extends GenericModel {
    */
   public Date updatedAt() {
     return updatedAt;
+  }
+
+  /**
+   * Gets the jobRunnerId.
+   *
+   * ID of the Job Runner.
+   *
+   * @return the jobRunnerId
+   */
+  public String jobRunnerId() {
+    return jobRunnerId;
+  }
+
+  /**
+   * Gets the agent.
+   *
+   * Agent name, Agent id and associated policy ID information.
+   *
+   * @return the agent
+   */
+  public AgentInfo agent() {
+    return agent;
   }
 }
 

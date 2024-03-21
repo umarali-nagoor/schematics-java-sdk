@@ -11,7 +11,7 @@
 
     <artifactId>schematics</artifactId>
 
-    <name>Schematics</name>
+    <name>schematics</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -41,14 +41,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-testng</artifactId>
-            <scope>test</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-version}</version>
         </dependency>
     </dependencies>
 
